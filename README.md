@@ -229,4 +229,27 @@ Do not panic.
 
 You are here to learn and build.
 
+# ⚠️ Files You Should NOT Edit
+
+Unless specifically assigned, DO NOT edit:
+
+```txt
+src/App.jsx
+src/main.jsx
+vite.config.js
+tailwind.config.cjs
+postcss.config.cjs
+package.json
+```
+
+These files affect the entire application and can break routing, styling, or builds.
+
+Most work should happen inside:
+
+```txt
+src/pages/
+src/pages/admin/
+src/components/
+```
+
 — Lauren Parker
