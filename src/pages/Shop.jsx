@@ -21,7 +21,12 @@ useEffect(() => {
     }
 
     setProducts(data || []);
+
+console.log("SHOP PRODUCTS:", data);
+
   };
+
+
 
   fetchProducts();
 }, []);
