@@ -11,6 +11,7 @@ import PreOrder from "./pages/PreOrder";
 import Forge from "./pages/Forge";
 import Shop from "./pages/Shop";
 import BlogPost from "./pages/BlogPost";
+import ProductDetail from "./pages/ProductDetail";
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -54,6 +55,9 @@ function App() {
 <Route path="/admin/media" element={<MediaLibrary />} />
 <Route path="/admin/settings" element={<SiteSettings />} />
 <Route path="/admin/timeline" element={<TimeLineManagement />} />
+<Route path="/admin/products/new" element={<NewProduct />} />
+<Route path="/admin/products/edit/:id" element={<NewProduct />} />
+<Route path="/shop/:slug" element={<ProductDetail />} />
 
       </Routes>
     </BrowserRouter>

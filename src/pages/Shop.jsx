@@ -1,58 +1,30 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
 function Shop() {
-  const products = [
-    {
-      category: "Apparel",
-      title: "Warrior Dad Shirt",
-      desc: "Currently available online through the Warrior Dad store.",
-      price: "$TBD",
-      tag: "Available",
-      image: null,
-    },
-    {
-      category: "Book",
-      title: "Warrior Dad Hardcover",
-      desc: "100 pages of poetry, illustrations, memory, service, fatherhood, and legacy.",
-      price: "$29.97",
-      tag: "Book",
-      image: "/book-cover.png",
-    },
-    {
-      category: "Digital",
-      title: "Warrior Dad Ebook",
-      desc: "Available for Kindle Unlimited subscribers on launch day, with preorder pricing available.",
-      price: "$2.99",
-      tag: "Ebook",
-      image: null,
-    },
-    {
-      category: "Guide",
-      title: "Companion Guide",
-      desc: "A free reflection guide created to support the Warrior Dad reading experience.",
-      price: "Free",
-      tag: "Download",
-      image: null,
-    },
-    {
-      category: "Event Exclusive",
-      title: "Warrior Dad Coins",
-      desc: "Challenge coins available only at speaking events, book signings, and appearances.",
-      price: "Event Only",
-      tag: "Exclusive",
-      image: "/warrior-dad-coin.png",
-    },
-    {
-      category: "Future Products",
-      title: "More Coming Soon",
-      desc: "Patches, hats, canvas art, storytelling collaborations, and future Warrior Dad projects.",
-      price: "TBD",
-      tag: "Future",
-      image: null,
-    },
-  ];
+  const [products, setProducts] = useState([]);
+
+useEffect(() => {
+  const fetchProducts = async () => {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("in_stock", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setProducts(data || []);
+  };
+
+  fetchProducts();
+}, []);
 
   return (
     <main className="min-h-screen bg-[#11141b] text-white">
@@ -265,21 +237,30 @@ function Shop() {
         </h2>
 
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <div
-              key={product.title}
-              className="bg-[#202632] border border-white/5 rounded-xl overflow-hidden hover:border-[#c8a96a]/50 hover:-translate-y-2 transition duration-500"
-            >
+          
+        {products.length === 0 ? (
+  <div className="col-span-full text-center py-20 text-slate-500">
+    No products available yet.
+  </div>
+) : (
+  products.map((product) => (
+           <Link
+  to={`/shop/${product.slug}`}
+  key={product.name}
+  className="bg-[#202632] border border-white/5 rounded-xl overflow-hidden hover:border-[#c8a96a]/50 hover:-translate-y-2 transition duration-500 block"
+>
               <div className="h-64 bg-[#151922] flex items-center justify-center overflow-hidden">
-                {product.image ? (
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="h-full w-full object-cover opacity-85 hover:scale-105 transition duration-700"
-                  />
+              {product.image ? (
+  <img
+    src={product.image}
+    alt={product.name}
+    className="h-full w-full object-cover"
+  />
                 ) : (
                   <div className="text-center px-8">
-                    <p className="text-[#c8a96a] text-4xl mb-4">✦</p>
+                    <p className="text-[#c8a96a] text-4xl font-black">
+  ${Number(product.price).toFixed(2)}
+</p>
                     <p className="text-slate-600 uppercase tracking-[0.25em] text-xs">
                       Image Coming Soon
                     </p>
@@ -293,26 +274,28 @@ function Shop() {
                 </p>
 
                 <h3 className="mt-3 uppercase font-black text-2xl">
-                  {product.title}
+                  {product.name}
                 </h3>
 
-                <p className="mt-4 text-slate-400 italic font-serif leading-7">
-                  {product.desc}
-                </p>
+                <p className="line-clamp-3 mt-6 text-slate-400 italic font-serif text-xl">
+  {product.description}
+</p>
 
                 <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center gap-6">
                   <span className="text-[#c8a96a] text-2xl font-black">
-                    {product.price}
+                    ${product.price}
                   </span>
 
                   <span className="text-slate-400 uppercase tracking-[0.2em] text-[10px] text-right">
-                    {product.tag}
+                    {product.featured ? "Featured" : "Available"}
                   </span>
                 </div>
               </div>
-            </div>
-          ))}
+            </Link>
+                    ))
+)}
         </div>
+
 
         <p className="max-w-4xl mx-auto mt-12 text-center text-slate-500 text-sm leading-7">
           Product images and purchase links will be finalized once current store

@@ -1,14 +1,29 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
 
 function ProductManagement() {
-  const products = [
-    ["Warrior Dad", "Hardcover", "$29.97", "142", "Active"],
-    ["Warrior Dad", "Ebook", "$2.99", "∞", "Active"],
-    ["Companion Guide", "PDF", "Free", "∞", "Active"],
-    ["Warrior Dad Patch", "Merch", "TBD", "0", "Draft"],
-    ["Mission Journal", "Merch", "TBD", "0", "Draft"],
-    ["Forge Hoodie", "Apparel", "TBD", "0", "Draft"],
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+  const fetchProducts = async () => {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setProducts(data || []);
+  };
+
+  fetchProducts();
+}, []);
+
+  const activeProducts = products.filter((product) => product.in_stock).length;
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
@@ -17,8 +32,8 @@ function ProductManagement() {
 
         <section className="p-8">
           <div className="grid md:grid-cols-3 gap-6 mb-10">
-            <Stat label="Total Products" value="6" />
-            <Stat label="Active Products" value="3" />
+            <Stat label="Total Products" value={products.length} />
+            <Stat label="Active Products" value={activeProducts} />
             <Stat label="Pre-Orders" value="234" />
           </div>
 
@@ -35,47 +50,94 @@ function ProductManagement() {
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {products.map(([name, type, price, inventory, status]) => (
-              <div key={name + type} className="bg-[#202632] rounded-lg p-7">
-                <div className="h-44 bg-[#101118] rounded flex items-center justify-center text-slate-600 text-xs uppercase tracking-[0.2em]">
-                  Image
-                </div>
-
-                <div className="mt-6 flex justify-between items-start">
-                  <div>
-                    <h3 className="uppercase font-black text-2xl">{name}</h3>
-                    <p className="mt-2 text-slate-500 italic font-serif">{type}</p>
+          {products.length === 0 ? (
+            <div className="bg-[#202632] rounded-lg p-10 text-slate-500 italic font-serif">
+              No products yet.
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {products.map((product) => (
+                <div key={product.id} className="bg-[#202632] rounded-lg p-7">
+                  <div className="h-44 bg-[#101118] rounded overflow-hidden flex items-center justify-center text-slate-600 text-xs uppercase tracking-[0.2em]">
+                    {product.image ? (
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      "Image"
+                    )}
                   </div>
 
-                  <span className="bg-[#2b342d] text-green-700 px-3 py-2 text-[10px] uppercase">
-                    {status}
-                  </span>
-                </div>
+                  <div className="mt-6 flex justify-between items-start gap-4">
+                    <div>
+                      <h3 className="uppercase font-black text-2xl">
+                        {product.name}
+                      </h3>
+                      <p className="mt-2 text-slate-500 italic font-serif">
+                        {product.category || "Product"}
+                      </p>
+                    </div>
 
-                <div className="mt-7 grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-slate-500 uppercase text-[10px] tracking-[0.2em]">
-                      Price
-                    </p>
-                    <p className="mt-2 text-[#c8a96a] font-black text-xl">{price}</p>
+                    <span className="bg-[#2b342d] text-green-700 px-3 py-2 text-[10px] uppercase">
+                      {product.in_stock ? "Active" : "Draft"}
+                    </span>
                   </div>
 
-                  <div>
-                    <p className="text-slate-500 uppercase text-[10px] tracking-[0.2em]">
-                      Inventory
-                    </p>
-                    <p className="mt-2 text-white font-black text-xl">{inventory}</p>
+                  <p className="mt-5 text-slate-400 italic font-serif leading-7">
+                    {product.description}
+                  </p>
+
+                  <div className="mt-7 grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="text-slate-500 uppercase text-[10px] tracking-[0.2em]">
+                        Price
+                      </p>
+                      <p className="mt-2 text-[#c8a96a] font-black text-xl">
+                        ${Number(product.price || 0).toFixed(2)}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-slate-500 uppercase text-[10px] tracking-[0.2em]">
+                        Featured
+                      </p>
+                      <p className="mt-2 text-white font-black text-xl">
+                        {product.featured ? "Yes" : "No"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-7 pt-5 border-t border-white/5 flex gap-5 text-slate-400">
+                    <Link to={`/admin/products/edit/${product.id}`}>✎ Edit</Link>
+
+                    <button
+                      onClick={async () => {
+                        const confirmed = window.confirm("Delete this product?");
+                        if (!confirmed) return;
+
+                        const { error } = await supabase
+                          .from("products")
+                          .delete()
+                          .eq("id", product.id);
+
+                        if (error) {
+                          console.error(error);
+                          alert("Failed to delete product.");
+                          return;
+                        }
+
+                        setProducts(products.filter((p) => p.id !== product.id));
+                      }}
+                    >
+                      🗑 Delete
+                    </button>
                   </div>
                 </div>
-
-                <div className="mt-7 pt-5 border-t border-white/5 flex gap-5 text-slate-400">
-                  <button>✎ Edit</button>
-                  <button>🗑 Delete</button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </main>
@@ -96,7 +158,10 @@ function Stat({ label, value }) {
 function AdminSubTop({ title, back }) {
   return (
     <header className="h-20 bg-[#202632] px-8 grid grid-cols-3 items-center">
-      <Link to={back} className="uppercase tracking-[0.2em] text-[11px] text-slate-400">
+      <Link
+        to={back}
+        className="uppercase tracking-[0.2em] text-[11px] text-slate-400"
+      >
         ← Back To Dashboard
       </Link>
       <h1 className="uppercase tracking-[0.25em] font-black text-center">
