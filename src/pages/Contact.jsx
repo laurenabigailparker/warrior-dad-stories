@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { supabase } from "../lib/supabase";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
@@ -10,6 +12,52 @@ function Contact() {
     ["Business Facebook", "https://www.facebook.com/profile.php?id=61589481414986"],
     ["X", "https://x.com/TJWarriorDad"],
   ];
+
+  const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  organization: "",
+  inquiryType: "",
+  message: "",
+});
+
+const [, setLoading] = useState(false);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  setLoading(true);
+
+  const { error } = await supabase
+    .from("contact_submissions")
+    .insert([
+      {
+        name: formData.name,
+        email: formData.email,
+        organization: formData.organization,
+        inquiry_type: formData.inquiryType,
+        message: formData.message,
+      },
+    ]);
+
+  setLoading(false);
+
+  if (error) {
+    console.error(error);
+    alert("Something went wrong.");
+    return;
+  }
+
+  alert("Message sent!");
+
+  setFormData({
+    name: "",
+    email: "",
+    organization: "",
+    inquiryType: "",
+    message: "",
+  });
+};
 
   const speakingTopics = [
     "Leadership Through Humanity",
@@ -169,34 +217,34 @@ function Contact() {
               general questions.
             </p>
 
-            <form className="mt-12 md:mt-14 space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <input type="text" placeholder="Name" className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]" />
-                <input type="email" placeholder="Email" className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]" />
-              </div>
+           <form onSubmit={handleSubmit} className="mt-12 md:mt-14 space-y-6">
+  <div className="grid md:grid-cols-2 gap-6">
+    <input type="text" placeholder="Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]" required />
+    <input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]" required />
+  </div>
 
-              <input type="text" placeholder="Organization / Podcast / Event" className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]" />
+  <input type="text" placeholder="Organization / Podcast / Event" value={formData.organization} onChange={(e) => setFormData({ ...formData, organization: e.target.value })} className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]" />
 
-              <select className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]">
-                <option>What are you reaching out about?</option>
-                <option>Speaking Event</option>
-                <option>Podcast Appearance</option>
-                <option>Media Inquiry</option>
-                <option>Book Event</option>
-                <option>Collaboration</option>
-                <option>General Question</option>
-              </select>
+  <select value={formData.inquiryType} onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })} className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]" required>
+    <option value="">What are you reaching out about?</option>
+    <option>Speaking Event</option>
+    <option>Podcast Appearance</option>
+    <option>Media Inquiry</option>
+    <option>Book Event</option>
+    <option>Collaboration</option>
+    <option>General Question</option>
+  </select>
 
-              <textarea rows="7" placeholder="Tell us more about the opportunity..." className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a] resize-none" />
+  <textarea rows="7" placeholder="Tell us more about the opportunity..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a] resize-none" required />
 
-              <button type="submit" className="w-full sm:w-fit bg-[#c8a96a] text-black px-10 py-5 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition">
-                Send Message
-              </button>
+  <button type="submit" className="w-full sm:w-fit bg-[#c8a96a] text-black px-10 py-5 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition">
+    Send Message
+  </button>
 
-              <p className="text-slate-600 text-sm">
-                Expected response time: 1–3 business days.
-              </p>
-            </form>
+  <p className="text-slate-600 text-sm">
+    Expected response time: 1–3 business days.
+  </p>
+</form>
           </div>
 
           {/* SIDEBAR */}
