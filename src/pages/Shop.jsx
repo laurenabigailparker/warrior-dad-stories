@@ -96,7 +96,7 @@ function Shop() {
               rgba(10,12,16,0.78),
               rgba(10,12,16,0.88)
             ),
-            url('/carry-the-story-forward.jpg')
+            url('/carry-the-story-forward.webp')
           `,
         }}
       >
@@ -190,7 +190,7 @@ function Shop() {
         rgba(10,12,16,0.70),
         rgba(10,12,16,0.88)
       ),
-      url('/service-family-legacy.jpg')
+      url('/service-family-legacy.webp')
     `,
   }}
 >
@@ -331,7 +331,7 @@ function Shop() {
         rgba(10,12,16,0.55),
         rgba(10,12,16,0.85)
       ),
-      url('/the-road-continues.jpg')
+      url('/the-road-continues.webp')
     `,
   }}
 >

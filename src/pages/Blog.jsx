@@ -15,7 +15,7 @@ function Blog() {
         "Becoming a father while serving changed everything. The mission did not end — it evolved.",
       date: "May 2026",
       read: "6 min read",
-      image: "/fatherhood-journey.jpg",
+      image: "/fatherhood-journey.webp",
     },
     {
       category: "Leadership",
@@ -24,7 +24,7 @@ function Blog() {
         "Leadership is not only what we say in public. It is what we practice when no one is watching.",
       date: "May 2026",
       read: "5 min read",
-      image: "/leadership-reflection.jpg",
+      image: "/leadership-reflection.webp",
     },
     {
       category: "Veteran Life",
@@ -33,7 +33,7 @@ function Blog() {
         "Everyone celebrates the homecoming. Fewer understand the quiet work of learning how to be home again.",
       date: "Apr 2026",
       read: "7 min read",
-      image: "/the-weight-of-coming-home.jpg",
+      image: "/the-weight-of-coming-home.webp",
     },
     {
       category: "Stories",
@@ -42,7 +42,7 @@ function Blog() {
         "Some stories live in your chest for years before you finally find the courage to give them words.",
       date: "Apr 2026",
       read: "4 min read",
-      image: "/the-ode-i-almost-did-not-write.jpg",
+      image: "/the-ode-i-almost-did-not-write.webp",
     },
     {
       category: "Fatherhood",
@@ -51,7 +51,7 @@ function Blog() {
         "Phone calls, missed birthdays, and the small rituals that kept love alive across distance.",
       date: "Mar 2026",
       read: "5 min read",
-      image: "/bedtime-across-the-world.jpg",
+      image: "/bedtime-across-the-world.webp",
     },
     {
       category: "Leadership",
@@ -60,7 +60,7 @@ function Blog() {
         "Growth requires more than endurance. It requires harmony across every part of life.",
       date: "Mar 2026",
       read: "5 min read",
-      image: "/mind-body-spirit.jpg",
+      image: "/mind-body-spirit.webp",
     },
   ];
 
@@ -202,7 +202,7 @@ function Blog() {
         <div className="max-w-7xl mx-auto bg-[#202632] rounded-2xl overflow-hidden grid lg:grid-cols-[1.2fr_0.9fr] border border-white/5">
           <div className="min-h-[430px] bg-[#151922] relative">
             <img
-              src="/what-the-uniform-taught-me-about-fatherhood.jpg"
+              src="/what-the-uniform-taught-me-about-fatherhood.webp"
               alt="Featured Warrior Dad story"
               className="absolute inset-0 h-full w-full object-cover opacity-80"
             />
@@ -252,7 +252,7 @@ function Blog() {
         rgba(10,12,16,0.55),
         rgba(10,12,16,0.88)
       ),
-      url('/some-stories-are-lived.jpg')
+      url('/some-stories-are-lived.webp')
     `,
   }}
 >

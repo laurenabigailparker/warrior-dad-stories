@@ -125,7 +125,7 @@ function Contact() {
               rgba(10,12,16,0.68),
               rgba(10,12,16,0.9)
             ),
-            url('/not-just-my-story.jpg')
+            url('/not-just-my-story.webp')
           `,
         }}
       >
@@ -203,7 +203,7 @@ function Contact() {
           <div>
             <div className="mb-8">
               <img
-                src="/tj-authentic-portrait.jpg"
+                src="/tj-authentic-portrait.png"
                 alt="TJ authentic portrait"
                 className="w-full h-auto max-h-[520px] object-contain rounded-2xl border border-white/10 shadow-2xl bg-[#1a1f27] p-3"
               />

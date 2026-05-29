@@ -51,7 +51,7 @@ function About() {
       rgba(10,12,16,0.45) 65%,
       rgba(10,12,16,0.92) 100%
     ),
-    url('/about-hero-journey.jpg')
+    url('/about-hero-journey.webp')
   `,
 }}
       > 
@@ -105,7 +105,7 @@ function About() {
 
           <div className="relative">
           <img
-  src="/mission-evolved-study.jpg"
+  src="/mission-evolved-study.webp"
   alt="TJ reflecting and writing"
   className="rounded-2xl shadow-2xl border border-white/10 max-h-[620px] w-full object-cover"
  />
@@ -158,7 +158,7 @@ function About() {
             </div>
 
             <img
-              src="/tj-and-macaroni.jpg"
+              src="/tj-and-macaroni.webp"
               alt="Father and daughter"
               className="rounded-2xl border border-white/10 shadow-2xl max-h-[620px] w-full object-cover bg-[#151922] transition duration-700 hover:scale-[1.02]"
             />
@@ -215,7 +215,7 @@ function About() {
         rgba(10,12,16,0.78),
         rgba(10,12,16,0.78)
       ),
-      url('/legacy-carried-forward.jpg')
+      url('/legacy-carried-forward.webp')
     `,
     backgroundPosition: "center 38%",
   }}

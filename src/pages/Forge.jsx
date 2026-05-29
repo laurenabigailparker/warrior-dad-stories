@@ -27,12 +27,12 @@ function Forge() {
   ];
 
  const moments = [
-  ["Morning coffee before the world wakes", "/morning-reflection.jpg"],
-  ["The walk that clears the mind", "/forest-walk.jpg"],
-  ["Sunset — proof the day is done", "/sunset-reflection.jpg"],
-  ["The page where stories live", "/stories-live-here.jpg"],
-  ["The thoughts that stay after midnight", "/late-night-reflections.jpg"],
-  ["Focus. Discipline. Legacy.", "/focus-discipline-legacy.jpg"],
+  ["Morning coffee before the world wakes", "/morning-reflection.webp"],
+  ["The walk that clears the mind", "/forest-walk.webp"],
+  ["Sunset — proof the day is done", "/sunset-reflection.webp"],
+  ["The page where stories live", "/stories-live-here.webp"],
+  ["The thoughts that stay after midnight", "/late-night-reflections.webp"],
+  ["Focus. Discipline. Legacy.", "/focus-discipline-legacy.webp"],
 ];
 
   return (
@@ -48,7 +48,7 @@ function Forge() {
               rgba(8,10,14,0.72),
               rgba(8,10,14,0.86)
             ),
-            url('/warrior-dad-reflections.jpg')
+            url('/warrior-dad-reflections.webp')
           `,
         }}
       >
@@ -142,7 +142,7 @@ function Forge() {
               rgba(13,15,20,0.88),
               rgba(13,15,20,0.92)
             ),
-            url('/reforged-forge.jpg')
+            url('/reforged-forge.webp')
           `,
         }}
       >
@@ -296,7 +296,7 @@ const layouts = [
         rgba(16,18,24,0.9),
         rgba(16,18,24,0.94)
       ),
-      url('/legacy-carried-forward.jpg')
+      url('/legacy-carried-forward.webp')
     `,
   }}
 >

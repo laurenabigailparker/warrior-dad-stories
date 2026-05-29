@@ -38,7 +38,7 @@ function Hero() {
             rgba(13,15,20,0.45) 65%,
             rgba(13,15,20,0.88) 100%
           ),
-          url('/walking-the-journey.jpg')
+          url('/walking-the-journey.webp')
         `,
       }}
     >
@@ -377,7 +377,7 @@ function CinematicDivider() {
         rgba(10,12,16,0.72),
         rgba(10,12,16,0.72)
       ),
-      url('/warrior-dad-reflections.jpg')
+      url('/warrior-dad-reflections.webp')
     `,
     backgroundPosition: "center 42%",
   }}
@@ -417,7 +417,7 @@ function PrinciplesPreview() {
     <div
   className="absolute inset-0 opacity-[0.05] bg-cover bg-center"
   style={{
-    backgroundImage: "url('/warrior-dad-reflections.jpg')",
+    backgroundImage: "url('/warrior-dad-reflections.webp')",
   }}
 />
 
@@ -484,7 +484,7 @@ function MeetTJ() {
         {/* RIGHT SIDE */}
         <div>
           <img
-            src="/tj-portrait.jpg"
+            src="/tj-portrait.webp"
             alt="TJ Warrior Dad"
             className="w-full rounded-2xl border border-white/10 shadow-2xl"
             loading="eager"
