@@ -205,9 +205,15 @@ function WatchStory() {
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
 
-        <button className="relative z-10 h-20 w-20 rounded-full bg-[#c8a96a] text-black flex items-center justify-center text-2xl hover:bg-white transition">
-          ▶
-        </button>
+     <button
+  className="group relative z-10 h-24 w-24 rounded-full border border-[#c8a96a]/70 bg-black/35 backdrop-blur-md flex items-center justify-center shadow-[0_0_45px_rgba(200,169,106,0.25)] hover:scale-105 hover:bg-[#c8a96a]/20 transition-all duration-300"
+  aria-label="Play video"
+>
+  <span className="absolute inset-0 rounded-full border border-[#c8a96a]/30 animate-ping" />
+  <span className="relative ml-1 text-[#c8a96a] text-3xl group-hover:text-white transition">
+    ▶
+  </span>
+</button>
 
         <div className="absolute bottom-8 left-8 z-10">
           <h4 className="uppercase text-xl font-black">
