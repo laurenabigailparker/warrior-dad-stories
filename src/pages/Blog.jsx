@@ -202,7 +202,7 @@ function Blog() {
         <div className="max-w-7xl mx-auto bg-[#202632] rounded-2xl overflow-hidden grid lg:grid-cols-[1.2fr_0.9fr] border border-white/5">
           <div className="min-h-[430px] bg-[#151922] relative">
             <img
-              src="/what-the-uniform-taught-me-about-fatherhood.webp"
+              src="/what-the-uniform-taught-me-about-fatherhood.png"
               alt="Featured Warrior Dad story"
               className="absolute inset-0 h-full w-full object-cover opacity-80"
             />
