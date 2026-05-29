@@ -38,7 +38,7 @@ function Hero() {
             rgba(13,15,20,0.45) 65%,
             rgba(13,15,20,0.88) 100%
           ),
-          url('/walking-the-journey.webp')
+          url('/hero-walking-the-journey.png')
         `,
       }}
     >
