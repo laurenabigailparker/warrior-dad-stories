@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 
 function AdminDash() {
   const [submissions, setSubmissions] = useState([]);
   const [blogPosts, setBlogPosts] = useState([]);
+
+const navigate = useNavigate();
+
+const handleLogout = async () => {
+  await supabase.auth.signOut();
+  navigate("/admin");
+};
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -46,7 +53,10 @@ function AdminDash() {
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-7xl mx-auto bg-[#101118]">
-        <AdminTop title="Admin Dashboard" />
+        <AdminTop
+  title="Admin Dashboard"
+  handleLogout={handleLogout}
+/>
 
         <section className="p-8">
           <h2 className="uppercase text-2xl font-black tracking-widest mb-8">
@@ -164,8 +174,8 @@ function AdminCard({ href, icon, title, desc, meta }) {
     </Link>
   );
 }
+function AdminTop({ title, handleLogout }) {
 
-function AdminTop({ title }) {
   return (
     <header className="h-20 bg-[#202632] px-8 flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -173,10 +183,16 @@ function AdminTop({ title }) {
         <h1 className="uppercase tracking-[0.25em] font-black">{title}</h1>
       </div>
 
-      <div className="flex gap-8 uppercase tracking-[0.2em] text-[11px] text-slate-400">
-        <Link to="/">◉ View Site</Link>
-        <Link to="/admin">↳ Logout</Link>
-      </div>
+     <div className="flex gap-8 uppercase tracking-[0.2em] text-[11px] text-slate-400">
+  <Link to="/">◉ View Site</Link>
+
+  <button
+    onClick={handleLogout}
+    className="uppercase tracking-[0.2em]"
+  >
+    ↳ Logout
+  </button>
+</div>
     </header>
   );
 }

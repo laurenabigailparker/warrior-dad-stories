@@ -1,16 +1,16 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ScrollToTop from "./components/ScrollToTop";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import PreOrder from "./pages/PreOrder";
 import Forge from "./pages/Forge";
 import Shop from "./pages/Shop";
-import BlogPost from "./pages/BlogPost";
 import ProductDetail from "./pages/ProductDetail";
 
 // ADMIN
@@ -30,35 +30,31 @@ function App() {
       <ScrollToTop />
 
       <Routes>
+        {/* PUBLIC ROUTES */}
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/:slug" element={<ProductDetail />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/preorder" element={<PreOrder />} />
+        <Route path="/forge" element={<Forge />} />
 
+        {/* ADMIN LOGIN */}
+        <Route path="/admin" element={<AdminAccess />} />
 
-// public routes
-     <Route path="/" element={<Home />} />
-<Route path="/shop" element={<Shop />} />
-<Route path="/about" element={<About />} />
-<Route path="/blog" element={<Blog />} />
-<Route path="/blog/:slug" element={<BlogPost />} />
-<Route path="/contact" element={<Contact />} />
-<Route path="/preorder" element={<PreOrder />} />
-<Route path="/forge" element={<Forge />} />
-
-        {/* ADMIN ROUTES */}
-<Route path="/admin" element={<AdminAccess />} />
-<Route path="/admin/dashboard" element={<AdminDash />} />
-
-<Route path="/admin/blog" element={<BlogManagement />} />
-<Route path="/admin/blog/new" element={<NewPost />} />
-<Route path="/admin/blog/edit/:id" element={<NewPost />} />
-
-<Route path="/admin/products" element={<ProductManagement />} />
-<Route path="/admin/products/new" element={<NewProduct />} />
-<Route path="/admin/media" element={<MediaLibrary />} />
-<Route path="/admin/settings" element={<SiteSettings />} />
-<Route path="/admin/timeline" element={<TimeLineManagement />} />
-<Route path="/admin/products/new" element={<NewProduct />} />
-<Route path="/admin/products/edit/:id" element={<NewProduct />} />
-<Route path="/shop/:slug" element={<ProductDetail />} />
-
+        {/* PROTECTED ADMIN ROUTES */}
+        <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDash /></ProtectedRoute>} />
+        <Route path="/admin/blog" element={<ProtectedRoute><BlogManagement /></ProtectedRoute>} />
+        <Route path="/admin/blog/new" element={<ProtectedRoute><NewPost /></ProtectedRoute>} />
+        <Route path="/admin/blog/edit/:id" element={<ProtectedRoute><NewPost /></ProtectedRoute>} />
+        <Route path="/admin/products" element={<ProtectedRoute><ProductManagement /></ProtectedRoute>} />
+        <Route path="/admin/products/new" element={<ProtectedRoute><NewProduct /></ProtectedRoute>} />
+        <Route path="/admin/products/edit/:id" element={<ProtectedRoute><NewProduct /></ProtectedRoute>} />
+        <Route path="/admin/media" element={<ProtectedRoute><MediaLibrary /></ProtectedRoute>} />
+        <Route path="/admin/settings" element={<ProtectedRoute><SiteSettings /></ProtectedRoute>} />
+        <Route path="/admin/timeline" element={<ProtectedRoute><TimeLineManagement /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );
