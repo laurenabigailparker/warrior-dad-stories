@@ -1,292 +1,430 @@
+import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
-import {
-  HiOutlineShieldCheck,
-  HiOutlineCube,
-  HiOutlineStar,
-  HiOutlineTruck,
-  HiOutlineLockClosed,
-  HiOutlineRefresh,
-  HiOutlineBadgeCheck,
-  HiOutlineMail,
-} from "react-icons/hi";
-import {
-  FaLinkedinIn,
-  FaFacebookF,
-  FaInstagram,
-  FaXTwitter,
-} from "react-icons/fa6";
+import Footer from "../components/layout/Footer";
 
 function Shop() {
   const products = [
-    ["Book", "Warrior Dad", "Hardcover Edition", "$29.97", "Pre-Order"],
-    ["Book", "Warrior Dad", "Ebook Edition", "$2.99", "Pre-Order"],
-    ["Guide", "Companion Guide", "Free PDF Download", "Free", "Download Free"],
-    ["Merch", "Warrior Dad Patch", "Mission Gear", "TBD", "Coming Soon"],
-    ["Merch", "Mission Journal", "Warrior Dad Edition", "TBD", "Coming Soon"],
-    ["Merch", "Forge Hoodie", "Apparel", "TBD", "Coming Soon"],
+    {
+      category: "Apparel",
+      title: "Warrior Dad Shirt",
+      desc: "Currently available online through the Warrior Dad store.",
+      price: "$TBD",
+      tag: "Available",
+      image: null,
+    },
+    {
+      category: "Book",
+      title: "Warrior Dad Hardcover",
+      desc: "100 pages of poetry, illustrations, memory, service, fatherhood, and legacy.",
+      price: "$29.97",
+      tag: "Book",
+      image: "/book-cover.png",
+    },
+    {
+      category: "Digital",
+      title: "Warrior Dad Ebook",
+      desc: "Available for Kindle Unlimited subscribers on launch day, with preorder pricing available.",
+      price: "$2.99",
+      tag: "Ebook",
+      image: null,
+    },
+    {
+      category: "Guide",
+      title: "Companion Guide",
+      desc: "A free reflection guide created to support the Warrior Dad reading experience.",
+      price: "Free",
+      tag: "Download",
+      image: null,
+    },
+    {
+      category: "Event Exclusive",
+      title: "Warrior Dad Coins",
+      desc: "Challenge coins available only at speaking events, book signings, and appearances.",
+      price: "Event Only",
+      tag: "Exclusive",
+      image: "/warrior-dad-coin.png",
+    },
+    {
+      category: "Future Products",
+      title: "More Coming Soon",
+      desc: "Patches, hats, canvas art, storytelling collaborations, and future Warrior Dad projects.",
+      price: "TBD",
+      tag: "Future",
+      image: null,
+    },
   ];
 
   return (
-    <main className="min-h-screen bg-[#080a0f] text-white">
+    <main className="min-h-screen bg-[#11141b] text-white">
       <Navbar />
 
-      <section className="bg-[#171b25] px-8 md:px-20 py-24">
+      {/* HERO */}
+      <section className="bg-[#171c25] px-8 md:px-20 py-28">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
           <div>
-            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
-              Warrior Dad Stories Store
+            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+              Warrior Dad Store
             </p>
 
-            <h1 className="text-5xl md:text-7xl uppercase font-black leading-[0.95] tracking-wide">
-              Gear Up. <br />
-              Suit Up. <br />
-              Show Up.
+            <h1 className="uppercase font-black text-6xl md:text-8xl leading-[0.92]">
+              Carry The <br />
+              Story <br />
+              Forward.
             </h1>
 
-            <p className="mt-8 text-slate-400 italic font-serif text-lg">
-              Books, guides, and mission gear for warriors and dads.
+            <p className="mt-8 max-w-xl text-slate-300 italic font-serif text-xl leading-9">
+              Books, guides, shirts, event exclusives, and future projects
+              created to carry service, fatherhood, resilience, and legacy
+              beyond the page.
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-8 text-center text-slate-400">
-            {[
-              [HiOutlineShieldCheck, "Veteran Owned"],
-              [HiOutlineCube, "Ships May 23"],
-              [HiOutlineStar, "★★★★★ Rated"],
-            ].map(([Icon, label]) => (
-              <div key={label}>
-                <Icon className="mx-auto text-[#c8a96a] text-2xl mb-3" />
-                <p className="uppercase tracking-[0.25em] text-[10px]">
-                  {label}
-                </p>
-              </div>
-            ))}
+          <div className="grid grid-cols-3 gap-8 text-center">
+            <Trust icon="◇" label="Veteran Owned" />
+            <Trust icon="▣" label="Book Launch May 23" />
+            <Trust icon="★" label="Early Acclaim" />
           </div>
         </div>
+      </section>
 
-        <div className="max-w-7xl mx-auto mt-24 grid lg:grid-cols-[420px_1fr] gap-28 items-center">
-          <div className="flex flex-col items-center">
-            <div className="relative w-80">
-              <span className="absolute -top-3 right-[-14px] bg-[#c8a96a] text-black px-4 py-2 text-[10px] font-bold uppercase">
-                Bestseller In Progress
-              </span>
+      {/* LEGACY DIVIDER */}
+      <section
+        className="relative px-8 md:px-20 py-40 bg-cover bg-center overflow-hidden"
+        style={{
+          backgroundImage: `
+            linear-gradient(
+              rgba(10,12,16,0.78),
+              rgba(10,12,16,0.88)
+            ),
+            url('/carry-the-story-forward.jpg')
+          `,
+        }}
+      >
+        <div className="max-w-6xl mx-auto text-center">
+          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-8">
+            More Than Merchandise
+          </p>
 
-              <div className="h-[520px] bg-[#202632] border border-white/10 rounded-sm flex items-center justify-center">
-                <span className="text-slate-500 text-xs uppercase tracking-[0.25em]">
-                  Product Image
-                </span>
-              </div>
-            </div>
+          <h2 className="uppercase font-black text-5xl md:text-7xl leading-[0.95]">
+            This Was Never Meant <br />
+            To Be A Product.
+          </h2>
 
-            <div className="mt-5 text-[#c8a96a]">★★★★★</div>
+          <h3 className="mt-8 text-[#c8a96a] uppercase font-black text-4xl md:text-5xl">
+            It Was Meant To Be A Legacy.
+          </h3>
+
+          <p className="mt-10 max-w-4xl mx-auto text-slate-300 italic font-serif text-xl leading-10">
+            Every book, coin, guide, and future project exists for one purpose:
+            carrying stories, lessons, and moments forward to the people who
+            need them.
+          </p>
+        </div>
+      </section>
+
+      {/* FEATURED BOOK */}
+      <section className="bg-[#11141b] px-8 md:px-20 py-28">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-[360px_1fr] gap-24 items-center">
+          <div className="text-center">
+            <img
+              src="/book-cover.png"
+              alt="Warrior Dad Book"
+              className="w-72 mx-auto rounded-sm border border-white/10 shadow-2xl"
+            />
+
+            <p className="mt-6 text-[#c8a96a]">★★★★★</p>
+
             <p className="text-xs text-slate-500">
-              Hardcover + Ebook available
+              100 pages of poetry and illustrations
             </p>
           </div>
 
           <div>
-            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-4">
-              The Book
+            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
+              Featured Project
             </p>
 
-            <h2 className="text-5xl uppercase font-black tracking-wide">
+            <h2 className="uppercase font-black text-5xl md:text-6xl">
               Warrior Dad
             </h2>
 
-            <h3 className="text-3xl uppercase font-black text-slate-500 mt-2">
-              A Collection of Odes
+            <h3 className="mt-3 uppercase text-slate-500 font-black text-2xl">
+              A Collection Of Odes
             </h3>
 
-            <p className="mt-8 text-slate-300 font-serif text-lg leading-8 max-w-3xl">
-              A debut collection of odes and reflections written by a veteran
-              and father about the space between duty and love. These are
-              stories about showing up — in uniform and at home.
+            <p className="mt-8 text-slate-300 font-serif text-lg leading-9 max-w-3xl">
+              A book of poetry, illustration, memory, sacrifice, humor, and
+              legacy — written between service, fatherhood, reflection, and the
+              quiet moments that changed everything.
             </p>
 
-            <div className="grid grid-cols-3 gap-8 mt-10">
-              {[
-                ["May 23", "Launch Date"],
-                ["HC + Ebook", "Formats"],
-                ["~220", "Pages"],
-              ].map(([big, small]) => (
-                <div key={big}>
-                  <h4 className="text-[#c8a96a] uppercase text-3xl font-black">
-                    {big}
-                  </h4>
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500 mt-2">
-                    {small}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-10 grid md:grid-cols-3 gap-8">
+              <Meta value="$29.97" label="Hardcover" />
+              <Meta value="$2.99" label="Ebook Preorder" />
+              <Meta value="Free" label="Kindle Unlimited May 23" />
             </div>
 
-            <div className="mt-8 flex gap-4">
-              <button className="bg-[#c8a96a] text-black px-10 py-4 text-[11px] uppercase tracking-[0.18em] font-bold">
-                Hardcover — $29.97
+            <div className="mt-10 flex flex-wrap gap-4">
+              <button className="bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition">
+                View Book Details
               </button>
-              <button className="text-slate-400 px-6 py-4 text-[11px] uppercase tracking-[0.18em]">
-                Ebook — $2.99
+
+              <button className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 uppercase tracking-[0.18em] text-[11px] hover:bg-[#c8a96a] hover:text-black transition">
+                Download Companion Guide
               </button>
             </div>
 
-            <p className="mt-5 text-xs text-green-700">
-              ✓ Pre-orders ship May 23
-            </p>
-
-            <button className="mt-6 w-full bg-[#c8a96a] text-black px-10 py-5 text-[12px] uppercase tracking-[0.2em] font-bold">
-              Pre-Order Now — $29.97
-            </button>
-
-            <p className="mt-4 text-center text-xs text-slate-600">
-              Includes free Companion Guide (PDF)
+            <p className="mt-5 text-xs text-slate-600">
+              Coins are event-exclusive. Additional products are planned for
+              future releases.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#1c222d] px-8 md:px-20 py-28">
-        <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] text-center mb-14">
-          All Products
+<section
+  className="relative py-40 bg-cover bg-center"
+  style={{
+    backgroundImage: `
+      linear-gradient(
+        rgba(10,12,16,0.70),
+        rgba(10,12,16,0.88)
+      ),
+      url('/service-family-legacy.jpg')
+    `,
+  }}
+>
+  <div className="max-w-5xl mx-auto text-center px-8">
+    <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+      Service • Family • Legacy
+    </p>
+
+    <h2 className="uppercase font-black text-5xl md:text-7xl leading-[0.95]">
+      Some Stories <br />
+      Are Carried.
+    </h2>
+
+    <p className="mt-8 max-w-3xl mx-auto text-slate-300 italic font-serif text-xl leading-10">
+      Not in books. Not on shelves. But in the values,
+      commitments, and people we choose to carry forward.
+    </p>
+  </div>
+</section>
+
+
+      {/* CHALLENGE COINS */}
+      <section className="bg-[#171c25] px-8 md:px-20 py-32">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+          <div>
+            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+              Event Exclusive
+            </p>
+
+            <h2 className="uppercase font-black text-5xl md:text-6xl leading-tight">
+              Warrior Dad <br />
+              Challenge Coins
+            </h2>
+
+            <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9">
+              Created as a symbol of remembrance, resilience, and shared
+              experience. These coins are available exclusively at Warrior Dad
+              speaking events, book signings, and special appearances.
+            </p>
+
+            <p className="mt-8 text-slate-400 leading-8">
+              More than merchandise, these coins are intended to be carried,
+              collected, and passed forward as reminders of service, sacrifice,
+              family, and purpose.
+            </p>
+
+            <div className="mt-10">
+              <span className="bg-[#c8a96a]/15 text-[#c8a96a] px-5 py-3 uppercase tracking-[0.25em] text-[10px]">
+                Event Exclusive
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <img
+              src="/warrior-dad-coin.png"
+              alt="Warrior Dad Challenge Coin"
+              className="rounded-2xl border border-white/10 shadow-2xl w-full"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* PRODUCT COLLECTION */}
+      <section className="bg-[#1a1f27] px-8 md:px-20 py-28">
+        <p className="text-center text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+          Product Collection
         </p>
 
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map(([category, name, subtitle, price, action]) => (
+        <h2 className="text-center uppercase font-black text-5xl mb-16">
+          Built To Grow With The Story
+        </h2>
+
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+          {products.map((product) => (
             <div
-              key={`${name}-${subtitle}`}
-              className="bg-[#202632] rounded-lg border border-white/5 p-8 min-h-[420px] flex flex-col justify-end"
+              key={product.title}
+              className="bg-[#202632] border border-white/5 rounded-xl overflow-hidden hover:border-[#c8a96a]/50 hover:-translate-y-2 transition duration-500"
             >
-              <div className="h-28 flex items-center justify-center mb-auto">
-                <div className="h-12 w-12 bg-slate-500/60" />
+              <div className="h-64 bg-[#151922] flex items-center justify-center overflow-hidden">
+                {product.image ? (
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="h-full w-full object-cover opacity-85 hover:scale-105 transition duration-700"
+                  />
+                ) : (
+                  <div className="text-center px-8">
+                    <p className="text-[#c8a96a] text-4xl mb-4">✦</p>
+                    <p className="text-slate-600 uppercase tracking-[0.25em] text-xs">
+                      Image Coming Soon
+                    </p>
+                  </div>
+                )}
               </div>
 
-              <p className="text-slate-500 uppercase tracking-[0.25em] text-[10px]">
-                {category}
-              </p>
+              <div className="p-8">
+                <p className="text-slate-500 uppercase tracking-[0.25em] text-[10px]">
+                  {product.category}
+                </p>
 
-              <h3 className="mt-3 text-2xl uppercase font-black">{name}</h3>
+                <h3 className="mt-3 uppercase font-black text-2xl">
+                  {product.title}
+                </h3>
 
-              <p className="mt-1 text-slate-400 italic font-serif">
-                {subtitle}
-              </p>
+                <p className="mt-4 text-slate-400 italic font-serif leading-7">
+                  {product.desc}
+                </p>
 
-              <p className="mt-5 text-slate-400 italic font-serif text-sm leading-7">
-                Placeholder product description. Student should replace this
-                with Figma-approved copy and imagery.
-              </p>
+                <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center gap-6">
+                  <span className="text-[#c8a96a] text-2xl font-black">
+                    {product.price}
+                  </span>
 
-              <div className="mt-6 pt-6 border-t border-white/10 flex justify-between items-center">
-                <span className="text-[#c8a96a] text-2xl font-black uppercase">
-                  {price}
-                </span>
-
-                <button className="uppercase tracking-[0.25em] text-[10px] text-slate-300">
-                  {action}
-                </button>
+                  <span className="text-slate-400 uppercase tracking-[0.2em] text-[10px] text-right">
+                    {product.tag}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
         </div>
+
+        <p className="max-w-4xl mx-auto mt-12 text-center text-slate-500 text-sm leading-7">
+          Product images and purchase links will be finalized once current store
+          assets are received. Coins are event-exclusive. Shipping terms,
+          fulfillment details, and product availability may vary by item.
+        </p>
       </section>
 
-      <section className="bg-[#202632] border-y border-white/10 px-8 md:px-20 py-24 text-center">
-        <span className="bg-[#c8a96a] text-black px-4 py-2 text-[10px] uppercase font-bold tracking-[0.18em]">
-          Best Value
+
+      {/* THE ROAD CONTINUES */}
+<section
+  className="relative py-40 bg-cover bg-center overflow-hidden"
+  style={{
+    backgroundImage: `
+      linear-gradient(
+        rgba(10,12,16,0.55),
+        rgba(10,12,16,0.85)
+      ),
+      url('/the-road-continues.jpg')
+    `,
+  }}
+>
+  <div className="max-w-5xl mx-auto text-center px-8">
+    <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+      The Journey Continues
+    </p>
+
+    <h2 className="uppercase font-black text-5xl md:text-7xl leading-[0.95]">
+      Your Story. <br />
+      Their Future.
+    </h2>
+
+    <p className="mt-8 max-w-3xl mx-auto text-slate-300 italic font-serif text-xl leading-10">
+      Every lesson shared, every story told, and every life impacted
+      becomes part of something larger than ourselves.
+    </p>
+  </div>
+</section>
+
+      {/* FUTURE PRODUCTS */}
+      <section className="bg-[#202632] px-8 md:px-20 py-28 text-center">
+        <span className="bg-[#c8a96a] text-black px-5 py-2 uppercase tracking-[0.25em] text-[10px] font-bold">
+          Future Products
         </span>
 
-        <h2 className="mt-8 text-4xl uppercase font-black">
-          The Complete Warrior Dad Bundle
-        </h2>
-
-        <p className="mt-5 text-slate-400 italic font-serif">
-          Everything you need to go deeper.
+        <p className="mt-8 text-slate-500 italic font-serif text-lg">
+          The story does not end with one book.
         </p>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-10 text-slate-400 text-sm">
-          <span>✓ Warrior Dad Hardcover</span>
-          <span>✓ Companion Guide PDF</span>
-          <span>✓ Priority Shipping</span>
-        </div>
+        <h2 className="mt-6 uppercase font-black text-5xl">
+          More Stories Are Coming
+        </h2>
 
-        <div className="mt-12">
-          <span className="text-[#c8a96a] text-5xl font-black">$29.99</span>
-          <span className="ml-4 text-green-700 text-sm uppercase">
-            Save $9.99
-          </span>
-        </div>
+        <p className="mt-8 max-w-3xl mx-auto text-slate-400 italic font-serif text-xl leading-9">
+          Warrior Dad Stories is built to grow — future books, speaking tools,
+          storytelling resources, merchandise, canvas art collaborations, and
+          creative projects are already part of the long-term vision.
+        </p>
 
-        <button className="mt-8 bg-[#c8a96a] text-black px-16 py-5 text-[12px] uppercase tracking-[0.2em] font-bold">
-          Get The Bundle
-        </button>
+        <Link
+          to="/contact"
+          className="inline-block mt-10 bg-[#c8a96a] text-black px-12 py-5 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
+        >
+          Start A Conversation
+        </Link>
       </section>
 
-      <section className="bg-[#101118] px-8 md:px-20 py-10 grid md:grid-cols-4 gap-8 text-slate-400 text-sm">
-        {[
-          [HiOutlineTruck, "Free shipping on orders $35+"],
-          [HiOutlineLockClosed, "Secure checkout"],
-          [HiOutlineRefresh, "30-day satisfaction guarantee"],
-          [HiOutlineBadgeCheck, "Veteran-owned business"],
-        ].map(([Icon, text]) => (
-          <div key={text} className="flex items-center justify-center gap-3">
-            <Icon className="text-[#c8a96a] text-xl" />
-            <span>{text}</span>
-          </div>
-        ))}
+      {/* TRUST BAR */}
+      <section className="bg-[#11141b] px-8 md:px-20 py-10 grid md:grid-cols-4 gap-8 text-slate-400 text-sm">
+        <TrustBar icon="▣" text="Veteran-owned business" />
+        <TrustBar icon="★" text="Early reader acclaim" />
+        <TrustBar icon="◇" text="Story-first products" />
+        <TrustBar icon="↻" text="Built to grow long term" />
       </section>
 
-      <footer className="bg-[#080a0f] px-8 md:px-20 py-20 border-t border-white/5">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
-          <div>
-            <div className="flex items-center gap-4">
-              <div className="h-10 w-10 bg-slate-300" />
-              <span className="text-[#c8a96a] uppercase tracking-[0.22em] font-bold">
-                Warrior Dad Stories
-              </span>
-            </div>
-            <p className="mt-6 text-slate-500 italic font-serif">
-              Stories forged in service, strengthened by love.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-4 text-xs uppercase tracking-[0.25em] text-slate-400">
-            <a>Home</a>
-            <a>Shop</a>
-            <a>About</a>
-            <a>Blog</a>
-            <a>The Creative Forge</a>
-            <a>Contact</a>
-          </div>
-
-          <div>
-            <div className="flex gap-5 text-slate-500 text-lg">
-              <FaLinkedinIn />
-              <FaFacebookF />
-              <FaInstagram />
-              <FaXTwitter />
-            </div>
-
-            <p className="mt-5 text-slate-500 text-sm flex gap-3 items-center">
-              <HiOutlineMail />
-              contact@warriordadstories.com
-            </p>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex justify-between items-center text-slate-600 text-sm">
-  <p>© 2026 Warrior Dad Stories</p>
-
-  <div className="flex items-center gap-6">
-    <p>A Disabled Veteran-Owned Business</p>
-
-    <a
-      href="/admin"
-      className="uppercase tracking-[0.2em] hover:text-[#c8a96a] transition"
-    >
-      Admin
-    </a>
-  </div>
-</div>
-      </footer>
+      <Footer />
     </main>
+  );
+}
+
+function Trust({ icon, label }) {
+  return (
+    <div>
+      <div className="text-[#c8a96a] text-3xl">{icon}</div>
+
+      <p className="mt-4 uppercase tracking-[0.25em] text-[10px] text-slate-400">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+function Meta({ value, label }) {
+  return (
+    <div>
+      <h4 className="text-[#c8a96a] uppercase text-3xl font-black">
+        {value}
+      </h4>
+
+      <p className="text-[10px] uppercase tracking-[0.25em] text-slate-500 mt-2">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+function TrustBar({ icon, text }) {
+  return (
+    <div className="flex items-center justify-center gap-3">
+      <span className="text-[#c8a96a]">{icon}</span>
+      <span>{text}</span>
+    </div>
   );
 }
 

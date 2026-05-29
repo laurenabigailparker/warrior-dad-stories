@@ -1,52 +1,152 @@
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <footer className="bg-black border-t border-white/5 px-8 md:px-20 py-20">
       <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16">
+
+        {/* BRAND */}
         <div>
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-slate-300" />
+          <Link to="/" className="flex items-center gap-4">
+            <img
+              src="/wds-logo-primary.png"
+              alt="Warrior Dad Stories logo"
+              className="h-14 w-14 object-contain"
+            />
 
-            <h2 className="uppercase tracking-[0.2em] text-[#c8a96a] font-bold text-sm">
+            <span className="uppercase tracking-[0.22em] text-[#c8a96a] font-bold text-sm">
               Warrior Dad Stories
-            </h2>
-          </div>
+            </span>
+          </Link>
 
-          <p className="mt-6 text-slate-500 italic font-serif">
-            Stories forged in service, strengthened by love.
+          <p className="mt-6 text-slate-400 italic font-serif leading-8 max-w-sm">
+            Stories forged in service, strengthened by love,
+            and carried forward through legacy, leadership,
+            and storytelling.
+          </p>
+
+          <p className="mt-8 text-slate-500 italic font-serif text-sm">
+            Smile and the world smiles with you.
           </p>
         </div>
 
-        <div className="space-y-4 uppercase text-sm tracking-[0.2em] text-slate-400">
-          <p>Home</p>
-          <p>Shop</p>
-          <p>About</p>
-          <p>Blog</p>
-          <p>The Creative Forge</p>
-          <p>Contact</p>
+        {/* NAVIGATION */}
+        <div>
+          <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px] mb-6">
+            Navigation
+          </p>
+
+          <div className="space-y-4 uppercase text-sm tracking-[0.18em] text-slate-400">
+            <Link
+              to="/"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              Home
+            </Link>
+
+            <Link
+              to="/shop"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              Shop
+            </Link>
+
+            <Link
+              to="/about"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              About
+            </Link>
+
+            <Link
+              to="/blog"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              Blog
+            </Link>
+
+            <Link
+              to="/forge"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              The Creative Forge
+            </Link>
+
+            <Link
+              to="/contact"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              Contact
+            </Link>
+          </div>
         </div>
 
-        <div className="text-slate-500 space-y-4">
-          <p>LinkedIn</p>
-          <p>Instagram</p>
-          <p>Twitter</p>
-          <p>contact@warriordadstories.com</p>
+        {/* SOCIALS */}
+        <div>
+          <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px] mb-6">
+            Connect
+          </p>
+
+          <div className="space-y-4 text-slate-400">
+            <a
+              href="https://www.linkedin.com/in/thomas-tj-baird/"
+              target="_blank"
+              rel="noreferrer"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              LinkedIn
+            </a>
+
+            <a
+              href="https://www.instagram.com/tjwarriordad/"
+              target="_blank"
+              rel="noreferrer"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              Instagram
+            </a>
+
+            <a
+              href="https://x.com/TJWarriorDad"
+              target="_blank"
+              rel="noreferrer"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              X / Twitter
+            </a>
+
+            <a
+              href="https://www.facebook.com/tjwarriordad"
+              target="_blank"
+              rel="noreferrer"
+              className="block hover:text-[#c8a96a] transition"
+            >
+              Facebook
+            </a>
+
+            <p className="pt-4 text-slate-500">
+              contact@warriordadstories.com
+            </p>
+          </div>
         </div>
       </div>
 
-    <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex justify-between items-center text-slate-600 text-sm">
-  <p>© 2026 Warrior Dad Stories</p>
+      {/* BOTTOM BAR */}
+      <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row gap-6 justify-between items-center text-slate-600 text-sm">
 
-  <div className="flex items-center gap-6">
-    <p>A Disabled Veteran-Owned Business</p>
+        <p>© 2026 Warrior Dad Stories</p>
 
-    <a
-      href="/admin"
-      className="uppercase tracking-[0.2em] hover:text-[#c8a96a] transition"
-    >
-      Admin
-    </a>
-  </div>
-</div>
+        <div className="flex flex-wrap items-center gap-6 text-center">
+          <p>A Disabled Veteran-Owned Business</p>
+
+          <Link
+            to="/admin"
+            className="uppercase tracking-[0.2em] hover:text-[#c8a96a] transition"
+          >
+            Admin
+          </Link>
+        </div>
+      </div>
     </footer>
   );
 }

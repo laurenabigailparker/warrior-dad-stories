@@ -1,24 +1,19 @@
 import Navbar from "../components/layout/Navbar";
-import {
-  FaLinkedinIn,
-  FaFacebookF,
-  FaInstagram,
-  FaXTwitter,
-} from "react-icons/fa6";
-import { HiOutlineMail } from "react-icons/hi";
+import Footer from "../components/layout/Footer";
 
 function About() {
   const timeline = [
     ["1992", "Enlisted", "The journey begins."],
     ["1993", "82nd Airborne Division", "First duty assignment."],
+    ["1995", "First Deployment", "Counter narcotics deployment."],
     ["2001", "Towers Fell", "Deployed when everything changed."],
     ["2002", "First Combat Deployment", "Tested. Forged. Changed forever."],
-    ["2006", "Became A Father", "The mission found its deepest purpose."],
+    ["2006", "Became a Father", "The mission found its deepest purpose."],
     ["2017", "Last Combat Deployment", "Nine deployments. One calling."],
     ["2018", "Started Writing", "Stories written for his daughter."],
-    ["2025", "Retired From The Army", "Trophy Husband and Author."],
-    ["2025", "Warrior Dad Stories Founded", "A platform for veterans, dads, and storytellers."],
-    ["2026", "Warrior Dad Book Launch", "The mission, bound in pages."],
+    ["2025", "Retired From The Army", "A new chapter begins."],
+    ["2025", "Warrior Dad Stories Founded", "Legacy became mission."],
+    ["2026", "Warrior Dad Launch", "The story continues."],
   ];
 
   const principles = [
@@ -31,7 +26,7 @@ function About() {
       "Live intentionally and lead with consistency.",
     ],
     [
-      "Be Fit, Mind, Body, And Spirit",
+      "Be Fit — Mind, Body, And Spirit",
       "Growth requires harmony across every part of life.",
     ],
     [
@@ -41,148 +36,168 @@ function About() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#080a0f] text-white">
+    <main className="bg-[#11141b] text-white min-h-screen">
       <Navbar />
 
-      {/* Hero */}
+      {/* HERO */}
       <section
-        className="relative min-h-[620px] flex items-center justify-center text-center px-8 bg-cover bg-center overflow-hidden"
-        style={{
-          backgroundImage: `
-            linear-gradient(
-              rgba(0,0,0,0.55),
-              rgba(0,0,0,0.62)
-            ),
-            url('/about-hero.jpg')
-          `,
-        }}
-      >
-        <div className="relative z-10 max-w-3xl">
-          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
-            The Man Behind The Mission
-          </p>
+        className="relative min-h-[720px] flex items-center px-8 md:px-20 overflow-hidden bg-cover bg-center"
+      style={{
+  backgroundImage: `
+    linear-gradient(
+      90deg,
+      rgba(10,12,16,0.92) 0%,
+      rgba(10,12,16,0.72) 40%,
+      rgba(10,12,16,0.45) 65%,
+      rgba(10,12,16,0.92) 100%
+    ),
+    url('/about-hero-journey.jpg')
+  `,
+}}
+      > 
+    <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
 
-        <h1 className="uppercase font-black leading-[0.95] tracking-wide text-5xl md:text-8xl">
+<div className="max-w-[320px] sm:max-w-3xl relative z-10">
+  <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+    Warrior Dad Stories · About TJ
+  </p>
+<h1 className="uppercase font-black text-[2.4rem] sm:text-6xl md:text-8xl leading-[0.92]">
   Warrior. <br />
   Father. <br />
-  Storyteller.
+  Story. <br />
+  <span className="text-[#c8a96a]">
+    Teller.
+  </span>
 </h1>
 
-          <p className="mt-8 text-slate-300 italic font-serif text-2xl">
-            Born from service. Built by love. Written for legacy.
-          </p>
-        </div>
-      </section>
-
-      {/* Quote */}
-      <section className="bg-[#202632] px-8 md:px-20 py-24 text-center relative">
-        <div className="absolute left-10 top-16 text-8xl font-black text-slate-300/90">
-          "
-        </div>
-
-        <div className="max-w-4xl mx-auto">
-          <p className="text-3xl md:text-4xl italic font-serif text-slate-200 leading-[1.7]">
-            These stories were forged in uniform, strengthened by family,
-            and written to help others lead with heart, purpose, and resilience.
-          </p>
-
-          <p className="mt-10 text-[#c8a96a] uppercase tracking-[0.3em] text-[11px]">
-            — T.J. Baird, Warrior Dad
-          </p>
-        </div>
-      </section>
-
-      {/* story section */}
-      <section className="bg-[#171b25] px-8 md:px-20 py-28">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-start">
+  <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9 max-w-2xl">
+    Stories forged through service, strengthened by love, and written
+    for legacy.
+  </p>
+</div>
+</section>
+      {/* INTRO */}
+      <section className="bg-[#171c25] px-8 md:px-20 py-28">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_420px] gap-20 items-center">
           <div>
-            <div className="flex items-start gap-5">
-              <div className="h-20 w-[4px] bg-[#c8a96a] mt-3" />
+            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
+              The Mission
+            </p>
 
-              <h2 className="uppercase font-black text-4xl md:text-5xl leading-tight max-w-md">
-                "The Mission Doesn't End When You Come Home."
-              </h2>
-            </div>
+            <h2 className="uppercase text-5xl font-black leading-tight">
+              The Mission Did Not End. <br />
+              It Evolved.
+            </h2>
 
-            <div className="mt-10 h-[620px] rounded-sm bg-[#202632] border border-white/10 flex items-center justify-center">
-              <span className="uppercase text-slate-500 tracking-[0.25em] text-xs">
-                Story Image Placeholder
-              </span>
-            </div>
+            <p className="mt-8 text-slate-300 font-serif italic leading-9 text-lg">
+              Warrior Dad Stories was born from the realization that leadership,
+              fatherhood, service, and storytelling are not separate journeys —
+              they are deeply connected.
+            </p>
+
+            <p className="mt-6 text-slate-400 leading-8">
+              After decades of military service, deployments, sacrifice, and
+              leadership, TJ discovered that some of life’s greatest lessons
+              existed not on the battlefield, but in fatherhood, reflection,
+              resilience, and the quiet moments that shape legacy.
+            </p>
           </div>
 
-          <div className="space-y-16">
-            {[
-              [
-                "The Beginning",
-                "TJ Baird didn't set out to become a storyteller. He set out to serve. Years in uniform taught him discipline, sacrifice, and responsibility — for the mission, for his team, and eventually, for something even more important: his family.",
-              ],
-              [
-                "The Turn",
-                "Becoming a father while serving changed everything. The mission evolved. The priorities shifted. Leadership became less about command and more about presence, love, and legacy.",
-              ],
-              [
-                "The Mission",
-                "TJ writes because there were stories that needed to come out — stories about duty, family, growth, sacrifice, and resilience. Warrior Dad Stories is where those stories live.",
-              ],
-              [
-                "What's Next",
-                "The mission continues through books, mentorship, storytelling, and community. The Creative Forge is being built for veterans, fathers, and creators who still have something meaningful to say.",
-              ],
-            ].map(([title, text]) => (
-              <div key={title}>
-                <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
-                  {title}
-                </p>
+          <div className="relative">
+          <img
+  src="/mission-evolved-study.jpg"
+  alt="TJ reflecting and writing"
+  className="rounded-2xl shadow-2xl border border-white/10 max-h-[620px] w-full object-cover"
+ />
 
-                <p className="text-slate-300 font-serif text-lg leading-10">
-                  {text}
-                </p>
-              </div>
-            ))}
+            <div className="absolute -bottom-6 -left-6 bg-[#c8a96a] text-black px-6 py-5 uppercase tracking-[0.2em] text-[10px] font-black shadow-xl">
+              Veteran · Father · Author
+            </div>
           </div>
         </div>
       </section>
 
-      {/* timeline here */}
-      <section className="bg-[#080a0f] px-8 md:px-20 py-32">
-        <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] text-center mb-24">
-          The Timeline
-        </p>
+      {/* THE TURN */}
+      <section className="relative bg-[#11141b] px-8 md:px-20 py-32 overflow-hidden">
+    
+  
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
+            A New Season
+          </p>
 
-        <div className="relative max-w-5xl mx-auto">
-          <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/10 -translate-x-1/2" />
+          <h2 className="mt-6 uppercase text-6xl font-black">
+            The Turn
+          </h2>
 
-          <div className="space-y-28">
-            {timeline.map(([year, title, text], index) => (
+          <p className="mt-10 text-2xl italic font-serif text-slate-300 leading-[1.9]">
+            “The mission did not end, it evolved.”
+          </p>
+
+          <div className="mt-16 grid lg:grid-cols-[1fr_420px] gap-16 items-center text-left">
+            <div>
+              <p className="text-slate-300 leading-9 text-lg font-serif italic">
+                Becoming a father while serving changed everything. The man who
+                once measured success through missions, deployments, and
+                responsibility began to measure it differently — in bedtime
+                stories, early mornings, phone calls from across the world, and
+                the look in his daughter’s eyes when he came home.
+              </p>
+
+              <p className="mt-8 text-slate-400 leading-8">
+                Today, TJ stands in a new season of life. The little girl who
+                once reached for his hand is becoming a strong, driven, and
+                successful young woman forging her own path forward.
+              </p>
+
+              <p className="mt-8 text-slate-300 font-serif italic text-xl leading-9">
+                The Turn is the journey from protecting her to walking beside
+                her — carrying the same love, leadership, and purpose into every
+                stage of life.
+              </p>
+            </div>
+
+            <img
+              src="/tj-and-macaroni.jpg"
+              alt="Father and daughter"
+              className="rounded-2xl border border-white/10 shadow-2xl max-h-[620px] w-full object-cover bg-[#151922] transition duration-700 hover:scale-[1.02]"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* TIMELINE */}
+      <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center">
+            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
+              The Journey
+            </p>
+
+            <h2 className="mt-6 uppercase text-5xl font-black">
+              Warrior Dad Timeline
+            </h2>
+          </div>
+<div className="mt-20 space-y-10 relative">
+  <div className="absolute left-[58px] top-0 bottom-0 w-px bg-white/10" />
+          
+            {timeline.map(([year, title, desc]) => (
               <div
                 key={year + title}
-                className={`grid md:grid-cols-2 gap-10 items-center ${
-                  index % 2 === 0 ? "" : "md:[&>*:first-child]:order-2"
-                }`}
+                className="grid md:grid-cols-[120px_1fr] gap-10 border-b border-white/5 pb-10"
               >
-                <div
-                  className={`${
-                    index % 2 === 0
-                      ? "md:text-right md:pr-16"
-                      : "md:text-left md:pl-16"
-                  }`}
-                >
-                  <h3 className="text-[#c8a96a] text-5xl font-black uppercase">
-                    {year}
-                  </h3>
-
-                  <h4 className="mt-3 uppercase text-2xl font-black">
-                    {title}
-                  </h4>
-
-                  <p className="mt-3 text-slate-500 italic font-serif text-lg">
-                    {text}
-                  </p>
+                <div className="text-[#c8a96a] text-4xl font-black">
+                  {year}
                 </div>
 
-                <div className="relative hidden md:block">
-                  <div className="absolute top-1/2 left-1/2 h-4 w-4 rounded-full bg-[#c8a96a] -translate-x-1/2 -translate-y-1/2" />
+                <div>
+                  <h3 className="uppercase text-2xl font-black tracking-wide">
+                    {title}
+                  </h3>
+
+                  <p className="mt-3 text-slate-400 italic font-serif">
+                    {desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -190,148 +205,167 @@ function About() {
         </div>
       </section>
 
-      {/* the principles */}
-      <section className="bg-[#1c222d] px-8 md:px-20 py-28">
-        <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] text-center mb-20">
-          Guiding Principles
-        </p>
+      {/* LEGACY DIVIDER */}
+<section
+  className="relative min-h-[620px] flex items-center justify-center text-center px-8 overflow-hidden bg-cover bg-center"
+  style={{
+    backgroundImage: `
+      linear-gradient(
+        to bottom,
+        rgba(10,12,16,0.78),
+        rgba(10,12,16,0.78)
+      ),
+      url('/legacy-carried-forward.jpg')
+    `,
+    backgroundPosition: "center 38%",
+  }}
+>
+  <div className="max-w-5xl relative z-10">
+    <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-8">
+      Legacy
+    </p>
 
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14">
-          {principles.map(([title, text]) => (
-            <div key={title} className="flex gap-5">
-              <div className="w-[3px] bg-[#c8a96a]" />
+    <h2 className="uppercase text-4xl md:text-7xl font-black leading-[1.15]">
+      Legacy Is Not <br />
+      What We Leave Behind. <br />
+      <span className="text-[#c8a96a]">
+        It’s What We Carry Forward.
+      </span>
+    </h2>
 
-              <div>
-                <h3 className="uppercase text-2xl font-black">{title}</h3>
+    <p className="mt-10 max-w-3xl mx-auto text-slate-300 italic font-serif text-xl leading-10">
+      Warrior Dad Stories exists to preserve the lessons,
+      memories, relationships, and humanity that continue long
+      after service ends.
+    </p>
+  </div>
+</section>
 
-                <p className="mt-4 text-slate-400 italic font-serif text-lg">
+      {/* PRINCIPLES */}
+      <section className="relative bg-[#11141b] px-8 md:px-20 py-32 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center">
+            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
+              Guiding Principles
+            </p>
+
+            <h2 className="mt-6 uppercase text-5xl font-black">
+              Lived. Not Lectured.
+            </h2>
+          </div>
+
+          <div className="mt-20 grid md:grid-cols-2 gap-12">
+            {principles.map(([title, text]) => (
+              <div
+                key={title}
+                className="border-l border-[#c8a96a] pl-6"
+              >
+                <h3 className="uppercase text-2xl font-black leading-tight">
+                  {title}
+                </h3>
+
+                <p className="mt-5 text-slate-400 italic font-serif leading-8">
                   {text}
                 </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* speaking cta  */}
-      <section className="bg-[#202632] px-8 md:px-20 py-28 text-center border-t border-white/5">
-        <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
-          Speaking · Media · Partnerships
-        </p>
+{/* LIFE BEYOND SERVICE - needed a section that feels lighter/more human */}
+<section className="bg-[#1a1f27] px-8 md:px-20 py-32">
+  <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_520px] gap-20 items-center">
+    
+    <div>
+      <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+        Live Life To Its Fullest
+      </p>
 
-        <h2 className="mt-8 uppercase font-black text-5xl max-w-5xl mx-auto leading-tight">
-          Bring The Warrior Dad Story To Your Audience
-        </h2>
+      <h2 className="uppercase font-black text-5xl md:text-6xl leading-tight">
+        The Mission <br />
+        Evolved.
+      </h2>
 
-        <p className="mt-8 text-slate-400 italic font-serif text-xl">
-          TJ is available for keynotes, podcast appearances, media features,
-          and veteran-focused events.
-        </p>
+      <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9">
+        Service shaped the discipline. Fatherhood shaped the heart. But life
+        after both became something deeper — adventure, connection, reflection,
+        purpose, and learning how to fully live in the moments that matter.
+      </p>
 
-        <button className="mt-10 bg-[#c8a96a] text-black px-12 py-5 text-[11px] uppercase tracking-[0.2em] font-bold">
-          Get In Touch →
-        </button>
+      <p className="mt-8 text-slate-400 italic font-serif text-lg leading-8">
+        Warrior Dad Stories is not only about surviving hard things. It’s about
+        building a life worth remembering after them.
+      </p>
 
-        <div className="mt-16 flex flex-wrap justify-center gap-12 text-slate-500 uppercase tracking-[0.22em] text-[11px]">
-          <span>Keynote Speaker</span>
-          <span>Podcast Guest</span>
-          <span>Media Appearances</span>
-          <span>Veteran Events</span>
-        </div>
-      </section>
+      <div className="mt-10 flex flex-wrap gap-4">
+        <a
+          href="/forge"
+          className="bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
+        >
+          Enter The Forge
+        </a>
 
-      {/* email */}
-      <section className="bg-[#171b25] px-8 md:px-20 py-28 text-center">
-        <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
-          Join The Mission
-        </p>
+        <a
+          href="/blog"
+          className="border border-[#c8a96a] text-[#c8a96a] px-8 py-4 uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
+        >
+          Read The Stories
+        </a>
+      </div>
+    </div>
 
-        <h2 className="mt-6 uppercase font-black text-5xl leading-tight">
-          Get First Access
-          <br />
-          <span className="text-slate-400 text-3xl">
-            + Free Companion Guide
-          </span>
-        </h2>
-
-        <p className="mt-8 text-slate-400 italic font-serif text-xl">
-          Join thousands of warriors and dads getting stories, inspiration,
-          and early access.
-        </p>
-
-        <div className="mt-10 flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto">
-          <input
-            type="email"
-            placeholder="your@email.com"
-            className="flex-1 bg-[#202632] border border-white/10 px-6 py-5 text-white outline-none"
-          />
-
-          <button className="bg-[#c8a96a] text-black px-10 py-5 uppercase tracking-[0.18em] text-[11px] font-bold">
-            Join The Mission
-          </button>
-        </div>
-
-        <p className="mt-5 text-xs text-slate-600">
-          No spam. Unsubscribe anytime.
-        </p>
-      </section>
-
-      {/* footer */}
-      <footer className="bg-[#080a0f] px-8 md:px-20 py-20 border-t border-white/5">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
-          <div>
-            <div className="flex items-center gap-4">
-              <div className="h-10 w-10 bg-slate-300" />
-
-              <span className="text-[#c8a96a] uppercase tracking-[0.22em] font-bold">
-                Warrior Dad Stories
-              </span>
-            </div>
-
-            <p className="mt-6 text-slate-500 italic font-serif">
-              Stories forged in service, strengthened by love.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-4 text-xs uppercase tracking-[0.25em] text-slate-400">
-            <a href="/">Home</a>
-            <a href="/shop">Shop</a>
-            <a href="/about">About</a>
-            <a href="/blog">Blog</a>
-            <a href="/forge">The Creative Forge</a>
-            <a href="/contact">Contact</a>
-          </div>
-
-          <div>
-            <div className="flex gap-5 text-slate-500 text-lg">
-              <FaLinkedinIn />
-              <FaFacebookF />
-              <FaInstagram />
-              <FaXTwitter />
-            </div>
-
-            <p className="mt-5 text-slate-500 text-sm flex gap-3 items-center">
-              <HiOutlineMail />
-              contact@warriordadstories.com
-            </p>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex justify-between items-center text-slate-600 text-sm">
-  <p>© 2026 Warrior Dad Stories</p>
-
-  <div className="flex items-center gap-6">
-    <p>A Disabled Veteran-Owned Business</p>
-
-    <a
-      href="/admin"
-      className="uppercase tracking-[0.2em] hover:text-[#c8a96a] transition"
-    >
-      Admin
-    </a>
+    <div>
+      <img
+  src="/vstar-adventure.jpg"
+  alt="TJ and VSTAR adventure"
+  className="w-full max-h-[620px] object-contain rounded-2xl border border-white/10 shadow-2xl bg-[#11141b]"
+/>
+    </div>
   </div>
-</div>
-      </footer>
+</section>
+
+      {/* STORYTELLING */}
+      <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
+            Collaboration
+          </p>
+
+          <h2 className="mt-6 uppercase text-5xl font-black">
+            Share The Journey
+          </h2>
+
+          <p className="mt-10 text-slate-300 italic font-serif text-xl leading-10">
+            Warrior Dad Stories exists to inspire others to walk their path and
+            share their stories with the world.
+          </p>
+
+          <p className="mt-8 text-slate-400 leading-8 max-w-3xl mx-auto">
+            Through speaking, storytelling, poetry, leadership reflections, and
+            creative collaboration, Warrior Dad Stories continues building a
+            platform rooted in service, resilience, and human connection.
+          </p>
+
+          <div className="mt-12 flex flex-wrap justify-center gap-4">
+            <a
+              href="/contact"
+              className="bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
+            >
+              Connect With TJ
+            </a>
+
+            <a
+              href="/forge"
+              className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 uppercase tracking-[0.18em] text-[11px] hover:bg-[#c8a96a] hover:text-black transition"
+            >
+              Enter The Forge
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </main>
   );
 }

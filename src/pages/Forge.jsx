@@ -1,47 +1,59 @@
 import Navbar from "../components/layout/Navbar";
-import {
-  FaLinkedinIn,
-  FaFacebookF,
-  FaInstagram,
-  FaXTwitter,
-} from "react-icons/fa6";
-import { HiOutlineMail } from "react-icons/hi";
+import Footer from "../components/layout/Footer";
 
 function Forge() {
   const haikus = [
-    "Steel and silk entwined Duty's weight and love's soft touch Both hands hold the same",
-    "Boots beside her bed Mission complete, mission starts Home is the hard part",
-    "Words in the margins Written between shifts and sleep Stories find their way",
+    "Steel and silk entwined. Duty's weight and love's soft touch. Both hands hold the same.",
+    "Boots beside her bed. Mission complete, mission starts. Home is the hard part.",
+    "Words in the margins. Written between shifts and sleep. Stories find their way.",
   ];
 
   const odes = [
-    ["Reforged: An Ode To The Journey Through Prep", "Award-Winning · 2025"],
-    ["An Ode To The Daughter Who Watches", "Featured In Warrior Dad"],
-    ["An Ode To The Quiet After Deployment", "Featured In Warrior Dad"],
+    [
+      "Reforged: An Ode To The Journey Through PREP",
+      "There is a kind of breaking that rebuilds. This is what I learned in the fire.",
+      "Award-Winning · 2025",
+    ],
+    [
+      "An Ode To The Daughter Who Watches",
+      "She sees what I carry. She carries what she sees. And still, she chooses to love me.",
+      "Featured In Warrior Dad",
+    ],
+    [
+      "An Ode To The Quiet After Deployment",
+      "The world does not stop when you come home. But sometimes, you do.",
+      "Featured In Warrior Dad",
+    ],
   ];
 
-  const moments = [
-    "Morning coffee before the world wakes",
-    "The walk that clears the mind",
-    "Sunset — proof the day is done",
-    "The page where stories live",
-  ];
+ const moments = [
+  ["Morning coffee before the world wakes", "/morning-reflection.jpg"],
+  ["The walk that clears the mind", "/forest-walk.jpg"],
+  ["Sunset — proof the day is done", "/sunset-reflection.jpg"],
+  ["The page where stories live", "/stories-live-here.jpg"],
+  ["The thoughts that stay after midnight", "/late-night-reflections.jpg"],
+  ["Focus. Discipline. Legacy.", "/focus-discipline-legacy.jpg"],
+];
 
   return (
-    <main className="min-h-screen bg-[#080a0f] text-white">
+    <main className="min-h-screen bg-[#11141b] text-white">
       <Navbar />
 
-      {/* Hero */}
+      {/* HERO */}
       <section
-        className="relative min-h-[640px] flex items-center justify-center text-center px-8 bg-cover bg-center"
+        className="relative min-h-[760px] flex items-center justify-center text-center px-8 bg-cover bg-center overflow-hidden"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(0,0,0,.62), rgba(0,0,0,.72)),
-            url('/forge-hero.jpg')
+            linear-gradient(
+              rgba(8,10,14,0.72),
+              rgba(8,10,14,0.86)
+            ),
+            url('/warrior-dad-reflections.jpg')
           `,
         }}
       >
-        <div className="max-w-4xl">
+        <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+        <div className="max-w-4xl relative z-10">
           <div className="mx-auto mb-8 h-16 w-16 bg-[#c8a96a]" />
 
           <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
@@ -60,13 +72,13 @@ function Forge() {
           </p>
 
           <p className="mt-12 text-slate-400 uppercase tracking-[0.3em] text-[11px]">
-            🔥 Heat. Pressure. Purpose.
+            Heat. Pressure. Purpose.
           </p>
         </div>
       </section>
 
-      {/* Intro */}
-      <section className="bg-[#1c222d] px-8 md:px-20 py-28 text-center">
+      {/* INTRO */}
+      <section className="bg-[#1a1f27] px-8 md:px-20 py-32 text-center">
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
           The Powerhouse Behind The Platform
         </p>
@@ -77,21 +89,23 @@ function Forge() {
           Given With Purpose.
         </h2>
 
-        <p className="mt-10 max-w-5xl mx-auto text-slate-300 italic font-serif text-xl leading-9">
+        <p className="mt-10 max-w-5xl mx-auto text-slate-300 italic font-serif text-xl leading-10">
           The Creative Forge is where poetry, reflection, and storytelling meet.
-          It's not a blog. It's not a journal. It's the raw work of finding words
-          for what's hard to say — and offering them to others who need to hear it.
+          It’s not just a blog. It’s not just a journal. It’s the raw work of
+          finding words for what’s hard to say — and offering them to others who
+          need to hear it.
         </p>
 
         <p className="mt-10 max-w-4xl mx-auto text-slate-400 italic font-serif text-lg leading-9">
-          This section is intentionally scaffolded. Students should refine spacing,
-          replace visuals, and align this content more closely to the final Figma.
+          This is where haikus are written in the margins. Where odes take shape
+          between shifts. Where moments that make us smile are captured before
+          they’re gone.
         </p>
       </section>
 
-      {/* Haikus */}
-      <section className="bg-[#101118] px-8 md:px-20 py-28 text-center">
-        <p className="text-[#c8a96a] text-4xl mb-4">⌕</p>
+      {/* HAIKUS */}
+      <section className="bg-[#11141b] px-8 md:px-20 py-32 text-center">
+        <p className="text-[#c8a96a] text-4xl mb-5">✒</p>
 
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
           Haikus
@@ -102,10 +116,10 @@ function Forge() {
         </h2>
 
         <div className="max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-8">
-          {haikus.map((haiku, index) => (
+          {haikus.map((haiku) => (
             <div
-              key={index}
-              className="bg-[#202632] rounded-lg border border-white/5 p-10 min-h-[190px] flex flex-col justify-center"
+              key={haiku}
+              className="bg-[#202632] rounded-xl border border-white/5 p-10 min-h-[210px] flex flex-col justify-center hover:border-[#c8a96a]/50 hover:-translate-y-2 transition duration-500"
             >
               <p className="text-slate-200 font-serif text-lg leading-9">
                 {haiku}
@@ -119,10 +133,40 @@ function Forge() {
         </div>
       </section>
 
-      {/* Odes */}
-      <section className="bg-[#1c222d] px-8 md:px-20 py-28">
+      {/* REFORGED FEATURE */}
+      <section
+        className="relative bg-cover bg-center px-8 md:px-20 py-44"
+        style={{
+          backgroundImage: `
+            linear-gradient(
+              rgba(13,15,20,0.88),
+              rgba(13,15,20,0.92)
+            ),
+            url('/reforged-forge.jpg')
+          `,
+        }}
+      >
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+            Reforged
+          </p>
+
+          <h2 className="uppercase text-5xl md:text-6xl font-black leading-tight">
+            There Is A Kind Of Breaking <br />
+            That Rebuilds.
+          </h2>
+
+          <p className="mt-10 text-slate-300 italic font-serif text-2xl leading-10">
+            Pressure does not always destroy. Sometimes it reveals what was
+            buried, what was waiting, and what still holds.
+          </p>
+        </div>
+      </section>
+
+      {/* ODES */}
+      <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
         <div className="text-center">
-          <p className="text-[#c8a96a] text-4xl mb-4">✧</p>
+          <p className="text-[#c8a96a] text-4xl mb-5">✧</p>
 
           <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
             Odes
@@ -134,17 +178,19 @@ function Forge() {
         </div>
 
         <div className="max-w-6xl mx-auto mt-20 space-y-8">
-          {odes.map(([title, tag]) => (
+          {odes.map(([title, text, tag]) => (
             <div
               key={title}
-              className="bg-[#202632] rounded-lg border border-white/5 p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
-            >
-              <div>
-                <h3 className="uppercase font-black text-2xl">{title}</h3>
+              className="bg-[#202632] rounded-xl border border-white/5 p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8 hover:border-[#c8a96a]/50 hover:-translate-y-2 transition duration-500"
+            ><div>
+  <p className="text-[#c8a96a] text-xl mb-4">✦</p>
 
-                <p className="mt-4 text-slate-400 italic font-serif text-lg">
-                  Placeholder excerpt. Student should replace with final Figma
-                  content and spacing.
+  <h3 className="uppercase font-black text-2xl">
+    {title}
+  </h3>
+
+                <p className="mt-4 text-slate-400 italic font-serif text-lg leading-8">
+                  {text}
                 </p>
               </div>
 
@@ -156,9 +202,9 @@ function Forge() {
         </div>
       </section>
 
-      {/* Moments Gallery */}
-      <section className="bg-[#101118] px-8 md:px-20 py-28 text-center">
-        <p className="text-[#c8a96a] text-4xl mb-4">♡</p>
+      {/* MOMENTS */}
+      <section className="bg-[#11141b] px-8 md:px-20 py-32 text-center">
+        <p className="text-[#c8a96a] text-4xl mb-5">♡</p>
 
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
           Moments That Make Me Smile
@@ -168,35 +214,94 @@ function Forge() {
           The Quiet Beauty Between The Missions
         </h2>
 
-        <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl">
+        <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9">
           Not every moment needs weight. Some are just good. Simple. Worth
           remembering.
         </p>
 
-        <div className="max-w-7xl mx-auto mt-20 grid md:grid-cols-4 gap-8">
-          {moments.map((caption, index) => (
-            <div
-              key={caption}
-              className="relative h-72 bg-[#202632] rounded-lg overflow-hidden border border-white/5 flex items-end"
-            >
-              <div className="absolute inset-0 flex items-center justify-center text-slate-600 uppercase tracking-[0.25em] text-xs">
-                Image {index + 1}
-              </div>
+        <div className="max-w-7xl mx-auto mt-20 grid md:grid-cols-6 auto-rows-[220px] gap-8">
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+  {moments.map(([caption, image], index) => {
+const layouts = [
+  "md:col-span-3 md:row-span-2", // hero
+  "md:col-span-1 md:row-span-1", // small
+  "md:col-span-2 md:row-span-2", // tall sunset
+  "md:col-span-3 md:row-span-1", // wide
+  "md:col-span-1 md:row-span-1", // writing
+  "md:col-span-2 md:row-span-1", // gym legacy
+];
+    return (
+      <div
+        key={caption}
+        className={`relative overflow-hidden rounded-2xl border border-white/5 group bg-[#202632] ${layouts[index]}`}
+      >
+        <img
+          src={image}
+          alt={caption}
+          className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700"
+        />
 
-              <p className="relative z-10 p-5 text-left text-slate-200 italic font-serif">
-                {caption}
-              </p>
-            </div>
-          ))}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+
+        <div className="relative z-10 h-full flex items-end p-6">
+          <p className="text-left text-slate-100 italic font-serif text-lg leading-8">
+            {caption}
+          </p>
         </div>
-      </section>
+      </div>
+    );
+  })}
 
-      {/* Closing Quote */}
-      <section className="bg-[#202632] px-8 md:px-20 py-28 text-center relative">
-        <div className="absolute left-12 top-14 text-8xl text-black/20 font-black">
-          "
+        
+    </div>
+</section>
+
+      {/* GUIDING PRINCIPLES - woven in, not corporate */}
+<section className="bg-[#1a1f27] px-8 md:px-20 py-32">
+  <div className="max-w-6xl mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-16 items-center">
+    <div>
+      <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+        Guiding Principles
+      </p>
+
+      <h2 className="uppercase font-black text-5xl leading-tight">
+        Lived In The Work.
+      </h2>
+    </div>
+
+    <div className="space-y-8">
+      {[
+        "Smile and the world smiles with you.",
+        "Discipline, thought, word, and deed.",
+        "Be fit — mind, body, and spirit.",
+        "Live life to its fullest.",
+      ].map((line) => (
+        <p
+          key={line}
+          className="text-slate-300 italic font-serif text-2xl leading-10 border-l border-[#c8a96a] pl-6"
+        >
+          {line}
+        </p>
+      ))}
+    </div>
+  </div>
+</section>
+
+      {/* QUOTE */}
+      <section
+  className="relative px-8 md:px-20 py-32 text-center overflow-hidden bg-cover bg-center"
+  style={{
+    backgroundImage: `
+      linear-gradient(
+        rgba(16,18,24,0.9),
+        rgba(16,18,24,0.94)
+      ),
+      url('/legacy-carried-forward.jpg')
+    `,
+  }}
+>
+        <div className="absolute left-10 top-10 text-9xl text-black/20 font-black">
+          ”
         </div>
 
         <p className="max-w-5xl mx-auto text-slate-200 italic font-serif text-3xl leading-[1.6]">
@@ -211,64 +316,6 @@ function Forge() {
 
       <Footer />
     </main>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="bg-[#080a0f] px-8 md:px-20 py-20 border-t border-white/5">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
-        <div>
-          <div className="flex items-center gap-4">
-            <div className="h-10 w-10 bg-slate-300" />
-            <span className="text-[#c8a96a] uppercase tracking-[0.22em] font-bold">
-              Warrior Dad Stories
-            </span>
-          </div>
-          <p className="mt-6 text-slate-500 italic font-serif">
-            Stories forged in service, strengthened by love.
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-4 text-xs uppercase tracking-[0.25em] text-slate-400">
-          <a href="/">Home</a>
-          <a href="/shop">Shop</a>
-          <a href="/about">About</a>
-          <a href="/blog">Blog</a>
-          <a href="/forge">The Creative Forge</a>
-          <a href="/contact">Contact</a>
-        </div>
-
-        <div>
-          <div className="flex gap-5 text-slate-500 text-lg">
-            <FaLinkedinIn />
-            <FaFacebookF />
-            <FaInstagram />
-            <FaXTwitter />
-          </div>
-
-          <p className="mt-5 text-slate-500 text-sm flex gap-3 items-center">
-            <HiOutlineMail />
-            contact@warriordadstories.com
-          </p>
-        </div>
-      </div>
-
-     <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex justify-between items-center text-slate-600 text-sm">
-  <p>© 2026 Warrior Dad Stories</p>
-
-  <div className="flex items-center gap-6">
-    <p>A Disabled Veteran-Owned Business</p>
-
-    <a
-      href="/admin"
-      className="uppercase tracking-[0.2em] hover:text-[#c8a96a] transition"
-    >
-      Admin
-    </a>
-  </div>
-</div>
-    </footer>
   );
 }
 

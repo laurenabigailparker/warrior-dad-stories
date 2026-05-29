@@ -1,6 +1,7 @@
-// App.jsx
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -24,16 +25,18 @@ import TimeLineManagement from "./pages/admin/TimeLineManagement";
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
+
       <Routes>
 
-     {/* PUBLIC ROUTES */}
-<Route path="/" element={<Home />} />
-<Route path="/shop" element={<Shop />} />
-<Route path="/about" element={<About />} />
-<Route path="/blog" element={<Blog />} />
-<Route path="/contact" element={<Contact />} />
-<Route path="/preorder" element={<PreOrder />} />
-<Route path="/forge" element={<Forge />} />
+        {/* PUBLIC ROUTES */}
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/preorder" element={<PreOrder />} />
+        <Route path="/forge" element={<Forge />} />
 
         {/* ADMIN ROUTES */}
         <Route path="/admin" element={<AdminAccess />} />
