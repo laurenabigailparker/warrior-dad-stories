@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import PreOrder from "./pages/PreOrder";
 import Forge from "./pages/Forge";
 import Shop from "./pages/Shop";
+import BlogPost from "./pages/BlogPost";
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -29,25 +30,30 @@ function App() {
 
       <Routes>
 
-        {/* PUBLIC ROUTES */}
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/preorder" element={<PreOrder />} />
-        <Route path="/forge" element={<Forge />} />
+
+// public routes
+     <Route path="/" element={<Home />} />
+<Route path="/shop" element={<Shop />} />
+<Route path="/about" element={<About />} />
+<Route path="/blog" element={<Blog />} />
+<Route path="/blog/:slug" element={<BlogPost />} />
+<Route path="/contact" element={<Contact />} />
+<Route path="/preorder" element={<PreOrder />} />
+<Route path="/forge" element={<Forge />} />
 
         {/* ADMIN ROUTES */}
-        <Route path="/admin" element={<AdminAccess />} />
-        <Route path="/admin/dashboard" element={<AdminDash />} />
-        <Route path="/admin/blog" element={<BlogManagement />} />
-        <Route path="/admin/blog/new" element={<NewPost />} />
-        <Route path="/admin/products" element={<ProductManagement />} />
-        <Route path="/admin/products/new" element={<NewProduct />} />
-        <Route path="/admin/media" element={<MediaLibrary />} />
-        <Route path="/admin/settings" element={<SiteSettings />} />
-        <Route path="/admin/timeline" element={<TimeLineManagement />} />
+<Route path="/admin" element={<AdminAccess />} />
+<Route path="/admin/dashboard" element={<AdminDash />} />
+
+<Route path="/admin/blog" element={<BlogManagement />} />
+<Route path="/admin/blog/new" element={<NewPost />} />
+<Route path="/admin/blog/edit/:id" element={<NewPost />} />
+
+<Route path="/admin/products" element={<ProductManagement />} />
+<Route path="/admin/products/new" element={<NewProduct />} />
+<Route path="/admin/media" element={<MediaLibrary />} />
+<Route path="/admin/settings" element={<SiteSettings />} />
+<Route path="/admin/timeline" element={<TimeLineManagement />} />
 
       </Routes>
     </BrowserRouter>

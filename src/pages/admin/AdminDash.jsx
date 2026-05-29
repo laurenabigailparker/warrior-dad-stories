@@ -4,29 +4,43 @@ import { supabase } from "../../lib/supabase";
 
 function AdminDash() {
   const [submissions, setSubmissions] = useState([]);
+  const [blogPosts, setBlogPosts] = useState([]);
 
-  useEffect(() => {
-    const fetchSubmissions = async () => {
-      const { data, error } = await supabase
-        .from("contact_submissions")
-        .select("*")
-        .order("created_at", { ascending: false });
+ useEffect(() => {
+  const fetchSubmissions = async () => {
+    const { data, error } = await supabase
+      .from("contact_submissions")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-      if (error) {
-        console.error(error);
-        return;
-      }
+    if (error) {
+      console.error(error);
+      return;
+    }
 
-      setSubmissions(data || []);
-    };
+    setSubmissions(data || []);
+  };
 
-    fetchSubmissions();
-  }, []);
+  const fetchBlogPosts = async () => {
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("*");
 
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setBlogPosts(data || []);
+  };
+
+  fetchSubmissions();
+  fetchBlogPosts();
+}, []);
   const stats = [
     ["◉", "Total Views", "12,456", "↗ +12%"],
     ["✉", "Messages", submissions.length, "Live"],
-    ["▤", "Blog Posts", "8", "↗ +2"],
+    ["▤", "Blog Posts", "1", "Live"],
     ["$", "Pre-Orders", "234", "↗ +28%"],
   ];
 
@@ -116,7 +130,13 @@ function AdminDash() {
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6">
-            <AdminCard href="/admin/blog" icon="▤" title="Blog Posts" desc="Create and manage blog content" meta="8 Posts" />
+            <AdminCard
+  href="/admin/blog"
+  icon="▤"
+  title="Blog Posts"
+  desc="Create and manage blog content"
+  meta={`${blogPosts.length} Posts`}
+/>
             <AdminCard href="/admin/products" icon="▣" title="Products" desc="Manage books and merchandise" meta="6 Items" />
             <AdminCard href="/admin/media" icon="▧" title="Media Library" desc="Upload and organize images" meta="143 Files" />
             <AdminCard href="/admin/timeline" icon="▢" title="Timeline Events" desc="Edit military service timeline" meta="11 Events" />

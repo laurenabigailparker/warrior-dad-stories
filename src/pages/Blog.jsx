@@ -1,87 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { supabase } from "../lib/supabase";
 
 function Blog() {
-  const categories = ["All", "Stories", "Leadership", "Fatherhood", "Veteran Life"];
+  const categories = ["All"];
   const [activeCategory, setActiveCategory] = useState("All");
+  const [posts, setPosts] = useState([]);
 
-  const posts = [
-    {
-      category: "Fatherhood",
-      title: "The Turn: When The Mission Evolved",
-      excerpt:
-        "Becoming a father while serving changed everything. The mission did not end — it evolved.",
-      date: "May 2026",
-      read: "6 min read",
-      image: "/fatherhood-journey.webp",
-    },
-    {
-      category: "Leadership",
-      title: "Discipline, Thought, Word, And Deed",
-      excerpt:
-        "Leadership is not only what we say in public. It is what we practice when no one is watching.",
-      date: "May 2026",
-      read: "5 min read",
-      image: "/leadership-reflection.webp",
-    },
-    {
-      category: "Veteran Life",
-      title: "The Weight Of Coming Home",
-      excerpt:
-        "Everyone celebrates the homecoming. Fewer understand the quiet work of learning how to be home again.",
-      date: "Apr 2026",
-      read: "7 min read",
-      image: "/the-weight-of-coming-home.webp",
-    },
-    {
-      category: "Stories",
-      title: "The Ode I Almost Did Not Write",
-      excerpt:
-        "Some stories live in your chest for years before you finally find the courage to give them words.",
-      date: "Apr 2026",
-      read: "4 min read",
-      image: "/the-ode-i-almost-did-not-write.webp",
-    },
-    {
-      category: "Fatherhood",
-      title: "Bedtime Stories From Across The World",
-      excerpt:
-        "Phone calls, missed birthdays, and the small rituals that kept love alive across distance.",
-      date: "Mar 2026",
-      read: "5 min read",
-      image: "/bedtime-across-the-world.webp",
-    },
-    {
-      category: "Leadership",
-      title: "Be Fit: Mind, Body, And Spirit",
-      excerpt:
-        "Growth requires more than endurance. It requires harmony across every part of life.",
-      date: "Mar 2026",
-      read: "5 min read",
-      image: "/mind-body-spirit.webp",
-    },
-  ];
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .select("*")
+        .eq("published", true)
+        .order("created_at", { ascending: false });
 
-  const filteredPosts =
-    activeCategory === "All"
-      ? posts
-      : posts.filter((post) => post.category === activeCategory);
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setPosts(data || []);
+    };
+
+    fetchBlogPosts();
+  }, []);
+
+  const filteredPosts = posts;
 
   const tours = [
-    [
-      "May 23, 2026",
-      "Warrior Dad Book Launch",
-      "Launch day details coming soon",
-      "Upcoming",
-    ],
-    [
-      "June 2026",
-      "Book Tour Dates",
-      "Additional appearances being scheduled",
-      "TBA",
-    ],
+    ["May 23, 2026", "Warrior Dad Book Launch", "Launch day details coming soon", "Upcoming"],
+    ["June 2026", "Book Tour Dates", "Additional appearances being scheduled", "TBA"],
   ];
 
   const podcasts = [
@@ -94,7 +45,6 @@ function Blog() {
     <main className="min-h-screen bg-[#11141b] text-white">
       <Navbar />
 
-      {/* HERO - keeping this clean so the filters actually make sense lol */}
       <section className="bg-[#171c25] px-8 md:px-20 py-28 border-b border-white/5">
         <div className="max-w-7xl mx-auto">
           <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
@@ -110,7 +60,6 @@ function Blog() {
             work of becoming who we were called to be.
           </p>
 
-          {/* CATEGORY FILTERS - these now control the cards directly underneath */}
           <div className="mt-14 flex flex-wrap gap-3">
             {categories.map((category) => (
               <button
@@ -129,7 +78,6 @@ function Blog() {
         </div>
       </section>
 
-      {/* LATEST REFLECTIONS - moved this up so the buttons don't feel fake */}
       <section className="bg-[#11141b] px-8 md:px-20 py-28">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -150,18 +98,18 @@ function Blog() {
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
               {filteredPosts.map((post) => (
                 <article
-                  key={post.title}
+                  key={post.id}
                   className="bg-[#202632] rounded-xl overflow-hidden border border-white/5 hover:border-[#c8a96a]/50 transition"
                 >
                   <div className="h-56 bg-[#151922] relative">
                     <img
-                      src={post.image}
+                      src={post.featured_image || "/warrior-dad-reflections.webp"}
                       alt={post.title}
                       className="absolute inset-0 h-full w-full object-cover opacity-75"
                     />
 
                     <span className="absolute bottom-5 left-5 bg-black/70 text-[#c8a96a] px-3 py-2 text-[10px] uppercase tracking-[0.2em]">
-                      {post.category}
+                      Blog Post
                     </span>
                   </div>
 
@@ -176,12 +124,19 @@ function Blog() {
 
                     <div className="mt-7 pt-5 border-t border-white/10 flex justify-between items-center">
                       <p className="text-slate-500 uppercase tracking-[0.18em] text-[10px]">
-                        {post.date} · {post.read}
+                        {new Date(post.created_at).toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
                       </p>
 
-                      <button className="text-[#c8a96a] uppercase tracking-[0.2em] text-[10px]">
+                      <Link
+                        to={`/blog/${post.slug}`}
+                        className="text-[#c8a96a] uppercase tracking-[0.2em] text-[10px]"
+                      >
                         Read →
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </article>
@@ -190,14 +145,13 @@ function Blog() {
           ) : (
             <div className="bg-[#202632] border border-white/5 rounded-xl p-12 text-center">
               <p className="text-slate-400 italic font-serif">
-                No posts in this category yet — but the stories are coming.
+                No published posts yet — but the stories are coming.
               </p>
             </div>
           )}
         </div>
       </section>
 
-      {/* FEATURED STORY */}
       <section className="bg-[#1a1f27] px-8 md:px-20 py-28">
         <div className="max-w-7xl mx-auto bg-[#202632] rounded-2xl overflow-hidden grid lg:grid-cols-[1.2fr_0.9fr] border border-white/5">
           <div className="min-h-[430px] bg-[#151922] relative">
@@ -221,8 +175,7 @@ function Blog() {
 
             <p className="mt-8 text-slate-400 italic font-serif text-lg leading-8">
               There is a kind of discipline that comes from the field — and it
-              looks nothing like the kind that works at home. Here is what had
-              to be unlearned, rebuilt, and carried forward.
+              looks nothing like the kind that works at home.
             </p>
 
             <p className="mt-8 text-slate-500 uppercase tracking-[0.2em] text-[10px]">
@@ -230,54 +183,48 @@ function Blog() {
             </p>
 
             <Link
-  to="/blog/the-uniform-taught-me-about-fatherhood"
-  className="mt-10 bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition w-fit inline-block"
->
-  Read The Story
-</Link>
+              to="/blog/the-uniform-taught-me-about-fatherhood"
+              className="mt-10 bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition w-fit inline-block"
+            >
+              Read The Story
+            </Link>
+          </div>
+        </div>
+      </section>
 
-</div>
-</div>
-</section>
+      <section
+        className="relative py-48 bg-cover bg-center overflow-hidden"
+        style={{
+          backgroundImage: `
+            linear-gradient(
+              rgba(10,12,16,0.55),
+              rgba(10,12,16,0.88)
+            ),
+            url('/some-stories-are-lived.webp')
+          `,
+        }}
+      >
+        <div className="max-w-5xl mx-auto text-center px-8">
+          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+            Beyond The Page
+          </p>
 
+          <h2 className="uppercase font-black text-5xl md:text-7xl leading-[0.95]">
+            Some Stories <br />
+            Are Written.
+          </h2>
 
+          <h3 className="mt-8 text-[#c8a96a] uppercase font-black text-4xl md:text-5xl">
+            Others Are Lived.
+          </h3>
 
+          <p className="mt-8 max-w-3xl mx-auto text-slate-300 italic font-serif text-xl leading-10">
+            Warrior Dad Stories exists for the lessons carried through service,
+            fatherhood, leadership, and the quiet moments that shape us.
+          </p>
+        </div>
+      </section>
 
-      {/* STORY DIVIDER */}
-<section
-  className="relative py-48 bg-cover bg-center overflow-hidden"
-  style={{
-    backgroundImage: `
-      linear-gradient(
-        rgba(10,12,16,0.55),
-        rgba(10,12,16,0.88)
-      ),
-      url('/some-stories-are-lived.webp')
-    `,
-  }}
->
-  <div className="max-w-5xl mx-auto text-center px-8">
-    <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-      Beyond The Page
-    </p>
-
-    <h2 className="uppercase font-black text-5xl md:text-7xl leading-[0.95]">
-      Some Stories <br />
-      Are Written.
-    </h2>
-
-    <h3 className="mt-8 text-[#c8a96a] uppercase font-black text-4xl md:text-5xl">
-      Others Are Lived.
-    </h3>
-
-    <p className="mt-8 max-w-3xl mx-auto text-slate-300 italic font-serif text-xl leading-10">
-      Warrior Dad Stories exists for the lessons carried through service,
-      fatherhood, leadership, and the quiet moments that shape us.
-    </p>
-  </div>
-</section>
-
-      {/* PODCASTS */}
       <section className="bg-[#11141b] px-8 md:px-20 py-28">
         <div className="max-w-7xl mx-auto">
           <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
@@ -320,7 +267,6 @@ function Blog() {
         </div>
       </section>
 
-      {/* BOOK TOURS */}
       <section className="bg-[#1a1f27] px-8 md:px-20 py-28">
         <div className="max-w-7xl mx-auto">
           <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
@@ -361,14 +307,12 @@ function Blog() {
             ))}
           </div>
 
-<p className="mt-10 text-center text-slate-500 italic font-serif">
-  More dates will be announced as events are confirmed.
-</p>
-
+          <p className="mt-10 text-center text-slate-500 italic font-serif">
+            More dates will be announced as events are confirmed.
+          </p>
         </div>
       </section>
 
-      {/* NEWSLETTER */}
       <section className="bg-[#202632] px-8 md:px-20 py-28 text-center">
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
           Join The Journey
