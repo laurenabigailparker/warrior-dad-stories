@@ -1,16 +1,80 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
 
 function TimeLineManagement() {
-  const timeline = [
-    ["1992", "Enlisted", "The journey begins."],
-    ["1993", "82nd Airborne Division", "First duty assignment."],
-    ["2001", "Towers Fell", "Deployed when everything changed."],
-    ["2002", "First Combat Deployment", "Tested. Forged. Changed forever."],
-    ["2006", "Became A Father", "The mission found its deepest purpose."],
-    ["2017", "Last Combat Deployment", "Nine deployments. One calling."],
-    ["2025", "Retired From The Army", "Trophy Husband and Author."],
-    ["2026", "Warrior Dad Book Launch", "The mission, bound in pages."],
-  ];
+  const [timeline, setTimeline] = useState([]);
+  const [formData, setFormData] = useState({
+    event_date: "",
+    title: "",
+    description: "",
+    sort_order: 0,
+    published: true,
+  });
+
+  useEffect(() => {
+    loadTimeline();
+  }, []);
+
+ async function loadTimeline() {
+  const { data, error } = await supabase
+    .from("timeline_events")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setTimeline(data || []);
+}
+
+  const handleAddEvent = async () => {
+    const { error } = await supabase.from("timeline_events").insert([
+      {
+        event_date: formData.event_date,
+        title: formData.title,
+        description: formData.description,
+        sort_order: Number(formData.sort_order || 0),
+        published: formData.published,
+      },
+    ]);
+
+    if (error) {
+      console.error(error);
+      alert("Failed to add timeline event.");
+      return;
+    }
+
+    setFormData({
+      event_date: "",
+      title: "",
+      description: "",
+      sort_order: 0,
+      published: true,
+    });
+
+    loadTimeline();
+  };
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("Delete this timeline event?");
+    if (!confirmed) return;
+
+    const { error } = await supabase
+      .from("timeline_events")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      console.error(error);
+      alert("Failed to delete event.");
+      return;
+    }
+
+    setTimeline(timeline.filter((item) => item.id !== id));
+  };
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
@@ -25,43 +89,90 @@ function TimeLineManagement() {
               </h2>
 
               <p className="mt-3 text-slate-500 italic font-serif">
-                Frontend-only scaffold. Students should refine this and connect
-                real timeline data later.
+                Manage public timeline milestones for Warrior Dad Stories.
               </p>
             </div>
 
-            <div className="space-y-5">
-              {timeline.map(([year, title, description]) => (
-                <div
-                  key={year + title}
-                  className="bg-[#202632] rounded-lg p-6 border border-white/5 flex flex-col md:flex-row md:items-center gap-6"
-                >
-                  <div className="md:w-32">
-                    <p className="text-[#c8a96a] text-4xl font-black">
-                      {year}
-                    </p>
-                  </div>
+            {timeline.length === 0 ? (
+              <div className="bg-[#202632] rounded-lg p-8 text-slate-500 italic font-serif">
+                No timeline events yet.
+              </div>
+            ) : (
+              <div className="space-y-5">
+                {timeline.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-[#202632] rounded-lg p-6 border border-white/5 flex flex-col md:flex-row md:items-center gap-6"
+                  >
+                    <div className="md:w-32">
+                      <p className="text-[#c8a96a] text-4xl font-black">
+                        {item.event_date}
+                      </p>
+                    </div>
 
-                  <div className="flex-1">
-                    <h3 className="uppercase text-xl font-black">{title}</h3>
-                    <p className="mt-2 text-slate-500 italic font-serif">
-                      {description}
-                    </p>
-                  </div>
+                    <div className="flex-1">
+                      <h3 className="uppercase text-xl font-black">
+                        {item.title}
+                      </h3>
 
-                  <div className="flex gap-5 text-slate-400">
-                    <button>✎ Edit</button>
-                    <button>🗑 Delete</button>
+                      <p className="mt-2 text-slate-500 italic font-serif">
+                        {item.description}
+                      </p>
+
+                      <p className="mt-3 text-[10px] uppercase tracking-[0.2em] text-slate-600">
+                        Sort Order: {item.sort_order} •{" "}
+                        {item.published ? "Published" : "Draft"}
+                      </p>
+                    </div>
+
+                    <div className="flex gap-5 text-slate-400">
+                      <button onClick={() => handleDelete(item.id)}>
+                        🗑 Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <aside className="space-y-6">
             <Panel title="Add Timeline Event">
-              <Field label="Year" placeholder="2026" />
-              <Field label="Title" placeholder="Warrior Dad Book Launch" />
+              <Field
+                label="Year / Date"
+                placeholder="2026"
+                value={formData.event_date}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    event_date: e.target.value,
+                  })
+                }
+              />
+
+              <Field
+                label="Title"
+                placeholder="Warrior Dad Book Launch"
+                value={formData.title}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    title: e.target.value,
+                  })
+                }
+              />
+
+              <Field
+                label="Sort Order"
+                placeholder="1"
+                value={formData.sort_order}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    sort_order: e.target.value,
+                  })
+                }
+              />
 
               <div>
                 <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
@@ -70,21 +181,37 @@ function TimeLineManagement() {
 
                 <textarea
                   placeholder="Short timeline description..."
+                  value={formData.description}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      description: e.target.value,
+                    })
+                  }
                   className="w-full h-32 bg-[#101118] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
                 />
               </div>
 
-              <button className="mt-6 w-full bg-[#c8a96a] text-black py-4 uppercase tracking-[0.2em] text-[11px] font-bold">
+              <label className="mt-5 flex items-center gap-3 text-slate-400">
+                <input
+                  type="checkbox"
+                  checked={formData.published}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      published: e.target.checked,
+                    })
+                  }
+                />
+                Published
+              </label>
+
+              <button
+                onClick={handleAddEvent}
+                className="mt-6 w-full bg-[#c8a96a] text-black py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
+              >
                 Add Event
               </button>
-            </Panel>
-
-            <Panel title="Student Notes">
-              <p className="text-slate-500 text-sm leading-7">
-                Replace mock data with real timeline entries, refine spacing to
-                match Figma, and wire add/edit/delete functionality in a future
-                backend ticket.
-              </p>
             </Panel>
           </aside>
         </section>
@@ -93,7 +220,7 @@ function TimeLineManagement() {
   );
 }
 
-function Field({ label, placeholder }) {
+function Field({ label, placeholder, value, onChange }) {
   return (
     <div className="mb-6">
       <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
@@ -102,6 +229,8 @@ function Field({ label, placeholder }) {
 
       <input
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
         className="w-full bg-[#101118] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a]"
       />
     </div>

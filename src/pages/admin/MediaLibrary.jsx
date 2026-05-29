@@ -12,12 +12,13 @@ function MediaLibrary() {
         .select("id, name, image")
         .not("image", "is", null);
 
-      console.log("MEDIA DATA:", data);
-      console.log("MEDIA ERROR:", error);
-
-      if (error) return;
+      if (error) {
+        console.error(error);
+        return;
+      }
 
       const productImages = (data || []).map((product) => ({
+        id: product.id,
         name: product.name,
         publicUrl: product.image,
       }));
@@ -28,12 +29,31 @@ function MediaLibrary() {
     loadMedia();
   }, []);
 
+  const copyUrl = async (url) => {
+    await navigator.clipboard.writeText(url);
+    alert("Image URL copied!");
+  };
+
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-7xl mx-auto bg-[#101118] min-h-[850px]">
         <AdminSubTop title="Media Library" back="/admin/dashboard" />
 
         <section className="p-8">
+          <div className="flex flex-col lg:flex-row gap-5 justify-between mb-10">
+            <input
+              placeholder="Search media..."
+              className="w-96 max-w-full bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a]"
+            />
+
+            <Link
+              to="/admin/products/new"
+              className="bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.2em] text-[11px] font-bold text-center"
+            >
+              + Upload Via Product
+            </Link>
+          </div>
+
           {media.length === 0 ? (
             <div className="border border-dashed border-white/10 rounded-lg p-12 text-center">
               <p className="text-slate-500 uppercase tracking-[0.25em] text-[11px]">
@@ -44,8 +64,8 @@ function MediaLibrary() {
             <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
               {media.map((item) => (
                 <div
-                  key={item.publicUrl}
-                  className="bg-[#202632] rounded-lg overflow-hidden border border-white/5"
+                  key={item.id}
+                  className="bg-[#202632] rounded-lg overflow-hidden border border-white/5 hover:border-[#c8a96a] transition"
                 >
                   <div className="h-52 overflow-hidden">
                     <img
@@ -60,10 +80,22 @@ function MediaLibrary() {
                       {item.name}
                     </h3>
 
+                    <p className="mt-3 text-slate-500 text-xs truncate">
+                      {item.publicUrl}
+                    </p>
+
                     <div className="mt-5 pt-4 border-t border-white/5 flex justify-between text-slate-400 text-sm">
-                      <a href={item.publicUrl} target="_blank" rel="noreferrer">
+                      <a
+                        href={item.publicUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         View
                       </a>
+
+                      <button onClick={() => copyUrl(item.publicUrl)}>
+                        Copy URL
+                      </button>
                     </div>
                   </div>
                 </div>
