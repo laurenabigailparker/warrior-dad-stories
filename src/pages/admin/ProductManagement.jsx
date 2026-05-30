@@ -23,7 +23,13 @@ function ProductManagement() {
   fetchProducts();
 }, []);
 
-  const activeProducts = products.filter((product) => product.in_stock).length;
+  const activeProducts = products.filter(
+  (product) => product.in_stock
+).length;
+
+const featuredProducts = products.filter(
+  (product) => product.featured
+).length;
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
@@ -34,7 +40,7 @@ function ProductManagement() {
           <div className="grid md:grid-cols-3 gap-6 mb-10">
             <Stat label="Total Products" value={products.length} />
             <Stat label="Active Products" value={activeProducts} />
-            <Stat label="Pre-Orders" value="234" />
+            <Stat label="Featured Products" value={featuredProducts} />
           </div>
 
           <div className="flex justify-between items-center mb-8">

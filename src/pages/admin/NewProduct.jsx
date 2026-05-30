@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import StatusMessage from "../../components/admin/StatusMessage";
 
 function NewProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditing = Boolean(id);
+  const [message, setMessage] = useState("");
+const [messageType, setMessageType] = useState("success");
+  
+  
 
   const [formData, setFormData] = useState({
     name: "",
@@ -100,12 +105,18 @@ const handleImageUpload = async (event) => {
 
     if (error) {
       console.error(error);
-      alert("Failed to save product.");
+      setMessageType("error");
+setMessage("Failed to save product.");
+setTimeout(() => setMessage(""), 4000);
       return;
     }
 
-    alert(isEditing ? "Product updated!" : "Product saved!");
-    navigate("/admin/products");
+  setMessageType("success");
+setMessage(isEditing ? "Product updated successfully." : "Product saved successfully.");
+
+setTimeout(() => {
+  navigate("/admin/products");
+}, 2500);
   };
 
   return (
@@ -117,8 +128,15 @@ const handleImageUpload = async (event) => {
         />
 
         <section className="p-8 grid lg:grid-cols-[1fr_340px] gap-8">
-          <div className="bg-[#202632] rounded-lg p-8 grid md:grid-cols-2 gap-7">
-           
+
+  <div className="lg:col-span-2">
+    <StatusMessage
+      message={message}
+      type={messageType}
+    />
+  </div>
+
+  <div className="bg-[#202632] rounded-lg p-8 grid md:grid-cols-2 gap-7">
 
            <Field
   label="Product Name"

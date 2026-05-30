@@ -1,37 +1,47 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import StatusMessage from "../../components/admin/StatusMessage";
 
 function MediaLibrary() {
   const [media, setMedia] = useState([]);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("success");
 
-useEffect(() => {
-  const loadMedia = async () => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("id, name, image")
-      .not("image", "is", null);
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    const productImages = (data || []).map((product) => ({
-      id: product.id,
-      name: product.name,
-      publicUrl: product.image,
-    }));
-
-    setMedia(productImages);
+  const showMessage = (type, text) => {
+    setMessageType(type);
+    setMessage(text);
+    setTimeout(() => setMessage(""), 4000);
   };
 
-  loadMedia();
-}, []);;
+  useEffect(() => {
+    const loadMedia = async () => {
+      const { data, error } = await supabase
+        .from("products")
+        .select("id, name, image")
+        .not("image", "is", null);
+
+      if (error) {
+        console.error(error);
+        showMessage("error", "Failed to load media.");
+        return;
+      }
+
+      const productImages = (data || []).map((product) => ({
+        id: product.id,
+        name: product.name,
+        publicUrl: product.image,
+      }));
+
+      setMedia(productImages);
+    };
+
+    loadMedia();
+  }, []);
 
   const copyUrl = async (url) => {
     await navigator.clipboard.writeText(url);
-    alert("Image URL copied!");
+    showMessage("success", "Image URL copied.");
   };
 
   const removeImage = async (id) => {
@@ -48,11 +58,12 @@ useEffect(() => {
 
     if (error) {
       console.error(error);
-      alert("Failed to remove image.");
+      showMessage("error", "Failed to remove image.");
       return;
     }
 
     setMedia(media.filter((item) => item.id !== id));
+    showMessage("success", "Image removed from product.");
   };
 
   return (
@@ -61,7 +72,9 @@ useEffect(() => {
         <AdminSubTop title="Media Library" back="/admin/dashboard" />
 
         <section className="p-8">
-          <div className="flex flex-col lg:flex-row gap-5 justify-between mb-10">
+          <StatusMessage message={message} type={messageType} />
+
+          <div className="flex flex-col lg:flex-row gap-5 justify-between mt-6 mb-10">
             <input
               placeholder="Search media..."
               className="w-96 max-w-full bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a]"
