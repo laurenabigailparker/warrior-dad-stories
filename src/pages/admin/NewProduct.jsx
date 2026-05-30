@@ -71,7 +71,9 @@ const handleImageUpload = async (event) => {
 
   if (error) {
     console.error(error);
-    alert("Image upload failed.");
+    setMessageType("error");
+setMessage("Image upload failed.");
+setTimeout(() => setMessage(""), 4000);
     return;
   }
 
