@@ -141,15 +141,20 @@ console.log("SHOP PRODUCTS:", data);
               <Meta value="Free" label="Kindle Unlimited May 23" />
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-4">
-              <button className="bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition">
-                View Book Details
-              </button>
+      <div className="mt-10 flex flex-wrap gap-4">
+  <a
+    href="https://www.thriftbooks.com/w/warrior-dad/58961664/item/89065882/"
+    target="_blank"
+    rel="noreferrer"
+    className="inline-block bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
+  >
+    Buy On ThriftBooks
+  </a>
 
-              <button className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 uppercase tracking-[0.18em] text-[11px] hover:bg-[#c8a96a] hover:text-black transition">
-                Download Companion Guide
-              </button>
-            </div>
+  <button className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 uppercase tracking-[0.18em] text-[11px] hover:bg-[#c8a96a] hover:text-black transition">
+    Download Companion Guide
+  </button>
+</div>
 
             <p className="mt-5 text-xs text-slate-600">
               Coins are event-exclusive. Additional products are planned for

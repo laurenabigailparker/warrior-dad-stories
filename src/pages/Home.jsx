@@ -164,12 +164,14 @@ function BookLaunch() {
           </div>
 
           <div className="mt-10 flex flex-wrap gap-4">
-            <a
-              href="/shop"
-              className="bg-[#c8a96a] text-black px-10 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
-            >
-              View The Book
-            </a>
+           <a
+  href="https://www.thriftbooks.com/w/warrior-dad/58961664/item/89065882/"
+  target="_blank"
+  rel="noreferrer"
+  className="bg-[#c8a96a] text-black px-10 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
+>
+  Buy The Book
+</a>
 
             <a
               href="/forge"
