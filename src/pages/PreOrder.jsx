@@ -90,7 +90,7 @@ function PreOrder() {
       <section className="bg-[#0c0d15] px-8 md:px-20 py-24">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-24 items-center">
           <div className="text-center">
-            {/* STUDENTS: Replace with actual featured book image */}
+            
             <div className="relative mx-auto w-[320px]">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#78814b] text-white uppercase tracking-[0.2em] text-[10px] px-5 py-2">
                 Bestseller In Progress
@@ -172,7 +172,7 @@ function PreOrder() {
                 key={product.title + product.subtitle}
                 className="bg-[#202632] rounded-2xl p-8 border border-white/5"
               >
-                {/* STUDENTS: Replace image placeholder */}
+               
                 <div className="h-52 rounded-xl bg-[#2c3342] flex items-center justify-center text-slate-500">
                   Product Image
                 </div>
