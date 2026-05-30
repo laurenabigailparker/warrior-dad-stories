@@ -125,7 +125,7 @@ function BookLaunch() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-[340px_1fr] gap-24 items-center">
         <div className="text-center">
           <img
-            src="/book-cover.png"
+            src="/wd-book-cover.png"
             alt="Warrior Dad Book Cover"
             className="w-72 mx-auto rounded-sm border border-white/10 shadow-2xl"
           />

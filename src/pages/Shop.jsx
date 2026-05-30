@@ -104,7 +104,7 @@ console.log("SHOP PRODUCTS:", data);
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[360px_1fr] gap-24 items-center">
           <div className="text-center">
             <img
-              src="/book-cover.png"
+              src="/wd-book-cover.png"
               alt="Warrior Dad Book"
               className="w-72 mx-auto rounded-sm border border-white/10 shadow-2xl"
             />
@@ -223,7 +223,7 @@ console.log("SHOP PRODUCTS:", data);
 
           <div>
             <img
-              src="/warrior-dad-coin.png"
+              src="/wd-coin.png"
               alt="Warrior Dad Challenge Coin"
               className="rounded-2xl border border-white/10 shadow-2xl w-full"
             />
