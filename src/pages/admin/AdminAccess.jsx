@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 
 function AdminAccess() {
@@ -29,6 +29,12 @@ function AdminAccess() {
   return (
     <main className="min-h-screen bg-[#080a0f] text-white flex items-center justify-center px-6">
       <section className="w-full max-w-md text-center">
+        <Link
+  to="/"
+  className="inline-flex items-center gap-2 mb-8 text-[#c8a96a] hover:text-white transition uppercase tracking-[0.2em] text-[11px] font-bold"
+>
+  ← Return To Website
+</Link>
         <div className="mx-auto h-14 w-14 bg-[#c8a96a] mb-8" />
 
         <h1 className="uppercase text-3xl font-black tracking-[0.2em]">
