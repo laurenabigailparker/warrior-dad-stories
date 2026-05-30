@@ -5,33 +5,54 @@ import { supabase } from "../../lib/supabase";
 function MediaLibrary() {
   const [media, setMedia] = useState([]);
 
-  useEffect(() => {
-    const loadMedia = async () => {
-      const { data, error } = await supabase
-        .from("products")
-        .select("id, name, image")
-        .not("image", "is", null);
+useEffect(() => {
+  const loadMedia = async () => {
+    const { data, error } = await supabase
+      .from("products")
+      .select("id, name, image")
+      .not("image", "is", null);
 
-      if (error) {
-        console.error(error);
-        return;
-      }
+    if (error) {
+      console.error(error);
+      return;
+    }
 
-      const productImages = (data || []).map((product) => ({
-        id: product.id,
-        name: product.name,
-        publicUrl: product.image,
-      }));
+    const productImages = (data || []).map((product) => ({
+      id: product.id,
+      name: product.name,
+      publicUrl: product.image,
+    }));
 
-      setMedia(productImages);
-    };
+    setMedia(productImages);
+  };
 
-    loadMedia();
-  }, []);
+  loadMedia();
+}, []);;
 
   const copyUrl = async (url) => {
     await navigator.clipboard.writeText(url);
     alert("Image URL copied!");
+  };
+
+  const removeImage = async (id) => {
+    const confirmed = window.confirm(
+      "Remove this image from the product? The product will stay, but the image will disappear from the shop."
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await supabase
+      .from("products")
+      .update({ image: null })
+      .eq("id", id);
+
+    if (error) {
+      console.error(error);
+      alert("Failed to remove image.");
+      return;
+    }
+
+    setMedia(media.filter((item) => item.id !== id));
   };
 
   return (
@@ -84,7 +105,7 @@ function MediaLibrary() {
                       {item.publicUrl}
                     </p>
 
-                    <div className="mt-5 pt-4 border-t border-white/5 flex justify-between text-slate-400 text-sm">
+                    <div className="mt-5 pt-4 border-t border-white/5 flex flex-wrap gap-4 justify-between text-slate-400 text-sm">
                       <a
                         href={item.publicUrl}
                         target="_blank"
@@ -95,6 +116,13 @@ function MediaLibrary() {
 
                       <button onClick={() => copyUrl(item.publicUrl)}>
                         Copy URL
+                      </button>
+
+                      <button
+                        onClick={() => removeImage(item.id)}
+                        className="text-red-400"
+                      >
+                        Remove
                       </button>
                     </div>
                   </div>

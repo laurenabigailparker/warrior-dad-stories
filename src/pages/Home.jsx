@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { supabase } from "../lib/supabase";
 
 
 function Home() {
@@ -281,33 +282,31 @@ function PathForward() {
 }
 
 function TestimonialsCarousel() {
-  const testimonials = [
-    {
-      quote:
-        "Warrior Dad Stories is more than a book of odes — it’s a bridge between the battlefield and family.",
-      name: "Bethanie MacDonald",
-      role: "Author and Gold Star Spouse",
-    },
-    {
-      quote:
-        "This book reflects the same experience, wisdom, and character that have defined who TJ truly is as a father and man of principle.",
-      name: "Mike Alexander",
-      role: "Fellow Warrior",
-    },
-    {
-      quote:
-        "Warrior Dad Stories shows how beautiful the bond between a father and daughter can be, and how that can inspire beautiful works of writing.",
-      name: "Josh Badger",
-      role: "Future Father",
-    },
-  ];
-
- 
-
+  const [testimonials, setTestimonials] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // auto rotate every 7 seconds
   useEffect(() => {
+    const loadTestimonials = async () => {
+      const { data, error } = await supabase
+        .from("testimonials")
+        .select("*")
+        .eq("featured", true)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setTestimonials(data || []);
+    };
+
+    loadTestimonials();
+  }, []);
+
+  useEffect(() => {
+    if (testimonials.length === 0) return;
+
     const interval = setInterval(() => {
       setActiveIndex((prev) =>
         prev === testimonials.length - 1 ? 0 : prev + 1
@@ -315,7 +314,9 @@ function TestimonialsCarousel() {
     }, 7000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials]);
+
+  if (testimonials.length === 0) return null;
 
   const active = testimonials[activeIndex];
 
@@ -327,43 +328,35 @@ function TestimonialsCarousel() {
       />
 
       <div className="max-w-5xl mx-auto mt-16 relative">
-
-        {/* QUOTE CARD */}
         <div
-          key={activeIndex}
-          className="bg-[#151922] border border-white/10 rounded-2xl p-10 md:p-16 transition-all duration-700 animate-fade"
+          key={active.id}
+          className="bg-[#151922] border border-white/10 rounded-2xl p-10 md:p-16 transition-all duration-700"
         >
           <p className="text-slate-200 italic font-serif text-2xl md:text-3xl leading-[1.9]">
             “{active.quote}”
           </p>
 
           <div className="mt-12">
-            <p className="text-white font-bold text-lg">
-              {active.name}
-            </p>
+            <p className="text-white font-bold text-lg">{active.name}</p>
 
             <p className="text-slate-500 text-sm mt-2 uppercase tracking-[0.18em]">
               {active.role}
             </p>
 
-            <p className="text-[#c8a96a] mt-4 text-lg">
-              ★★★★★
-            </p>
+            <p className="text-[#c8a96a] mt-4 text-lg">★★★★★</p>
           </div>
         </div>
 
-        {/* DOTS */}
         <div className="mt-10 flex justify-center gap-4">
-          {testimonials.map((_, index) => (
+          {testimonials.map((item, index) => (
             <button
-              key={index}
+              key={item.id}
               onClick={() => setActiveIndex(index)}
               className={`transition-all duration-300 rounded-full ${
                 activeIndex === index
                   ? "bg-[#c8a96a] w-10 h-3"
                   : "bg-slate-600 w-3 h-3 hover:bg-slate-400"
               }`}
-              aria-label={`View testimonial ${index + 1}`}
             />
           ))}
         </div>

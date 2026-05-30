@@ -12,6 +12,7 @@ import PreOrder from "./pages/PreOrder";
 import Forge from "./pages/Forge";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
+import TestimonialManagement from "./pages/admin/TestimonialManagement";
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -55,6 +56,7 @@ function App() {
         <Route path="/admin/media" element={<ProtectedRoute><MediaLibrary /></ProtectedRoute>} />
         <Route path="/admin/settings" element={<ProtectedRoute><SiteSettings /></ProtectedRoute>} />
         <Route path="/admin/timeline" element={<ProtectedRoute><TimeLineManagement /></ProtectedRoute>} />
+        <Route path="/admin/testimonials" element={<ProtectedRoute><TestimonialManagement /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );
