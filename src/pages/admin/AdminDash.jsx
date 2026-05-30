@@ -14,6 +14,8 @@ function AdminDash() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/admin");
+
+   
   };
 
   useEffect(() => {
@@ -51,20 +53,27 @@ function AdminDash() {
     fetchDashboardData();
   }, []);
 
-  const mediaCount = products.filter((product) => product.image).length;
-  const activeProducts = products.filter((product) => product.in_stock).length;
-  const featuredTestimonials = testimonials.filter((item) => item.featured).length;
-  const publishedTimelineEvents = timelineEvents.filter(
-    (item) => item.published
-  ).length;
+ const mediaCount = products.filter((product) => product.image).length;
+
+const activeProducts = products.filter((product) => product.in_stock).length;
+
+const featuredTestimonials = testimonials.filter(
+  (item) => item.featured
+).length;
+
+const publishedTimelineEvents = timelineEvents.filter(
+  (item) => item.published
+).length;
+
+const publishedPosts = blogPosts.filter((post) => post.published).length;
 
   const stats = [
     {
-      icon: "✉",
-      label: "Messages",
-      value: submissions.length,
-      subtext: "Contact submissions",
-    },
+  icon: "▤",
+  label: "Blog Posts",
+  value: blogPosts.length,
+  subtext: `${publishedPosts} published`,
+},
     {
       icon: "▤",
       label: "Blog Posts",
@@ -196,8 +205,8 @@ function AdminDash() {
               <MiniPanel title="Quick Actions">
                 <QuickLink to="/admin/products/new" label="+ New Product" />
                 <QuickLink to="/admin/blog/new" label="+ New Blog Post" />
-                <QuickLink to="/admin/timeline" label="+ Timeline Event" />
-                <QuickLink to="/admin/testimonials" label="+ Testimonial" />
+                <QuickLink to="/admin/timeline" label="Manage Timeline" />
+<QuickLink to="/admin/testimonials" label="Manage Testimonials" />
               </MiniPanel>
             </aside>
           </div>

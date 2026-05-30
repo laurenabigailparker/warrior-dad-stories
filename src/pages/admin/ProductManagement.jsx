@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import ConfirmModal from "../../components/admin/ConfirmModal";
 
 function ProductManagement() {
   const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+const [statusFilter, setStatusFilter] = useState("all");
+const [featuredOnly, setFeaturedOnly] = useState(false);
+const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
   const fetchProducts = async () => {
@@ -31,6 +36,45 @@ const featuredProducts = products.filter(
   (product) => product.featured
 ).length;
 
+const filteredProducts = products.filter((product) => {
+  const matchesSearch =
+    product.name?.toLowerCase().includes(search.toLowerCase());
+
+  const matchesStatus =
+    statusFilter === "all"
+      ? true
+      : statusFilter === "active"
+      ? product.in_stock
+      : !product.in_stock;
+
+  const matchesFeatured =
+    featuredOnly ? product.featured : true;
+
+  return (
+    matchesSearch &&
+    matchesStatus &&
+    matchesFeatured
+  );
+});
+
+const handleDeleteProduct = async () => {
+  if (!deleteTarget) return;
+
+  const { error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", deleteTarget.id);
+
+  if (error) {
+    console.error(error);
+    alert("Failed to delete product.");
+    return;
+  }
+
+  setProducts(products.filter((p) => p.id !== deleteTarget.id));
+  setDeleteTarget(null);
+};
+
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-7xl mx-auto bg-[#101118] min-h-[850px]">
@@ -43,7 +87,40 @@ const featuredProducts = products.filter(
             <Stat label="Featured Products" value={featuredProducts} />
           </div>
 
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col lg:flex-row gap-4 justify-between mb-8">
+
+  <div className="flex flex-col md:flex-row gap-4">
+
+    <input
+      type="text"
+      placeholder="Search products..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="bg-[#202632] px-4 py-3 outline-none border border-white/5 focus:border-[#c8a96a]"
+    />
+
+    <select
+      value={statusFilter}
+      onChange={(e) => setStatusFilter(e.target.value)}
+      className="bg-[#202632] px-4 py-3 border border-white/5"
+    >
+      <option value="all">All Products</option>
+      <option value="active">Active</option>
+      <option value="draft">Draft</option>
+    </select>
+
+    <label className="flex items-center gap-2 text-sm">
+      <input
+        type="checkbox"
+        checked={featuredOnly}
+        onChange={() =>
+          setFeaturedOnly(!featuredOnly)
+        }
+      />
+      Featured Only
+    </label>
+
+  </div>
             <h2 className="uppercase text-2xl font-black tracking-widest">
               Products
             </h2>
@@ -56,13 +133,13 @@ const featuredProducts = products.filter(
             </Link>
           </div>
 
-          {products.length === 0 ? (
+          {filteredProducts.length === 0 ? (
             <div className="bg-[#202632] rounded-lg p-10 text-slate-500 italic font-serif">
               No products yet.
             </div>
           ) : (
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <div key={product.id} className="bg-[#202632] rounded-lg p-7">
                   <div className="h-44 bg-[#101118] rounded overflow-hidden flex items-center justify-center text-slate-600 text-xs uppercase tracking-[0.2em]">
                     {product.image ? (
@@ -118,27 +195,9 @@ const featuredProducts = products.filter(
                   <div className="mt-7 pt-5 border-t border-white/5 flex gap-5 text-slate-400">
                     <Link to={`/admin/products/edit/${product.id}`}>✎ Edit</Link>
 
-                    <button
-                      onClick={async () => {
-                        const confirmed = window.confirm("Delete this product?");
-                        if (!confirmed) return;
-
-                        const { error } = await supabase
-                          .from("products")
-                          .delete()
-                          .eq("id", product.id);
-
-                        if (error) {
-                          console.error(error);
-                          alert("Failed to delete product.");
-                          return;
-                        }
-
-                        setProducts(products.filter((p) => p.id !== product.id));
-                      }}
-                    >
-                      🗑 Delete
-                    </button>
+                   <button onClick={() => setDeleteTarget(product)}>
+  🗑 Delete
+</button>
                   </div>
                 </div>
               ))}
@@ -146,6 +205,16 @@ const featuredProducts = products.filter(
           )}
         </section>
       </div>
+
+<ConfirmModal
+  open={Boolean(deleteTarget)}
+  title="Delete Product?"
+  message={`Are you sure you want to delete "${deleteTarget?.name}"? This action cannot be undone.`}
+  confirmText="Delete Product"
+  onConfirm={handleDeleteProduct}
+  onCancel={() => setDeleteTarget(null)}
+/>
+
     </main>
   );
 }
