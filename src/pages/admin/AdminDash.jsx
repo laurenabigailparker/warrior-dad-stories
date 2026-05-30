@@ -17,153 +17,196 @@ function AdminDash() {
   };
 
   useEffect(() => {
-    const fetchSubmissions = async () => {
-      const { data, error } = await supabase
-        .from("contact_submissions")
-        .select("*")
-        .order("created_at", { ascending: false });
+    const fetchDashboardData = async () => {
+      const [
+        submissionsResult,
+        blogResult,
+        productsResult,
+        timelineResult,
+        testimonialsResult,
+      ] = await Promise.all([
+        supabase
+          .from("contact_submissions")
+          .select("*")
+          .order("created_at", { ascending: false }),
+        supabase.from("blog_posts").select("*"),
+        supabase.from("products").select("*"),
+        supabase.from("timeline_events").select("*"),
+        supabase.from("testimonials").select("*"),
+      ]);
 
-      if (error) return console.error(error);
-      setSubmissions(data || []);
+      if (submissionsResult.error) console.error(submissionsResult.error);
+      if (blogResult.error) console.error(blogResult.error);
+      if (productsResult.error) console.error(productsResult.error);
+      if (timelineResult.error) console.error(timelineResult.error);
+      if (testimonialsResult.error) console.error(testimonialsResult.error);
+
+      setSubmissions(submissionsResult.data || []);
+      setBlogPosts(blogResult.data || []);
+      setProducts(productsResult.data || []);
+      setTimelineEvents(timelineResult.data || []);
+      setTestimonials(testimonialsResult.data || []);
     };
 
-    const fetchBlogPosts = async () => {
-      const { data, error } = await supabase.from("blog_posts").select("*");
-
-      if (error) return console.error(error);
-      setBlogPosts(data || []);
-    };
-
-    const fetchProducts = async () => {
-      const { data, error } = await supabase.from("products").select("*");
-
-      if (error) return console.error(error);
-      setProducts(data || []);
-    };
-
-    const fetchTimelineEvents = async () => {
-      const { data, error } = await supabase
-        .from("timeline_events")
-        .select("*");
-
-      if (error) return console.error(error);
-      setTimelineEvents(data || []);
-    };
-
-    const fetchTestimonials = async () => {
-      const { data, error } = await supabase
-        .from("testimonials")
-        .select("*");
-
-      if (error) return console.error(error);
-      setTestimonials(data || []);
-    };
-
-    fetchSubmissions();
-    fetchBlogPosts();
-    fetchProducts();
-    fetchTimelineEvents();
-    fetchTestimonials();
+    fetchDashboardData();
   }, []);
 
   const mediaCount = products.filter((product) => product.image).length;
+  const activeProducts = products.filter((product) => product.in_stock).length;
+  const featuredTestimonials = testimonials.filter((item) => item.featured).length;
+  const publishedTimelineEvents = timelineEvents.filter(
+    (item) => item.published
+  ).length;
 
   const stats = [
-    ["◉", "Total Views", "12,456", "↗ +12%"],
-    ["✉", "Messages", submissions.length, "Live"],
-    ["▤", "Blog Posts", blogPosts.length, "Live"],
-    ["▣", "Products", products.length, "Live"],
+    {
+      icon: "✉",
+      label: "Messages",
+      value: submissions.length,
+      subtext: "Contact submissions",
+    },
+    {
+      icon: "▤",
+      label: "Blog Posts",
+      value: blogPosts.length,
+      subtext: "Stored articles",
+    },
+    {
+      icon: "▣",
+      label: "Products",
+      value: products.length,
+      subtext: `${activeProducts} active`,
+    },
+    {
+      icon: "▧",
+      label: "Media Files",
+      value: mediaCount,
+      subtext: "Product images",
+    },
   ];
 
   return (
-    <main className="min-h-screen bg-[#080a0f] text-white p-8">
-      <div className="max-w-7xl mx-auto bg-[#101118]">
+    <main className="min-h-screen bg-[#080a0f] text-white p-6 md:p-8">
+      <div className="max-w-7xl mx-auto bg-[#101118] rounded-xl overflow-hidden border border-white/5">
         <AdminTop title="Admin Dashboard" handleLogout={handleLogout} />
 
-        <section className="p-8">
-          <h2 className="uppercase text-2xl font-black tracking-widest mb-8">
-            Overview
-          </h2>
+        <section className="p-6 md:p-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+            <div>
+              <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[10px] mb-3">
+                Warrior Dad Stories CMS
+              </p>
 
-          <div className="grid md:grid-cols-4 gap-6">
-            {stats.map(([icon, label, value, trend]) => (
-              <div key={label} className="bg-[#202632] rounded-lg p-7">
-                <p className="text-[#c8a96a] text-2xl">{icon}</p>
+              <h2 className="uppercase text-3xl md:text-4xl font-black tracking-widest">
+                Dashboard
+              </h2>
 
-                <p className="mt-5 uppercase tracking-[0.25em] text-[10px] text-slate-500">
-                  {label}
-                </p>
+              <p className="mt-4 text-slate-500 italic font-serif">
+                Manage products, media, timeline events, testimonials, and site
+                settings from one place.
+              </p>
+            </div>
 
-                <div className="mt-4 flex items-end gap-4">
-                  <h3 className="text-4xl font-black">{value}</h3>
-                  <span className="text-green-700 text-xs">{trend}</span>
-                </div>
-              </div>
+            <Link
+              to="/"
+              className="bg-[#c8a96a] text-black px-6 py-4 uppercase tracking-[0.18em] text-[11px] font-bold text-center hover:bg-white transition"
+            >
+              View Live Site
+            </Link>
+          </div>
+
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            {stats.map((stat) => (
+              <StatCard key={stat.label} {...stat} />
             ))}
           </div>
 
-          <h2 className="uppercase text-2xl font-black tracking-widest mt-12 mb-8">
-            Recent Contact Submissions
-          </h2>
+          <div className="grid xl:grid-cols-[1fr_360px] gap-8 mt-12">
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="uppercase text-2xl font-black tracking-widest">
+                  Recent Messages
+                </h2>
 
-          <div className="bg-[#202632] rounded-lg border border-white/5 overflow-hidden">
-            {submissions.length === 0 ? (
-              <p className="p-8 text-slate-500 italic font-serif">
-                No messages yet.
-              </p>
-            ) : (
-              <div className="divide-y divide-white/5">
-                {submissions.map((item) => (
-                  <div key={item.id} className="p-6">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                      <div>
-                        <h3 className="uppercase font-black text-xl">
-                          {item.name}
-                        </h3>
+                <p className="text-slate-600 uppercase tracking-[0.2em] text-[10px]">
+                  {submissions.length} total
+                </p>
+              </div>
 
-                        <p className="text-[#c8a96a] text-sm mt-1">
-                          {item.email}
+              <div className="bg-[#202632] rounded-xl border border-white/5 overflow-hidden">
+                {submissions.length === 0 ? (
+                  <p className="p-8 text-slate-500 italic font-serif">
+                    No messages yet.
+                  </p>
+                ) : (
+                  <div className="divide-y divide-white/5">
+                    {submissions.slice(0, 4).map((item) => (
+                      <div key={item.id} className="p-6">
+                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                          <div>
+                            <h3 className="uppercase font-black text-lg">
+                              {item.name}
+                            </h3>
+
+                            <p className="text-[#c8a96a] text-sm mt-1">
+                              {item.email}
+                            </p>
+                          </div>
+
+                          <p className="uppercase tracking-[0.2em] text-[10px] text-slate-500">
+                            {item.inquiry_type || "General"}
+                          </p>
+                        </div>
+
+                        <p className="mt-4 text-slate-300 italic font-serif leading-7 line-clamp-2">
+                          {item.message}
+                        </p>
+
+                        <p className="mt-5 text-[10px] uppercase tracking-[0.2em] text-slate-600">
+                          {new Date(item.created_at).toLocaleDateString(
+                            "en-US",
+                            {
+                              month: "long",
+                              day: "numeric",
+                              year: "numeric",
+                            }
+                          )}
                         </p>
                       </div>
-
-                      <p className="uppercase tracking-[0.2em] text-[10px] text-slate-500">
-                        {item.inquiry_type || "General"}
-                      </p>
-                    </div>
-
-                    {item.organization && (
-                      <p className="mt-4 text-slate-400 text-sm">
-                        {item.organization}
-                      </p>
-                    )}
-
-                    <p className="mt-4 text-slate-300 italic font-serif leading-7">
-                      {item.message}
-                    </p>
-
-                    <p className="mt-5 text-[10px] uppercase tracking-[0.2em] text-slate-600">
-                      {new Date(item.created_at).toLocaleDateString("en-US", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                      {" • "}
-                      {new Date(item.created_at).toLocaleTimeString("en-US", {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })}
-                    </p>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
-            )}
+            </section>
+
+            <aside className="space-y-6">
+              <MiniPanel title="Publishing Snapshot">
+                <SnapshotRow label="Timeline Events" value={timelineEvents.length} />
+                <SnapshotRow
+                  label="Published Timeline"
+                  value={publishedTimelineEvents}
+                />
+                <SnapshotRow label="Testimonials" value={testimonials.length} />
+                <SnapshotRow
+                  label="Featured Reviews"
+                  value={featuredTestimonials}
+                />
+              </MiniPanel>
+
+              <MiniPanel title="Quick Actions">
+                <QuickLink to="/admin/products/new" label="+ New Product" />
+                <QuickLink to="/admin/blog/new" label="+ New Blog Post" />
+                <QuickLink to="/admin/timeline" label="+ Timeline Event" />
+                <QuickLink to="/admin/testimonials" label="+ Testimonial" />
+              </MiniPanel>
+            </aside>
           </div>
 
-          <h2 className="uppercase text-2xl font-black tracking-widest mt-12 mb-8">
+          <h2 className="uppercase text-2xl font-black tracking-widest mt-14 mb-8">
             Content Management
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
             <AdminCard
               href="/admin/blog"
               icon="▤"
@@ -184,7 +227,7 @@ function AdminDash() {
               href="/admin/media"
               icon="▧"
               title="Media Library"
-              desc="Upload and organize images"
+              desc="View, copy, and remove product images"
               meta={`${mediaCount} Files`}
             />
 
@@ -208,8 +251,8 @@ function AdminDash() {
               href="/admin/settings"
               icon="⚙"
               title="Site Settings"
-              desc="Configure general settings"
-              meta="All Settings"
+              desc="Update footer, contact, and social links"
+              meta="Global Settings"
             />
           </div>
         </section>
@@ -218,21 +261,85 @@ function AdminDash() {
   );
 }
 
+function StatCard({ icon, label, value, subtext }) {
+  return (
+    <div className="bg-[#202632] rounded-xl p-7 border border-white/5 hover:border-[#c8a96a]/50 transition">
+      <div className="flex items-center justify-between">
+        <p className="text-[#c8a96a] text-3xl">{icon}</p>
+
+        <span className="text-[10px] uppercase tracking-[0.2em] text-slate-600">
+          Live
+        </span>
+      </div>
+
+      <p className="mt-8 uppercase tracking-[0.25em] text-[10px] text-slate-500">
+        {label}
+      </p>
+
+      <h3 className="mt-4 text-5xl font-black">{value}</h3>
+
+      <p className="mt-4 text-slate-500 italic font-serif text-sm">
+        {subtext}
+      </p>
+    </div>
+  );
+}
+
 function AdminCard({ href, icon, title, desc, meta }) {
   return (
     <Link
       to={href}
-      className="bg-[#202632] rounded-lg p-8 min-h-[210px] hover:border-[#c8a96a] border border-transparent transition"
+      className="bg-[#202632] rounded-xl p-8 min-h-[220px] hover:border-[#c8a96a]/70 border border-white/5 transition group"
     >
-      <p className="text-[#c8a96a] text-4xl">{icon}</p>
+      <div className="flex items-center justify-between">
+        <p className="text-[#c8a96a] text-4xl">{icon}</p>
 
-      <h3 className="mt-7 uppercase text-2xl font-black">{title}</h3>
+        <span className="text-slate-600 group-hover:text-[#c8a96a] transition">
+          →
+        </span>
+      </div>
 
-      <p className="mt-4 text-slate-500 italic font-serif">{desc}</p>
+      <h3 className="mt-8 uppercase text-2xl font-black leading-tight">
+        {title}
+      </h3>
 
-      <p className="mt-9 uppercase tracking-[0.2em] text-[10px] text-slate-400">
+      <p className="mt-4 text-slate-500 italic font-serif leading-7">{desc}</p>
+
+      <p className="mt-8 uppercase tracking-[0.2em] text-[10px] text-slate-400">
         {meta}
       </p>
+    </Link>
+  );
+}
+
+function MiniPanel({ title, children }) {
+  return (
+    <div className="bg-[#202632] rounded-xl p-7 border border-white/5">
+      <h3 className="uppercase tracking-[0.25em] text-[11px] text-[#c8a96a] mb-6">
+        {title}
+      </h3>
+
+      <div className="space-y-4">{children}</div>
+    </div>
+  );
+}
+
+function SnapshotRow({ label, value }) {
+  return (
+    <div className="flex items-center justify-between border-b border-white/5 pb-4 last:border-b-0">
+      <p className="text-slate-400">{label}</p>
+      <p className="text-white font-black">{value}</p>
+    </div>
+  );
+}
+
+function QuickLink({ to, label }) {
+  return (
+    <Link
+      to={to}
+      className="block bg-[#101118] border border-white/5 px-5 py-4 uppercase tracking-[0.18em] text-[10px] text-slate-400 hover:text-[#c8a96a] hover:border-[#c8a96a]/50 transition"
+    >
+      {label}
     </Link>
   );
 }
