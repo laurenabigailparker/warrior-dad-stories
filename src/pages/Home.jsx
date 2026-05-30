@@ -11,6 +11,7 @@ function Home() {
     <Hero />
     <Mission />
     <BookLaunch />
+    <FeaturedIn />
     <WatchStory />
     <PathForward />
     <TestimonialsCarousel />
@@ -177,6 +178,47 @@ function BookLaunch() {
               Enter The Forge
             </a>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeaturedIn() {
+  return (
+    <section className="bg-[#202632] py-20 px-8">
+      <div className="max-w-5xl mx-auto text-center">
+        <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+          Featured In
+        </p>
+
+        <h2 className="uppercase text-4xl md:text-5xl font-black">
+          Recognized Beyond The Page
+        </h2>
+
+        <div className="mt-12 bg-[#1b212b] border border-white/10 rounded-2xl p-10 md:p-14">
+          <p className="uppercase tracking-[0.3em] text-[11px] text-[#c8a96a]">
+            Texoma's Homepage
+          </p>
+
+          <h3 className="mt-5 text-3xl font-black uppercase">
+            Veteran Author T.J. Baird Honors Military Members In Lawton
+          </h3>
+
+          <p className="mt-6 text-slate-400 italic font-serif text-lg leading-8">
+            Warrior Dad Stories and author T.J. Baird were featured by
+            Texoma's Homepage for honoring military members through storytelling,
+            service, and community impact.
+          </p>
+
+          <a
+            href="https://www.texomashomepage.com/news/local-news/veteran-author-t-j-baird-honors-military-members-in-lawton/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block mt-8 bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
+          >
+            Read The Article →
+          </a>
         </div>
       </div>
     </section>
