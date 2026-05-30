@@ -8,6 +8,7 @@ function AdminAccess() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,10 +19,10 @@ function AdminAccess() {
     });
 
     if (error) {
-      console.error(error);
-      alert("Login failed. Check the email and password.");
-      return;
-    }
+  console.error(error);
+  setLoginError("Login failed. Check your email and password.");
+  return;
+}
 
     navigate("/admin/dashboard");
   };
@@ -44,6 +45,12 @@ function AdminAccess() {
         <p className="mt-4 text-slate-500 italic font-serif">
           Warrior Dad Stories Command Center
         </p>
+
+{loginError && (
+  <div className="mt-6 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded">
+    {loginError}
+  </div>
+)}
 
         <form
           onSubmit={handleLogin}

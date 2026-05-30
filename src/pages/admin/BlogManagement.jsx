@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import StatusMessage from "../../components/admin/StatusMessage";
+import ConfirmModal from "../../components/admin/ConfirmModal";
 
 function BlogManagement() {
   const [posts, setPosts] = useState([]);
@@ -9,6 +10,7 @@ function BlogManagement() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const showMessage = (type, text) => {
     setMessageType(type);
@@ -56,24 +58,24 @@ function BlogManagement() {
   const publishedPosts = posts.filter((post) => post.published).length;
   const draftPosts = posts.filter((post) => !post.published).length;
 
-  const handleDelete = async (postId) => {
-    const confirmed = window.confirm("Delete this post?");
-    if (!confirmed) return;
+ const handleDelete = async () => {
+  if (!deleteTarget) return;
 
-    const { error } = await supabase
-      .from("blog_posts")
-      .delete()
-      .eq("id", postId);
+  const { error } = await supabase
+    .from("blog_posts")
+    .delete()
+    .eq("id", deleteTarget.id);
 
-    if (error) {
-      console.error(error);
-      showMessage("error", "Failed to delete post.");
-      return;
-    }
+  if (error) {
+    console.error(error);
+    showMessage("error", "Failed to delete post.");
+    return;
+  }
 
-    setPosts(posts.filter((post) => post.id !== postId));
-    showMessage("success", "Blog post deleted.");
-  };
+  setPosts(posts.filter((post) => post.id !== deleteTarget.id));
+  setDeleteTarget(null);
+  showMessage("success", "Blog post deleted.");
+};
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
@@ -178,7 +180,9 @@ function BlogManagement() {
                   <div className="flex gap-5 text-slate-400">
                     <Link to={`/admin/blog/edit/${post.id}`}>✎</Link>
 
-                    <button onClick={() => handleDelete(post.id)}>🗑</button>
+                    <button onClick={() => setDeleteTarget(post)}>
+  🗑
+</button>
                   </div>
                 </div>
               ))
@@ -186,6 +190,16 @@ function BlogManagement() {
           </div>
         </section>
       </div>
+
+<ConfirmModal
+  open={Boolean(deleteTarget)}
+  title="Delete Blog Post?"
+  message={`Are you sure you want to delete "${deleteTarget?.title}"? This action cannot be undone.`}
+  confirmText="Delete Post"
+  onConfirm={handleDelete}
+  onCancel={() => setDeleteTarget(null)}
+/>
+
     </main>
   );
 }

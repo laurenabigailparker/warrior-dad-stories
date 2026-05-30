@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import StatusMessage from "../../components/admin/StatusMessage";
+import ConfirmModal from "../../components/admin/ConfirmModal";
 
 function TestimonialManagement() {
   const [testimonials, setTestimonials] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -105,27 +107,29 @@ function TestimonialManagement() {
     refreshTestimonials();
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this testimonial?")) return;
+  const handleDelete = async () => {
+  if (!deleteTarget) return;
 
-    const { error } = await supabase
-      .from("testimonials")
-      .delete()
-      .eq("id", id);
+  const { error } = await supabase
+    .from("testimonials")
+    .delete()
+    .eq("id", deleteTarget.id);
 
-    if (error) {
-      console.error(error);
-      showMessage("error", "Failed to delete testimonial.");
-      return;
-    }
+  if (error) {
+    console.error(error);
+    showMessage("error", "Failed to delete testimonial.");
+    return;
+  }
 
-    setTestimonials(testimonials.filter((item) => item.id !== id));
-    showMessage("success", "Testimonial deleted.");
+  setTestimonials(testimonials.filter((item) => item.id !== deleteTarget.id));
+  showMessage("success", "Testimonial deleted.");
 
-    if (editingId === id) {
-      resetForm();
-    }
-  };
+  if (editingId === deleteTarget.id) {
+    resetForm();
+  }
+
+  setDeleteTarget(null);
+};
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
@@ -169,9 +173,9 @@ function TestimonialManagement() {
                       <div className="flex gap-4 text-slate-400">
                         <button onClick={() => handleEdit(item)}>✎ Edit</button>
 
-                        <button onClick={() => handleDelete(item.id)}>
-                          🗑 Delete
-                        </button>
+                       <button onClick={() => setDeleteTarget(item)}>
+  🗑 Delete
+</button>
                       </div>
                     </div>
                   </div>
@@ -244,6 +248,16 @@ function TestimonialManagement() {
           </aside>
         </section>
       </div>
+
+<ConfirmModal
+  open={Boolean(deleteTarget)}
+  title="Delete Testimonial?"
+  message={`Are you sure you want to delete the testimonial from "${deleteTarget?.name}"? This action cannot be undone.`}
+  confirmText="Delete Testimonial"
+  onConfirm={handleDelete}
+  onCancel={() => setDeleteTarget(null)}
+/>
+
     </main>
   );
 }

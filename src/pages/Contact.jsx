@@ -12,8 +12,7 @@ function Contact() {
     ["Business Facebook", "https://www.facebook.com/profile.php?id=61589481414986"],
     ["X", "https://x.com/TJWarriorDad"],
   ];
-
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
   name: "",
   email: "",
   organization: "",
@@ -44,11 +43,11 @@ const handleSubmit = async (e) => {
 
   if (error) {
     console.error(error);
-    alert("Something went wrong.");
+    alert("Failed to send message.");
     return;
   }
-
-  alert("Message sent!");
+alert("Message sent successfully.");
+  
 
   setFormData({
     name: "",

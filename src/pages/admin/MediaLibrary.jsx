@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import StatusMessage from "../../components/admin/StatusMessage";
+import ConfirmModal from "../../components/admin/ConfirmModal";
 
 function MediaLibrary() {
   const [media, setMedia] = useState([]);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const showMessage = (type, text) => {
     setMessageType(type);
@@ -44,27 +46,31 @@ function MediaLibrary() {
     showMessage("success", "Image URL copied.");
   };
 
-  const removeImage = async (id) => {
-    const confirmed = window.confirm(
-      "Remove this image from the product? The product will stay, but the image will disappear from the shop."
-    );
+const removeImage = async () => {
+  if (!deleteTarget) return;
 
-    if (!confirmed) return;
+  const { error } = await supabase
+    .from("products")
+    .update({ image: null })
+    .eq("id", deleteTarget.id);
 
-    const { error } = await supabase
-      .from("products")
-      .update({ image: null })
-      .eq("id", id);
+  if (error) {
+    console.error(error);
+    showMessage("error", "Failed to remove image.");
+    return;
+  }
 
-    if (error) {
-      console.error(error);
-      showMessage("error", "Failed to remove image.");
-      return;
-    }
+  setMedia(
+    media.filter((item) => item.id !== deleteTarget.id)
+  );
 
-    setMedia(media.filter((item) => item.id !== id));
-    showMessage("success", "Image removed from product.");
-  };
+  setDeleteTarget(null);
+
+  showMessage(
+    "success",
+    "Image removed from product."
+  );
+};
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
@@ -132,11 +138,11 @@ function MediaLibrary() {
                       </button>
 
                       <button
-                        onClick={() => removeImage(item.id)}
-                        className="text-red-400"
-                      >
-                        Remove
-                      </button>
+  onClick={() => setDeleteTarget(item)}
+  className="text-red-400"
+>
+  Remove
+</button>
                     </div>
                   </div>
                 </div>
@@ -145,6 +151,17 @@ function MediaLibrary() {
           )}
         </section>
       </div>
+
+<ConfirmModal
+  open={Boolean(deleteTarget)}
+  title="Remove Product Image?"
+  message={`Remove the image from "${deleteTarget?.name}"? The product will remain, but the image will disappear from the website.`}
+  confirmText="Remove Image"
+  onConfirm={removeImage}
+  onCancel={() => setDeleteTarget(null)}
+/>
+
+
     </main>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import ConfirmModal from "../../components/admin/ConfirmModal";
+import StatusMessage from "../../components/admin/StatusMessage";
 
 function ProductManagement() {
   const [products, setProducts] = useState([]);
@@ -9,6 +10,19 @@ function ProductManagement() {
 const [statusFilter, setStatusFilter] = useState("all");
 const [featuredOnly, setFeaturedOnly] = useState(false);
 const [deleteTarget, setDeleteTarget] = useState(null);
+const [message, setMessage] = useState("");
+const [messageType, setMessageType] = useState("success");
+
+const showMessage = (type, text) => {
+  setMessageType(type);
+  setMessage(text);
+  setTimeout(() => setMessage(""), 4000);
+};
+
+<StatusMessage
+  message={message}
+  type={messageType}
+/>
 
   useEffect(() => {
   const fetchProducts = async () => {
@@ -67,7 +81,7 @@ const handleDeleteProduct = async () => {
 
   if (error) {
     console.error(error);
-    alert("Failed to delete product.");
+    showMessage("error", "Failed to delete product.");
     return;
   }
 

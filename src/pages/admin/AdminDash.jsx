@@ -8,6 +8,7 @@ function AdminDash() {
   const [products, setProducts] = useState([]);
   const [timelineEvents, setTimelineEvents] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -48,6 +49,9 @@ function AdminDash() {
       setProducts(productsResult.data || []);
       setTimelineEvents(timelineResult.data || []);
       setTestimonials(testimonialsResult.data || []);
+      
+      
+      setLoading(false);
     };
 
     fetchDashboardData();
@@ -92,7 +96,45 @@ const publishedPosts = blogPosts.filter((post) => post.published).length;
       value: mediaCount,
       subtext: "Product images",
     },
+    {
+  icon: "★",
+  label: "Featured Reviews",
+  value: featuredTestimonials,
+  subtext: "Homepage testimonials",
+},
+{
+  icon: "◉",
+  label: "Published Posts",
+  value: publishedPosts,
+  subtext: "Live articles",
+},
+{
+  icon: "◈",
+  label: "Timeline Events",
+  value: timelineEvents.length,
+  subtext: `${publishedTimelineEvents} published`,
+},
   ];
+
+if (loading) {
+  return (
+    <main className="min-h-screen bg-[#080a0f] text-white flex items-center justify-center">
+      <div className="bg-[#202632] border border-white/5 rounded-xl p-10 text-center">
+        <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px]">
+          Warrior Dad Stories
+        </p>
+
+        <h2 className="mt-4 text-3xl font-black uppercase">
+          Loading Dashboard...
+        </h2>
+
+        <p className="mt-4 text-slate-500 italic font-serif">
+          Pulling the latest content and analytics.
+        </p>
+      </div>
+    </main>
+  );
+}
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-6 md:p-8">
@@ -109,6 +151,28 @@ const publishedPosts = blogPosts.filter((post) => post.published).length;
               <h2 className="uppercase text-3xl md:text-4xl font-black tracking-widest">
                 Dashboard
               </h2>
+
+              <div className="mt-6 bg-[#202632] border border-white/5 rounded-xl p-6">
+  <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px]">
+    Welcome Back
+  </p>
+
+  <h3 className="mt-3 text-2xl font-black">
+    TJ Baird
+  </h3>
+
+  <p className="mt-3 text-slate-500 italic font-serif">
+    Manage products, blog content, testimonials, media, and timeline events
+    from your Warrior Dad Stories command center.
+  </p>
+
+  <div className="mt-6 flex flex-wrap gap-6 text-sm text-slate-400">
+    <span>{products.length} Products</span>
+    <span>{blogPosts.length} Posts</span>
+    <span>{timelineEvents.length} Events</span>
+    <span>{testimonials.length} Testimonials</span>
+  </div>
+</div>
 
               <p className="mt-4 text-slate-500 italic font-serif">
                 Manage products, media, timeline events, testimonials, and site
@@ -187,6 +251,55 @@ const publishedPosts = blogPosts.filter((post) => post.published).length;
                 )}
               </div>
             </section>
+
+          <section>
+  <div className="flex items-center justify-between mb-6">
+    <h2 className="uppercase text-2xl font-black tracking-widest">
+      Recent Blog Posts
+    </h2>
+
+    <Link
+      to="/admin/blog"
+      className="text-[#c8a96a] uppercase tracking-[0.2em] text-[10px]"
+    >
+      Manage Posts →
+    </Link>
+  </div>
+
+  <div className="bg-[#202632] rounded-xl border border-white/5 overflow-hidden">
+    {blogPosts.length === 0 ? (
+      <p className="p-8 text-slate-500 italic font-serif">
+        No blog posts yet.
+      </p>
+    ) : (
+      <div className="divide-y divide-white/5">
+        {blogPosts.slice(0, 3).map((post) => (
+          <div key={post.id} className="p-6 flex justify-between gap-6">
+            <div>
+              <h3 className="uppercase font-black text-lg">
+                {post.title}
+              </h3>
+
+              <p className="mt-2 text-slate-500 italic font-serif line-clamp-2">
+                {post.excerpt || "No excerpt yet."}
+              </p>
+            </div>
+
+            <span
+              className={`h-fit px-3 py-2 text-[10px] uppercase ${
+                post.published
+                  ? "bg-[#2b342d] text-green-600"
+                  : "bg-[#34302b] text-[#c8a96a]"
+              }`}
+            >
+              {post.published ? "Published" : "Draft"}
+            </span>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
 
             <aside className="space-y-6">
               <MiniPanel title="Publishing Snapshot">
@@ -357,7 +470,9 @@ function AdminTop({ title, handleLogout }) {
   return (
     <header className="h-20 bg-[#202632] px-8 flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <div className="h-9 w-9 bg-[#c8a96a]" />
+        <div className="h-10 w-10 rounded-full bg-[#c8a96a] flex items-center justify-center font-black text-black">
+  TJ
+</div>
 
         <h1 className="uppercase tracking-[0.25em] font-black">{title}</h1>
       </div>

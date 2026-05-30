@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import ConfirmModal from "../../components/admin/ConfirmModal";
 
 function TimeLineManagement() {
   const [timeline, setTimeline] = useState([]);
+  const [deleteTarget, setDeleteTarget] = useState(null);
   const [formData, setFormData] = useState({
     event_date: "",
     title: "",
@@ -30,51 +32,50 @@ function TimeLineManagement() {
   setTimeline(data || []);
 }
 
-  const handleAddEvent = async () => {
-    const { error } = await supabase.from("timeline_events").insert([
-      {
-        event_date: formData.event_date,
-        title: formData.title,
-        description: formData.description,
-        sort_order: Number(formData.sort_order || 0),
-        published: formData.published,
-      },
-    ]);
+const handleAddEvent = async () => {
+  const { error } = await supabase.from("timeline_events").insert([
+    {
+      event_date: formData.event_date,
+      title: formData.title,
+      description: formData.description,
+      sort_order: Number(formData.sort_order || 0),
+      published: formData.published,
+    },
+  ]);
 
-    if (error) {
-      console.error(error);
-      alert("Failed to add timeline event.");
-      return;
-    }
+  if (error) {
+    console.error(error);
+    alert("Failed to add timeline event.");
+    return;
+  }
 
-    setFormData({
-      event_date: "",
-      title: "",
-      description: "",
-      sort_order: 0,
-      published: true,
-    });
+  setFormData({
+    event_date: "",
+    title: "",
+    description: "",
+    sort_order: 0,
+    published: true,
+  });
 
-    loadTimeline();
-  };
+  loadTimeline();
+};
 
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm("Delete this timeline event?");
-    if (!confirmed) return;
+const handleDelete = async () => {
+  if (!deleteTarget) return;
 
-    const { error } = await supabase
-      .from("timeline_events")
-      .delete()
-      .eq("id", id);
+  const { error } = await supabase
+    .from("timeline_events")
+    .delete()
+    .eq("id", deleteTarget.id);
 
-    if (error) {
-      console.error(error);
-      alert("Failed to delete event.");
-      return;
-    }
+  if (error) {
+    console.error(error);
+    return;
+  }
 
-    setTimeline(timeline.filter((item) => item.id !== id));
-  };
+  setTimeline(timeline.filter((item) => item.id !== deleteTarget.id));
+  setDeleteTarget(null);
+};
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
@@ -126,9 +127,9 @@ function TimeLineManagement() {
                     </div>
 
                     <div className="flex gap-5 text-slate-400">
-                      <button onClick={() => handleDelete(item.id)}>
-                        🗑 Delete
-                      </button>
+                    <button onClick={() => setDeleteTarget(item)}>
+  🗑 Delete
+</button>
                     </div>
                   </div>
                 ))}
@@ -216,6 +217,16 @@ function TimeLineManagement() {
           </aside>
         </section>
       </div>
+
+<ConfirmModal
+  open={Boolean(deleteTarget)}
+  title="Delete Timeline Event?"
+  message={`Are you sure you want to delete "${deleteTarget?.title}"? This action cannot be undone.`}
+  confirmText="Delete Event"
+  onConfirm={handleDelete}
+  onCancel={() => setDeleteTarget(null)}
+/>
+
     </main>
   );
 }
