@@ -139,12 +139,7 @@ function Footer() {
         <div className="flex flex-wrap items-center gap-6 text-center">
           <p>A Disabled Veteran-Owned Business</p>
 
-          <Link
-            to="/admin"
-            className="uppercase tracking-[0.2em] hover:text-[#c8a96a] transition"
-          >
-            Admin
-          </Link>
+          
         </div>
       </div>
     </footer>
