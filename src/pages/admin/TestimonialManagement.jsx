@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import StatusMessage from "../../components/admin/StatusMessage";
 
 function TestimonialManagement() {
   const [testimonials, setTestimonials] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("success");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -13,21 +16,47 @@ function TestimonialManagement() {
     featured: true,
   });
 
-  useEffect(() => {
-    loadTestimonials();
-  }, []);
+  const showMessage = (type, text) => {
+    setMessageType(type);
+    setMessage(text);
+    setTimeout(() => setMessage(""), 4000);
+  };
 
-  async function loadTestimonials() {
+  const refreshTestimonials = async () => {
     const { data, error } = await supabase
       .from("testimonials")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error) return console.error(error);
-    setTestimonials(data || []);
-  }
+    if (error) {
+      console.error(error);
+      showMessage("error", "Failed to load testimonials.");
+      return;
+    }
 
-  function resetForm() {
+    setTestimonials(data || []);
+  };
+
+  useEffect(() => {
+  const loadInitialTestimonials = async () => {
+    const { data, error } = await supabase
+      .from("testimonials")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error(error);
+      showMessage("error", "Failed to load testimonials.");
+      return;
+    }
+
+    setTestimonials(data || []);
+  };
+
+  loadInitialTestimonials();
+}, []);
+
+  const resetForm = () => {
     setEditingId(null);
     setFormData({
       name: "",
@@ -35,9 +64,9 @@ function TestimonialManagement() {
       quote: "",
       featured: true,
     });
-  }
+  };
 
-  function handleEdit(item) {
+  const handleEdit = (item) => {
     setEditingId(item.id);
     setFormData({
       name: item.name || "",
@@ -45,9 +74,11 @@ function TestimonialManagement() {
       quote: item.quote || "",
       featured: item.featured ?? true,
     });
-  }
 
-  async function handleSubmit() {
+    showMessage("success", "Editing testimonial.");
+  };
+
+  const handleSubmit = async () => {
     const payload = {
       name: formData.name,
       role: formData.role,
@@ -61,15 +92,20 @@ function TestimonialManagement() {
 
     if (error) {
       console.error(error);
-      alert("Failed to save testimonial.");
+      showMessage("error", "Failed to save testimonial.");
       return;
     }
 
-    resetForm();
-    loadTestimonials();
-  }
+    showMessage(
+      "success",
+      editingId ? "Testimonial updated." : "Testimonial added."
+    );
 
-  async function handleDelete(id) {
+    resetForm();
+    refreshTestimonials();
+  };
+
+  const handleDelete = async (id) => {
     if (!window.confirm("Delete this testimonial?")) return;
 
     const { error } = await supabase
@@ -79,16 +115,17 @@ function TestimonialManagement() {
 
     if (error) {
       console.error(error);
-      alert("Failed to delete testimonial.");
+      showMessage("error", "Failed to delete testimonial.");
       return;
     }
 
     setTestimonials(testimonials.filter((item) => item.id !== id));
+    showMessage("success", "Testimonial deleted.");
 
     if (editingId === id) {
       resetForm();
     }
-  }
+  };
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
@@ -96,6 +133,10 @@ function TestimonialManagement() {
         <AdminSubTop title="Testimonials" back="/admin/dashboard" />
 
         <section className="p-8 grid lg:grid-cols-[1fr_380px] gap-8">
+          <div className="lg:col-span-2">
+            <StatusMessage message={message} type={messageType} />
+          </div>
+
           <div>
             <h2 className="uppercase text-2xl font-black tracking-widest mb-8">
               Reader Testimonials

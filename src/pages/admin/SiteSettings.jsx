@@ -14,6 +14,9 @@ function SiteSettings() {
     copyright_text: "",
   });
 
+   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("success");
+
   useEffect(() => {
     const loadSettings = async () => {
       const { data, error } = await supabase
@@ -55,15 +58,20 @@ const handleSave = async () => {
     .update(settings)
     .eq("id", 1);
 
-  console.log("SAVE ERROR:", error);
-
   if (error) {
     console.error(error);
-    alert("Failed to save settings.");
+
+    setMessageType("error");
+    setMessage("Failed to save settings.");
+
+    setTimeout(() => setMessage(""), 4000);
     return;
   }
 
-  alert("Settings saved!");
+  setMessageType("success");
+  setMessage("Settings saved successfully.");
+
+  setTimeout(() => setMessage(""), 4000);
 };
 
   return (
@@ -72,6 +80,18 @@ const handleSave = async () => {
         <AdminSubTop title="Site Settings" back="/admin/dashboard" />
 
         <section className="p-8 grid lg:grid-cols-[1fr_360px] gap-8">
+         {message && (
+  <div
+    className={`lg:col-span-2 rounded-lg px-5 py-4 border text-sm font-medium ${
+      messageType === "success"
+        ? "bg-green-500/10 border-green-500/20 text-green-300"
+        : "bg-red-500/10 border-red-500/20 text-red-300"
+    }`}
+  >
+    {message}
+  </div>
+)}
+         
           <div className="space-y-8">
             <Panel title="General Site Info">
               <Field
