@@ -1,6 +1,71 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
 
 function SiteSettings() {
+  const [settings, setSettings] = useState({
+    author_name: "",
+    author_bio: "",
+    contact_email: "",
+    instagram_url: "",
+    facebook_url: "",
+    youtube_url: "",
+    footer_text: "",
+    copyright_text: "",
+  });
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      const { data, error } = await supabase
+        .from("site_settings")
+        .select("*")
+        .eq("id", 1)
+        .single();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setSettings({
+        author_name: data.author_name || "",
+        author_bio: data.author_bio || "",
+        contact_email: data.contact_email || "",
+        instagram_url: data.instagram_url || "",
+        facebook_url: data.facebook_url || "",
+        youtube_url: data.youtube_url || "",
+        footer_text: data.footer_text || "",
+        copyright_text: data.copyright_text || "",
+      });
+    };
+
+    loadSettings();
+  }, []);
+
+  const handleChange = (field, value) => {
+    setSettings({
+      ...settings,
+      [field]: value,
+    });
+  };
+
+const handleSave = async () => {
+  const { error } = await supabase
+    .from("site_settings")
+    .update(settings)
+    .eq("id", 1);
+
+  console.log("SAVE ERROR:", error);
+
+  if (error) {
+    console.error(error);
+    alert("Failed to save settings.");
+    return;
+  }
+
+  alert("Settings saved!");
+};
+
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-7xl mx-auto bg-[#101118] min-h-[850px]">
@@ -9,42 +74,89 @@ function SiteSettings() {
         <section className="p-8 grid lg:grid-cols-[1fr_360px] gap-8">
           <div className="space-y-8">
             <Panel title="General Site Info">
-              <Field label="Site Name" placeholder="Warrior Dad Stories" />
-              <Field label="Tagline" placeholder="Stories forged in service, strengthened by love." />
-              <Field label="Contact Email" placeholder="contact@warriordadstories.com" />
-            </Panel>
+              <Field
+                label="Author Name"
+                value={settings.author_name}
+                onChange={(e) => handleChange("author_name", e.target.value)}
+              />
 
-            <Panel title="Homepage Announcement">
-              <Field label="Banner Text" placeholder="Warrior Dad launches May 23, 2026 — Pre-order now" />
-              <Field label="CTA Label" placeholder="Pre-Order Now" />
-              <Field label="CTA Link" placeholder="/preorder" />
+              <TextArea
+                label="Author Bio"
+                value={settings.author_bio}
+                onChange={(e) => handleChange("author_bio", e.target.value)}
+              />
+
+              <Field
+                label="Contact Email"
+                value={settings.contact_email}
+                onChange={(e) => handleChange("contact_email", e.target.value)}
+              />
             </Panel>
 
             <Panel title="Social Links">
-              <Field label="Instagram" placeholder="@tjwarriordad" />
-              <Field label="Facebook" placeholder="/TJWarriorDad" />
-              <Field label="X / Twitter" placeholder="@TJWarriorDad" />
-              <Field label="LinkedIn" placeholder="thomas-tj-baird" />
+              <Field
+                label="Instagram URL"
+                value={settings.instagram_url}
+                onChange={(e) => handleChange("instagram_url", e.target.value)}
+              />
+
+              <Field
+                label="Facebook URL"
+                value={settings.facebook_url}
+                onChange={(e) => handleChange("facebook_url", e.target.value)}
+              />
+
+              <Field
+                label="YouTube URL"
+                value={settings.youtube_url}
+                onChange={(e) => handleChange("youtube_url", e.target.value)}
+              />
+            </Panel>
+
+            <Panel title="Footer Content">
+              <TextArea
+                label="Footer Text"
+                value={settings.footer_text}
+                onChange={(e) => handleChange("footer_text", e.target.value)}
+              />
+
+              <Field
+                label="Copyright Text"
+                value={settings.copyright_text}
+                onChange={(e) => handleChange("copyright_text", e.target.value)}
+              />
             </Panel>
           </div>
 
           <aside className="space-y-6">
-            <Panel title="Brand Assets">
-              <div className="h-40 bg-[#101118] border border-dashed border-white/10 rounded flex items-center justify-center text-slate-600 text-sm">
-                Logo Upload Placeholder
-              </div>
+            <Panel title="Preview">
+              <p className="text-slate-500 uppercase tracking-[0.25em] text-[10px]">
+                Author
+              </p>
 
-              <div className="mt-5 h-40 bg-[#101118] border border-dashed border-white/10 rounded flex items-center justify-center text-slate-600 text-sm">
-                Favicon Upload Placeholder
-              </div>
+              <h3 className="mt-3 text-2xl font-black uppercase">
+                {settings.author_name || "Author Name"}
+              </h3>
+
+              <p className="mt-4 text-slate-400 italic font-serif leading-7">
+                {settings.author_bio || "Author bio preview will appear here."}
+              </p>
+
+              <p className="mt-6 text-[#c8a96a] text-sm">
+                {settings.contact_email || "contact@email.com"}
+              </p>
             </Panel>
 
             <Panel title="Publish">
               <p className="text-slate-500 text-sm leading-7">
-                Frontend-only placeholder. Students can wire this to backend settings later.
+                These settings can power footer text, contact email, author
+                information, and social links across the public site.
               </p>
 
-              <button className="mt-6 w-full bg-[#c8a96a] text-black py-4 uppercase tracking-[0.2em] text-[11px] font-bold">
+              <button
+                onClick={handleSave}
+                className="mt-6 w-full bg-[#c8a96a] text-black py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
+              >
                 Save Settings
               </button>
             </Panel>
@@ -55,7 +167,7 @@ function SiteSettings() {
   );
 }
 
-function Field({ label, placeholder }) {
+function Field({ label, value, onChange }) {
   return (
     <div className="mb-6 last:mb-0">
       <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
@@ -63,8 +175,25 @@ function Field({ label, placeholder }) {
       </label>
 
       <input
-        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
         className="w-full bg-[#101118] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a]"
+      />
+    </div>
+  );
+}
+
+function TextArea({ label, value, onChange }) {
+  return (
+    <div className="mb-6 last:mb-0">
+      <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
+        {label}
+      </label>
+
+      <textarea
+        value={value}
+        onChange={onChange}
+        className="w-full h-36 bg-[#101118] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
       />
     </div>
   );
