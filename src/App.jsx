@@ -14,6 +14,7 @@ import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import TestimonialManagement from "./pages/admin/TestimonialManagement";
 import ThankYou from "./pages/ThankYou";
+import NewsletterSuccess from "./pages/NewsletterSuccess";
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -59,6 +60,10 @@ function App() {
         <Route path="/admin/settings" element={<ProtectedRoute><SiteSettings /></ProtectedRoute>} />
         <Route path="/admin/timeline" element={<ProtectedRoute><TimeLineManagement /></ProtectedRoute>} />
         <Route path="/admin/testimonials" element={<ProtectedRoute><TestimonialManagement /></ProtectedRoute>} />
+        <Route
+  path="/newsletter-success"
+  element={<NewsletterSuccess />}
+/>
       </Routes>
     </BrowserRouter>
   );

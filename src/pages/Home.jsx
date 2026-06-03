@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { supabase } from "../lib/supabase";
+import { useNavigate } from "react-router-dom";
+
 
 
 function Home() {
@@ -548,6 +550,27 @@ function MeetTJ() {
 }
 
 function FinalCTA() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase
+      .from("newsletter_subscribers")
+      .insert([{ email }]);
+
+    if (error) {
+      console.error(error);
+      setMessage("This email may already be signed up.");
+      return;
+    }
+
+    setEmail("");
+    navigate("/newsletter-success");
+  };
+
   return (
     <section className="bg-[#202632] px-8 md:px-20 py-28 text-center">
       <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
@@ -564,21 +587,34 @@ function FinalCTA() {
         Dad Stories.
       </p>
 
-<p className="mt-6 text-slate-500 italic font-serif">
-  Every story leaves a mark. Every journey becomes legacy.
-</p>
+      <p className="mt-6 text-slate-500 italic font-serif">
+        Every story leaves a mark. Every journey becomes legacy.
+      </p>
 
-      <div className="mt-10 flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto">
+      <form
+        onSubmit={handleNewsletterSubmit}
+        className="mt-10 flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto"
+      >
         <input
           type="email"
           placeholder="your@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="flex-1 bg-[#1b212b] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
+          required
         />
 
-        <button className="bg-[#c8a96a] text-black px-10 py-5 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition">
+        <button
+          type="submit"
+          className="bg-[#c8a96a] text-black px-10 py-5 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
+        >
           Join The Mission
         </button>
-      </div>
+      </form>
+
+      {message && (
+        <p className="mt-5 text-[#c8a96a] italic font-serif">{message}</p>
+      )}
     </section>
   );
 }
@@ -586,7 +622,10 @@ function FinalCTA() {
 function Stat({ big, small }) {
   return (
     <div>
-      <h4 className="text-[#c8a96a] uppercase text-3xl font-black">{big}</h4>
+      <h4 className="text-[#c8a96a] uppercase text-3xl font-black">
+        {big}
+      </h4>
+
       <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500 mt-2">
         {small}
       </p>
