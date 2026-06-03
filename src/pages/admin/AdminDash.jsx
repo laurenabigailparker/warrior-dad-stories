@@ -356,6 +356,14 @@ if (loading) {
 />
 
 <AdminCard
+  href="/admin/home"
+  icon="🏠"
+  title="Home Page"
+  desc="Edit homepage content"
+  meta="Content"
+/>
+
+<AdminCard
   href="/admin/forge"
   icon="🔥"
   title="Creative Forge"

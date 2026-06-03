@@ -19,6 +19,7 @@ import NewsletterManagement from "./pages/admin/NewsletterManagement";
 import SocialLinksManagement from "./pages/admin/SocialLinksManagement";
 import PodcastManagement from "./pages/admin/PodcastManagement";
 import ForgeManagement from "./pages/admin/ForgeManagement";
+import HomeManagement from "./pages/admin/HomeManagement";
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -71,6 +72,7 @@ function App() {
   <Route path="/admin/socials" element={<SocialLinksManagement />} />
       <Route path="/admin/podcasts" element={<PodcastManagement />} />
       <Route path="/admin/forge" element={<ForgeManagement />} />
+     <Route path="/admin/home" element={<HomeManagement />} />
       </Routes>
     </BrowserRouter>
   );

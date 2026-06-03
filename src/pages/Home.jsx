@@ -7,29 +7,52 @@ import { useNavigate } from "react-router-dom";
 
 
 function Home() {
- return (
-  <main className="min-h-screen bg-[#11141b] text-white">
-    <Navbar />
-    <Hero />
-    <Mission />
-    <BookLaunch />
-    <FeaturedIn />
-    <WatchStory />
-    <PathForward />
-    <TestimonialsCarousel />
+  const [content, setContent] = useState({});
 
-    {/* emotional breath section */}
-    <CinematicDivider />
+  useEffect(() => {
+    const loadContent = async () => {
+      const { data, error } = await supabase
+        .from("site_content")
+        .select("*")
+        .eq("page", "home");
 
-    <PrinciplesPreview />
-    <MeetTJ />
-    <FinalCTA />
-    <Footer />
-  </main>
-);
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      const mapped = {};
+
+      data.forEach((item) => {
+        mapped[`${item.section}_${item.field}`] = item.value;
+      });
+
+      setContent(mapped);
+    };
+
+    loadContent();
+  }, []);
+
+  return (
+    <main className="min-h-screen bg-[#11141b] text-white">
+      <Navbar />
+      <Hero content={content} />
+      <Mission />
+      <BookLaunch />
+      <FeaturedIn />
+      <WatchStory />
+      <PathForward />
+      <TestimonialsCarousel />
+      <CinematicDivider />
+      <PrinciplesPreview />
+      <MeetTJ />
+      <FinalCTA />
+      <Footer />
+    </main>
+  );
 }
 
-function Hero() {
+function Hero({ content }) {
   return (
     <section
       className="relative min-h-[780px] flex items-center px-8 md:px-20 bg-cover bg-center overflow-hidden"
@@ -48,19 +71,16 @@ function Hero() {
     >
       <div className="max-w-2xl relative z-10">
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-          Veteran-Owned Storytelling · Fatherhood · Legacy
+          {content.hero_eyebrow || "Veteran-Owned Storytelling · Fatherhood · Legacy"}
         </p>
 
-        <h1 className="uppercase font-black leading-[0.92] tracking-wide text-6xl md:text-8xl">
-          Stories <br />
-          Forged In <br />
-          <span className="text-[#c8a96a]">Service.</span>
-        </h1>
+        <h1 className="uppercase font-black leading-[0.92] tracking-wide text-6xl md:text-8xl whitespace-pre-line">
+  {content.hero_headline || "Stories\nForged In\nService."}
+</h1>
 
         <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9 max-w-xl">
-          Warrior Dad Stories exists to inspire others to walk their path,
-          share their story, and remember that the mission does not end — it
-          evolves.
+          {content.hero_body ||
+  "Warrior Dad Stories exists to inspire others to walk their path, share their story, and remember that the mission does not end — it evolves."}
         </p>
 
         <div className="mt-9 flex flex-wrap gap-4">
@@ -68,7 +88,7 @@ function Hero() {
             href="#book"
             className="bg-[#c8a96a] text-black px-8 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
           >
-            Start The Journey
+           {content.hero_button_text || "Start The Mission"}
           </a>
 
           <a
