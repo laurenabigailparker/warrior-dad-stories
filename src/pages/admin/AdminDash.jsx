@@ -355,13 +355,7 @@ if (loading) {
   meta={`${socialLinks.length} Links`}
 />
 
-<AdminCard
-  href="/admin/products"
-  icon="👕"
-  title="Printful Sync"
-  desc="Import products from Printful"
-  meta="Merch Store"
-/>
+
 
 <AdminCard
   href="/admin/podcasts"

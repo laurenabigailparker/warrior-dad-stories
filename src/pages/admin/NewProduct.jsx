@@ -13,15 +13,25 @@ const [messageType, setMessageType] = useState("success");
   
 
   const [formData, setFormData] = useState({
-    name: "",
-    slug: "",
-    category: "",
-    price: "",
-    image: "",
-    description: "",
-    in_stock: true,
-    featured: false,
-  });
+  name: "",
+  slug: "",
+  category: "",
+  price: "",
+  image: "",
+  description: "",
+  colors: "",
+  sizes: "",
+  why_warrior_dad: "",
+  product_details: "",
+  fit_sizing: "",
+  material_quality: "",
+  care_instructions: "",
+  shipping_fulfillment: "",
+  returns_exchanges: "",
+  button_label: "Coming Soon",
+  in_stock: true,
+  featured: false,
+});
 
   useEffect(() => {
     if (!id) return;
@@ -39,16 +49,28 @@ const [messageType, setMessageType] = useState("success");
         return;
       }
 
-      setFormData({
-        name: data.name || "",
-        slug: data.slug || "",
-        category: data.category || "",
-        price: data.price || "",
-        image: data.image || "",
-        description: data.description || "",
-        in_stock: data.in_stock ?? true,
-        featured: data.featured ?? false,
-      });
+     setFormData({
+  name: data.name || "",
+  slug: data.slug || "",
+  category: data.category || "",
+  price: data.price || "",
+  image: data.image || "",
+  description: data.description || "",
+
+  colors: data.colors || "",
+  sizes: data.sizes || "",
+  why_warrior_dad: data.why_warrior_dad || "",
+  product_details: data.product_details || "",
+  fit_sizing: data.fit_sizing || "",
+  material_quality: data.material_quality || "",
+  care_instructions: data.care_instructions || "",
+  shipping_fulfillment: data.shipping_fulfillment || "",
+  returns_exchanges: data.returns_exchanges || "",
+  button_label: data.button_label || "Coming Soon",
+
+  in_stock: data.in_stock ?? true,
+  featured: data.featured ?? false,
+});
     };
 
     loadProduct();
@@ -97,6 +119,16 @@ setTimeout(() => setMessage(""), 4000);
       price: Number(formData.price || 0),
       image: formData.image,
       description: formData.description,
+      colors: formData.colors,
+sizes: formData.sizes,
+why_warrior_dad: formData.why_warrior_dad,
+product_details: formData.product_details,
+fit_sizing: formData.fit_sizing,
+material_quality: formData.material_quality,
+care_instructions: formData.care_instructions,
+shipping_fulfillment: formData.shipping_fulfillment,
+returns_exchanges: formData.returns_exchanges,
+button_label: formData.button_label,
       in_stock: formData.in_stock,
       featured: formData.featured,
     };
@@ -171,13 +203,25 @@ setTimeout(() => {
             />
 
             <Field
-              label="Price"
-              placeholder="29.97"
-              value={formData.price}
-              onChange={(e) =>
-                setFormData({ ...formData, price: e.target.value })
-              }
-            />
+  label="Price"
+  placeholder="29.97"
+  value={formData.price}
+  onChange={(e) =>
+    setFormData({ ...formData, price: e.target.value })
+  }
+/>
+
+<Field
+  label="Button Label"
+  placeholder="Coming Soon"
+  value={formData.button_label}
+  onChange={(e) =>
+    setFormData({
+      ...formData,
+      button_label: e.target.value,
+    })
+  }
+/>
 
   <div>
   <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
@@ -237,6 +281,69 @@ setTimeout(() => {
                 className="w-full h-48 bg-[#101118] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
               />
             </div>
+
+            <ProductTextArea
+  label="Colors"
+  field="colors"
+  formData={formData}
+  setFormData={setFormData}
+/>
+
+<ProductTextArea
+  label="Sizes"
+  field="sizes"
+  formData={formData}
+  setFormData={setFormData}
+/>
+
+<ProductTextArea
+  label="Why Warrior Dad"
+  field="why_warrior_dad"
+  formData={formData}
+  setFormData={setFormData}
+/>
+
+<ProductTextArea
+  label="Product Details"
+  field="product_details"
+  formData={formData}
+  setFormData={setFormData}
+/>
+
+<ProductTextArea
+  label="Fit & Sizing"
+  field="fit_sizing"
+  formData={formData}
+  setFormData={setFormData}
+/>
+
+<ProductTextArea
+  label="Material & Quality"
+  field="material_quality"
+  formData={formData}
+  setFormData={setFormData}
+/>
+
+<ProductTextArea
+  label="Care Instructions"
+  field="care_instructions"
+  formData={formData}
+  setFormData={setFormData}
+/>
+
+<ProductTextArea
+  label="Shipping & Fulfillment"
+  field="shipping_fulfillment"
+  formData={formData}
+  setFormData={setFormData}
+/>
+
+<ProductTextArea
+  label="Returns & Exchanges"
+  field="returns_exchanges"
+  formData={formData}
+  setFormData={setFormData}
+/>
           </div>
 
           <aside className="space-y-6">
@@ -280,6 +387,27 @@ setTimeout(() => {
         </section>
       </div>
     </main>
+  );
+}
+
+function ProductTextArea({ label, field, formData, setFormData }) {
+  return (
+    <div className="md:col-span-2">
+      <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
+        {label}
+      </label>
+
+      <textarea
+        value={formData[field]}
+        onChange={(e) =>
+          setFormData({
+            ...formData,
+            [field]: e.target.value,
+          })
+        }
+        className="w-full h-32 bg-[#101118] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
+      />
+    </div>
   );
 }
 
