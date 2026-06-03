@@ -59,7 +59,7 @@ console.log("SHOP PRODUCTS:", data);
           <div className="grid grid-cols-3 gap-8 text-center">
             <Trust icon="◇" label="Veteran Owned" />
             <Trust icon="▣" label="Book Launch May 23" />
-            <Trust icon="★" label="Early Acclaim" />
+            <Trust icon="★" label="Reader Acclaim" />
           </div>
         </div>
       </section>

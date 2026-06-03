@@ -158,28 +158,37 @@ function BookLaunch() {
           </p>
 
           <div className="grid grid-cols-3 gap-8 mt-10">
-            <Stat big="May 23" small="Launch Date" />
+            <Stat big="Now" small="On Amazon" />
             <Stat big="100" small="Pages" />
             <Stat big="HC + Ebook" small="Formats" />
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-           <a
-  href="https://www.thriftbooks.com/w/warrior-dad/58961664/item/89065882/"
-  target="_blank"
-  rel="noreferrer"
-  className="bg-[#c8a96a] text-black px-10 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
->
-  Buy The Book
-</a>
+       <div className="mt-10 flex flex-wrap gap-4">
+  <a
+    href="https://www.amazon.com/Warrior-Dad-Tj-Baird/dp/B0GXYVQK76"
+    target="_blank"
+    rel="noreferrer"
+    className="bg-[#c8a96a] text-black px-10 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
+  >
+    Buy The Book
+  </a>
 
-            <a
-              href="/forge"
-              className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
-            >
-              Enter The Forge
-            </a>
-          </div>
+  <a
+    href="https://www.amazon.com/review/create-review?asin=B0GXYVQK76"
+    target="_blank"
+    rel="noreferrer"
+    className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
+  >
+    Leave A Review
+  </a>
+
+  <a
+    href="/forge"
+    className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
+  >
+    Enter The Forge
+  </a>
+</div>
         </div>
       </div>
     </section>
@@ -367,7 +376,7 @@ function TestimonialsCarousel() {
   return (
     <section className="bg-[#1f2631] py-28 px-8 overflow-hidden">
       <SectionTitle
-        eyebrow="Early Acclaim"
+        eyebrow="Reader Acclaim"
         title="Readers See Themselves Here."
       />
 
@@ -567,7 +576,7 @@ function FinalCTA() {
         />
 
         <button className="bg-[#c8a96a] text-black px-10 py-5 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition">
-          Join The Journey
+          Join The Mission
         </button>
       </div>
     </section>

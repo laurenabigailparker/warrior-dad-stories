@@ -125,7 +125,7 @@ function Footer() {
             )}
 
             <p className="pt-4 text-slate-500">
-              {settings?.contact_email || "contact@warriordadstories.com"}
+              {settings?.contact_email || "tj_warriordad@warriordadstories.com"}
             </p>
           </div>
         </div>

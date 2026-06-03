@@ -13,6 +13,7 @@ import Forge from "./pages/Forge";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import TestimonialManagement from "./pages/admin/TestimonialManagement";
+import ThankYou from "./pages/ThankYou";
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -41,6 +42,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/preorder" element={<PreOrder />} />
         <Route path="/forge" element={<Forge />} />
+        <Route path="/thank-you" element={<ThankYou />} />
 
         {/* ADMIN LOGIN */}
         <Route path="/admin" element={<AdminAccess />} />

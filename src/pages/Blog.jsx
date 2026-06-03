@@ -315,7 +315,7 @@ function Blog() {
 
       <section className="bg-[#202632] px-8 md:px-20 py-28 text-center">
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
-          Join The Journey
+          Join The Mission
         </p>
 
         <h2 className="mt-6 uppercase font-black text-5xl">

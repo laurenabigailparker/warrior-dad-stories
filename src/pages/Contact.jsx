@@ -3,8 +3,11 @@ import { useState } from "react";
 import { supabase } from "../lib/supabase";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { useNavigate } from "react-router-dom";
 
 function Contact() {
+const navigate = useNavigate();
+
   const socials = [
     ["LinkedIn", "https://www.linkedin.com/in/thomas-tj-baird/"],
     ["Instagram", "https://www.instagram.com/tjwarriordad/"],
@@ -27,6 +30,7 @@ const handleSubmit = async (e) => {
 
   setLoading(true);
 
+  // Save to Supabase first
   const { error } = await supabase
     .from("contact_submissions")
     .insert([
@@ -39,15 +43,30 @@ const handleSubmit = async (e) => {
       },
     ]);
 
-  setLoading(false);
-
   if (error) {
     console.error(error);
-    alert("Failed to send message.");
+    setLoading(false);
+    navigate("/contact-error");
     return;
   }
-alert("Message sent successfully.");
-  
+
+  // Send email through Formspree
+  await fetch("https://formspree.io/f/mojzanoo", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      name: formData.name,
+      email: formData.email,
+      organization: formData.organization,
+      inquiryType: formData.inquiryType,
+      message: formData.message,
+    }),
+  });
+
+  setLoading(false);
 
   setFormData({
     name: "",
@@ -56,6 +75,8 @@ alert("Message sent successfully.");
     inquiryType: "",
     message: "",
   });
+
+  navigate("/thank-you");
 };
 
   const speakingTopics = [
