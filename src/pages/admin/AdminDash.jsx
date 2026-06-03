@@ -9,6 +9,8 @@ function AdminDash() {
   const [timelineEvents, setTimelineEvents] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [socialLinks, setSocialLinks] = useState([]);
+  const [podcasts, setPodcasts] = useState([]);
 
   const navigate = useNavigate();
 
@@ -21,13 +23,15 @@ function AdminDash() {
 
   useEffect(() => {
     const fetchDashboardData = async () => {
-      const [
-        submissionsResult,
-        blogResult,
-        productsResult,
-        timelineResult,
-        testimonialsResult,
-      ] = await Promise.all([
+     const [
+  submissionsResult,
+  blogResult,
+  productsResult,
+  timelineResult,
+  testimonialsResult,
+  socialLinksResult,
+  podcastsResult,
+] = await Promise.all([
         supabase
           .from("contact_submissions")
           .select("*")
@@ -36,6 +40,8 @@ function AdminDash() {
         supabase.from("products").select("*"),
         supabase.from("timeline_events").select("*"),
         supabase.from("testimonials").select("*"),
+        supabase.from("social_links").select("*"),
+        supabase.from("podcasts").select("*"),
       ]);
 
       if (submissionsResult.error) console.error(submissionsResult.error);
@@ -43,12 +49,16 @@ function AdminDash() {
       if (productsResult.error) console.error(productsResult.error);
       if (timelineResult.error) console.error(timelineResult.error);
       if (testimonialsResult.error) console.error(testimonialsResult.error);
+      if (socialLinksResult.error) console.error(socialLinksResult.error);
+      if (podcastsResult.error) console.error(podcastsResult.error);
 
       setSubmissions(submissionsResult.data || []);
       setBlogPosts(blogResult.data || []);
       setProducts(productsResult.data || []);
       setTimelineEvents(timelineResult.data || []);
       setTestimonials(testimonialsResult.data || []);
+      setSocialLinks(socialLinksResult.data || []);
+      setPodcasts(podcastsResult.data || []);
       
       
       setLoading(false);
@@ -338,6 +348,22 @@ if (loading) {
             />
 
             <AdminCard
+  href="/admin/socials"
+  icon="◎"
+  title="Social Links"
+  desc="Manage public social and platform links"
+  meta={`${socialLinks.length} Links`}
+/>
+
+<AdminCard
+  href="/admin/podcasts"
+  icon="🎙"
+  title="Podcasts"
+  desc="Manage podcast appearances"
+  meta={`${podcasts.length} Episodes`}
+/>
+
+            <AdminCard
               href="/admin/products"
               icon="▣"
               title="Products"
@@ -369,6 +395,14 @@ if (loading) {
               meta={`${testimonials.length} Reviews`}
             />
 
+          <AdminCard
+  href="/admin/newsletter"
+  icon="✉"
+  title="Newsletter"
+  desc="View mission subscribers"
+  meta="Subscribers"
+/>
+
             <AdminCard
               href="/admin/settings"
               icon="⚙"
@@ -376,6 +410,8 @@ if (loading) {
               desc="Update footer, contact, and social links"
               meta="Global Settings"
             />
+
+ 
           </div>
         </section>
       </div>

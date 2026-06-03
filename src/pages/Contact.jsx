@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -8,13 +8,26 @@ import { useNavigate } from "react-router-dom";
 function Contact() {
 const navigate = useNavigate();
 
-  const socials = [
-    ["LinkedIn", "https://www.linkedin.com/in/thomas-tj-baird/"],
-    ["Instagram", "https://www.instagram.com/tjwarriordad/"],
-    ["Facebook", "https://www.facebook.com/tjwarriordad"],
-    ["Business Facebook", "https://www.facebook.com/profile.php?id=61589481414986"],
-    ["X", "https://x.com/TJWarriorDad"],
-  ];
+  const [socials, setSocials] = useState([]);
+
+useEffect(() => {
+  const loadSocials = async () => {
+    const { data, error } = await supabase
+      .from("social_links")
+      .select("*")
+      .eq("active", true)
+      .order("display_order", { ascending: true });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setSocials(data || []);
+  };
+
+  loadSocials();
+}, []);
 const [formData, setFormData] = useState({
   name: "",
   email: "",
@@ -309,13 +322,22 @@ const handleSubmit = async (e) => {
               </p>
 
               <div className="mt-8 space-y-5">
-                {socials.map(([name, link]) => (
-                  <a key={name} href={link} target="_blank" rel="noreferrer" className="flex items-center justify-between gap-4 border-b border-white/5 pb-4 text-slate-300 hover:text-[#c8a96a] transition">
-                    <span>{name}</span>
-                    <span className="uppercase tracking-[0.2em] text-[10px] whitespace-nowrap">Visit →</span>
-                  </a>
-                ))}
-              </div>
+  {socials.map((item) => (
+    <a
+      key={item.id}
+      href={item.url}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center justify-between gap-4 border-b border-white/5 pb-4 text-slate-300 hover:text-[#c8a96a] transition"
+    >
+      <span>{item.platform}</span>
+
+      <span className="uppercase tracking-[0.2em] text-[10px] whitespace-nowrap">
+        Visit →
+      </span>
+    </a>
+  ))}
+</div>
             </div>
 
             <div className="bg-[#202632] border border-white/5 rounded-2xl p-7 md:p-10 mt-8">

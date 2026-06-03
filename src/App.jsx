@@ -15,6 +15,9 @@ import ProductDetail from "./pages/ProductDetail";
 import TestimonialManagement from "./pages/admin/TestimonialManagement";
 import ThankYou from "./pages/ThankYou";
 import NewsletterSuccess from "./pages/NewsletterSuccess";
+import NewsletterManagement from "./pages/admin/NewsletterManagement";
+import SocialLinksManagement from "./pages/admin/SocialLinksManagement";
+import PodcastManagement from "./pages/admin/PodcastManagement";
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -61,9 +64,12 @@ function App() {
         <Route path="/admin/timeline" element={<ProtectedRoute><TimeLineManagement /></ProtectedRoute>} />
         <Route path="/admin/testimonials" element={<ProtectedRoute><TestimonialManagement /></ProtectedRoute>} />
         <Route
-  path="/newsletter-success"
-  element={<NewsletterSuccess />}
-/>
+        path="/newsletter-success"
+  element={<NewsletterSuccess />} />
+  <Route path="/admin/newsletter" element={<NewsletterManagement />} />
+  <Route path="/admin/socials" element={<SocialLinksManagement />} />
+      <Route path="/admin/podcasts" element={<PodcastManagement />} />
+      
       </Routes>
     </BrowserRouter>
   );
