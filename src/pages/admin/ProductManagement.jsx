@@ -117,8 +117,15 @@ const handleSyncPrintful = async () => {
     }
 
     if (!response.ok) {
-      console.error(data);
-      showMessage("error", data.error || "Failed to sync Printful products.");
+      console.error("SYNC ERROR:", data);
+
+      showMessage(
+        "error",
+        typeof data.error === "string"
+          ? data.error
+          : data.message || "Failed to sync Printful products."
+      );
+
       return;
     }
 
