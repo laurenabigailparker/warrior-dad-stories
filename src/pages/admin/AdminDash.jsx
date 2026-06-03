@@ -355,7 +355,13 @@ if (loading) {
   meta={`${socialLinks.length} Links`}
 />
 
-
+<AdminCard
+  href="/admin/forge"
+  icon="🔥"
+  title="Creative Forge"
+  desc="Edit Forge page messaging"
+  meta="Content"
+/>
 
 <AdminCard
   href="/admin/podcasts"
