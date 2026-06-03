@@ -106,23 +106,27 @@ const handleSyncPrintful = async () => {
       method: "POST",
     });
 
-    const data = await response.json();
+    const text = await response.text();
+    console.log("SYNC RAW RESPONSE:", text);
 
-    console.log(data);
+    let data = {};
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      data = { error: text };
+    }
 
-    showMessage(
-      "success",
-      `Synced ${data.count || 0} Printful products.`
-    );
+    if (!response.ok) {
+      console.error(data);
+      showMessage("error", data.error || "Failed to sync Printful products.");
+      return;
+    }
 
+    showMessage("success", `Synced ${data.count || 0} Printful products.`);
     loadProducts();
   } catch (error) {
     console.error(error);
-
-    showMessage(
-      "error",
-      "Failed to sync Printful products."
-    );
+    showMessage("error", "Failed to sync Printful products.");
   }
 };
   return (
