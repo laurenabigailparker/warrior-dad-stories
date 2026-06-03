@@ -356,6 +356,14 @@ if (loading) {
 />
 
 <AdminCard
+  href="/admin/products"
+  icon="👕"
+  title="Printful Sync"
+  desc="Import products from Printful"
+  meta="Merch Store"
+/>
+
+<AdminCard
   href="/admin/podcasts"
   icon="🎙"
   title="Podcasts"

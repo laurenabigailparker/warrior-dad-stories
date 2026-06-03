@@ -19,13 +19,24 @@ const showMessage = (type, text) => {
   setTimeout(() => setMessage(""), 4000);
 };
 
-<StatusMessage
-  message={message}
-  type={messageType}
-/>
 
-  useEffect(() => {
-  const fetchProducts = async () => {
+
+const loadProducts = async () => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setProducts(data || []);
+};
+
+useEffect(() => {
+  const loadInitialProducts = async () => {
     const { data, error } = await supabase
       .from("products")
       .select("*")
@@ -39,8 +50,9 @@ const showMessage = (type, text) => {
     setProducts(data || []);
   };
 
-  fetchProducts();
+  loadInitialProducts();
 }, []);
+
 
   const activeProducts = products.filter(
   (product) => product.in_stock
@@ -88,14 +100,43 @@ const handleDeleteProduct = async () => {
   setProducts(products.filter((p) => p.id !== deleteTarget.id));
   setDeleteTarget(null);
 };
+const handleSyncPrintful = async () => {
+  try {
+    const response = await fetch("/api/sync-printful-products", {
+      method: "POST",
+    });
 
+    const data = await response.json();
+
+    console.log(data);
+
+    showMessage(
+      "success",
+      `Synced ${data.count || 0} Printful products.`
+    );
+
+    loadProducts();
+  } catch (error) {
+    console.error(error);
+
+    showMessage(
+      "error",
+      "Failed to sync Printful products."
+    );
+  }
+};
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-7xl mx-auto bg-[#101118] min-h-[850px]">
         <AdminSubTop title="Product Management" back="/admin/dashboard" />
 
-        <section className="p-8">
-          <div className="grid md:grid-cols-3 gap-6 mb-10">
+       <section className="p-8">
+  <StatusMessage
+    message={message}
+    type={messageType}
+  />
+
+  <div className="grid md:grid-cols-3 gap-6 mb-10">
             <Stat label="Total Products" value={products.length} />
             <Stat label="Active Products" value={activeProducts} />
             <Stat label="Featured Products" value={featuredProducts} />
@@ -139,12 +180,21 @@ const handleDeleteProduct = async () => {
               Products
             </h2>
 
-            <Link
-              to="/admin/products/new"
-              className="bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
-            >
-              + New Product
-            </Link>
+           <div className="flex gap-3">
+  <button
+    onClick={handleSyncPrintful}
+    className="bg-white/10 px-6 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
+  >
+    Sync Printful
+  </button>
+
+  <Link
+    to="/admin/products/new"
+    className="bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
+  >
+    + New Product
+  </Link>
+</div>
           </div>
 
           {filteredProducts.length === 0 ? (
@@ -233,6 +283,7 @@ const handleDeleteProduct = async () => {
   );
 }
 
+
 function Stat({ label, value }) {
   return (
     <div className="bg-[#202632] rounded-lg p-7">
@@ -260,5 +311,6 @@ function AdminSubTop({ title, back }) {
     </header>
   );
 }
+
 
 export default ProductManagement;
