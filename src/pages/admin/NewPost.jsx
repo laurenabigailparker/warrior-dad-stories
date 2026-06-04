@@ -11,13 +11,14 @@ function NewPost() {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
 
-  const [formData, setFormData] = useState({
-    title: "",
-    slug: "",
-    excerpt: "",
-    featured_image: "",
-    content: "",
-  });
+ const [formData, setFormData] = useState({
+  title: "",
+  slug: "",
+  category: "",
+  excerpt: "",
+  featured_image: "",
+  content: "",
+});
 
   const showMessage = (type, text) => {
     setMessageType(type);
@@ -47,6 +48,7 @@ function NewPost() {
         excerpt: data.excerpt || "",
         featured_image: data.featured_image || "",
         content: data.content || "",
+        category: data.category || "All",
       });
     };
 
@@ -86,14 +88,15 @@ function NewPost() {
   };
 
   const handleSubmit = async (published) => {
-    const payload = {
-      title: formData.title,
-      slug: formData.slug,
-      excerpt: formData.excerpt,
-      featured_image: formData.featured_image,
-      content: formData.content,
-      published,
-    };
+ const payload = {
+  title: formData.title,
+  slug: formData.slug,
+  category: formData.category,
+  excerpt: formData.excerpt,
+  featured_image: formData.featured_image,
+  content: formData.content,
+  published,
+};
 
     const { error } = isEditing
       ? await supabase.from("blog_posts").update(payload).eq("id", id)
@@ -143,17 +146,43 @@ function NewPost() {
             className="w-full bg-[#202632] p-4"
           />
 
-          <input
-            placeholder="Slug"
-            value={formData.slug}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                slug: e.target.value,
-              })
-            }
-            className="w-full bg-[#202632] p-4"
-          />
+       <input
+  placeholder="Slug"
+  value={formData.slug}
+  onChange={(e) =>
+    setFormData({
+      ...formData,
+      slug: e.target.value,
+    })
+  }
+  className="w-full bg-[#202632] p-4"
+/>
+
+<div>
+  <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
+    Category
+  </label>
+
+  <select
+    value={formData.category}
+    onChange={(e) =>
+      setFormData({
+        ...formData,
+        category: e.target.value,
+      })
+    }
+    className="w-full bg-[#202632] p-4 outline-none border border-white/5 focus:border-[#c8a96a]"
+  >
+    <option value="All">All</option>
+    <option value="Leadership">Leadership</option>
+    <option value="Fatherhood">Fatherhood</option>
+    <option value="Service">Service</option>
+    <option value="The Forge">The Forge</option>
+    <option value="Reflections">Reflections</option>
+  </select>
+</div>
+
+
 
           <textarea
             placeholder="Excerpt"

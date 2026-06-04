@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { supabase } from "../lib/supabase";
+import GuidingPrinciples from "../components/GuidingPrinciples";
 
 function Blog() {
-  const categories = ["All"];
   const [activeCategory, setActiveCategory] = useState("All");
   const [posts, setPosts] = useState([]);
+  const [email, setEmail] = useState("");
+const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -28,18 +30,58 @@ function Blog() {
     fetchBlogPosts();
   }, []);
 
-  const filteredPosts = posts;
+
+
+
+const filteredPosts =
+  activeCategory === "All"
+    ? posts
+    : posts.filter((post) => post.category === activeCategory);
+
+const categories = [
+  "All",
+  ...new Set(posts.map((post) => post.category).filter(Boolean)),
+];
+
+
 
   const tours = [
-    ["May 23, 2026", "Warrior Dad Book Launch", "Launch day details coming soon", "Upcoming"],
-    ["June 2026", "Book Tour Dates", "Additional appearances being scheduled", "TBA"],
-  ];
+  [
+    "Published",
+    "Warrior Dad",
+    "Now available on Amazon and through Warrior Dad Stories.",
+    "Available",
+  ],
+  [
+    "Now Booking",
+    "Speaking & Community Events",
+    "Available for veteran events, leadership discussions, book signings, and community appearances.",
+    "Booking",
+  ],
+];
 
   const podcasts = [
     ["Veterans Voices Podcast", "From Warrior to Writer", "Upcoming"],
     ["The Dad Edge", "Leadership At Home", "Scheduled"],
     ["Stories Of Service", "Legacy Through Storytelling", "Coming Soon"],
   ];
+
+const handleNewsletterSubmit = async (e) => {
+  e.preventDefault();
+
+  const { error } = await supabase
+    .from("newsletter_subscribers")
+    .insert([{ email }]);
+
+  if (error) {
+    console.error(error);
+    setMessage("This email may already be signed up.");
+    return;
+  }
+
+  setEmail("");
+  setMessage("Thank you for joining the mission.");
+};
 
   return (
     <main className="min-h-screen bg-[#11141b] text-white">
@@ -78,6 +120,8 @@ function Blog() {
         </div>
       </section>
 
+
+
       <section className="bg-[#11141b] px-8 md:px-20 py-28">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -113,11 +157,15 @@ function Blog() {
                     </span>
                   </div>
 
-                  <div className="p-8">
-                    <h3 className="uppercase font-black text-2xl leading-tight">
-                      {post.title}
-                    </h3>
+                  
+                <div className="p-8">
+  <p className="text-[#c8a96a] uppercase tracking-[0.2em] text-[10px] mb-3">
+    {post.category || "Blog"}
+  </p>
 
+  <h3 className="uppercase font-black text-2xl leading-tight">
+    {post.title}
+  </h3>
                     <p className="mt-5 text-slate-400 italic font-serif leading-7">
                       {post.excerpt}
                     </p>
@@ -269,18 +317,18 @@ function Blog() {
 
       <section className="bg-[#1a1f27] px-8 md:px-20 py-28">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-            Book Tours
-          </p>
+   <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+  Appearances & Events
+</p>
 
-          <h2 className="uppercase font-black text-4xl md:text-5xl">
-            Bringing Warrior Dad Stories To Your Community
-          </h2>
+<h2 className="uppercase font-black text-4xl md:text-5xl">
+  Beyond The Book
+</h2>
 
-          <p className="mt-8 max-w-4xl text-slate-400 italic font-serif text-xl leading-9">
-            Book tours, readings, veteran events, and community appearances will
-            help carry the mission beyond the page.
-          </p>
+<p className="mt-8 max-w-4xl text-slate-400 italic font-serif text-xl leading-9">
+  Warrior Dad continues through speaking engagements, veteran events,
+  leadership discussions, community appearances, and the stories still being written.
+</p>
 
           <div className="mt-14 grid md:grid-cols-2 gap-8">
             {tours.map(([date, title, location, status]) => (
@@ -307,9 +355,9 @@ function Blog() {
             ))}
           </div>
 
-          <p className="mt-10 text-center text-slate-500 italic font-serif">
-            More dates will be announced as events are confirmed.
-          </p>
+         <p className="mt-10 text-center text-slate-500 italic font-serif">
+  Interested in hosting TJ for a speaking engagement, veteran event, or community appearance? Contact Warrior Dad Stories for booking information.
+</p>
         </div>
       </section>
 
@@ -327,18 +375,35 @@ function Blog() {
           lessons from Warrior Dad Stories.
         </p>
 
-        <div className="mt-10 flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto">
-          <input
-            type="email"
-            placeholder="your@email.com"
-            className="flex-1 bg-[#151922] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
-          />
+        <form
+  onSubmit={handleNewsletterSubmit}
+  className="mt-10 flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto"
+>
+  <input
+    type="email"
+    placeholder="your@email.com"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    className="flex-1 bg-[#151922] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
+    required
+  />
 
-          <button className="bg-[#c8a96a] text-black px-10 py-5 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition">
-            Subscribe
-          </button>
-        </div>
+  <button
+    type="submit"
+    className="bg-[#c8a96a] text-black px-10 py-5 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
+  >
+    Join The Mission
+  </button>
+</form>
+
+{message && (
+  <p className="mt-5 text-[#c8a96a] italic font-serif">
+    {message}
+  </p>
+)}
       </section>
+
+<GuidingPrinciples />
 
       <Footer />
     </main>

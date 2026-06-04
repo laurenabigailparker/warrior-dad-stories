@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { supabase } from "../lib/supabase";
+import GuidingPrinciples from "../components/GuidingPrinciples";
 
 function About() {
   const [timeline, setTimeline] = useState([]);
+  const [content, setContent] = useState({});
 
   const principles = [
     [
@@ -44,6 +46,32 @@ function About() {
     loadTimeline();
   }, []);
 
+  useEffect(() => {
+  const loadContent = async () => {
+    const { data, error } = await supabase
+      .from("site_content")
+      .select("*")
+      .eq("page", "about");
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const mapped = {};
+
+    data.forEach((item) => {
+      mapped[`${item.section}_${item.field}`] = item.value;
+    });
+
+    setContent(mapped);
+  };
+
+  loadContent();
+}, []);
+
+console.log(content);
+
   return (
     <main className="bg-[#11141b] text-white min-h-screen">
       <Navbar />
@@ -68,19 +96,17 @@ function About() {
 
         <div className="max-w-[320px] sm:max-w-3xl relative z-10">
           <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-            Warrior Dad Stories · About TJ
+            {content.hero_eyebrow || "Warrior Dad Stories · About TJ"}
           </p>
 
-          <h1 className="uppercase font-black text-[2.4rem] sm:text-6xl md:text-8xl leading-[0.92]">
-            Warrior. <br />
-            Father. <br />
-            Story. <br />
-            <span className="text-[#c8a96a]">Teller.</span>
-          </h1>
+         <h1 className="uppercase font-black text-[2.4rem] sm:text-6xl md:text-8xl leading-[0.92] whitespace-pre-line">
+  {content.hero_headline ||
+    "Warrior.\nFather.\nStory.\nTeller."}
+</h1>
 
           <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9 max-w-2xl">
-            Stories forged through service, strengthened by love, and written
-            for legacy.
+          {content.hero_body ||
+  "Stories forged through service, strengthened by love, and written for legacy."}
           </p>
         </div>
       </section>
@@ -90,19 +116,17 @@ function About() {
         <div className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_420px] gap-20 items-center">
           <div>
             <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
-              The Mission
-            </p>
+  {content.mission_eyebrow || "The Mission"}
+</p>
 
-            <h2 className="uppercase text-5xl font-black leading-tight">
-              The Mission Did Not End. <br />
-              It Evolved.
-            </h2>
+            <h2 className="uppercase text-5xl font-black leading-tight whitespace-pre-line">
+  {content.mission_headline || "The Mission Did Not End.\nIt Evolved."}
+</h2>
 
-            <p className="mt-8 text-slate-300 font-serif italic leading-9 text-lg">
-              Warrior Dad Stories was born from the realization that leadership,
-              fatherhood, service, and storytelling are not separate journeys —
-              they are deeply connected.
-            </p>
+          <p className="mt-8 text-slate-300 font-serif italic leading-9 text-lg">
+  {content.mission_body ||
+    "Warrior Dad Stories was born from the realization that leadership, fatherhood, service, and storytelling are not separate journeys — they are deeply connected."}
+</p>
 
             <p className="mt-6 text-slate-400 leading-8">
               After decades of military service, deployments, sacrifice, and
@@ -170,6 +194,49 @@ function About() {
           </div>
         </div>
       </section>
+
+{/* WHY WARRIOR DAD STORIES */}
+<section className="bg-[#171c25] px-8 md:px-20 py-32">
+  <div className="max-w-5xl mx-auto text-center">
+    <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
+      Why Warrior Dad Stories
+    </p>
+
+    <h2 className="mt-6 uppercase text-5xl md:text-6xl font-black leading-tight">
+      Built Through Service. <br />
+      Written For Legacy.
+    </h2>
+
+    <p className="mt-10 text-slate-300 italic font-serif text-xl leading-10">
+      Warrior Dad Stories was founded by a military veteran with 32 years of
+      service to inspire and connect with those who live to lead — veterans,
+      dads, and anyone striving to grow with purpose.
+    </p>
+
+    <p className="mt-8 text-slate-400 leading-9">
+      Built on real experiences and hard-earned lessons, the platform bridges
+      leadership, service, and fatherhood through powerful storytelling.
+    </p>
+
+    <p className="mt-8 text-slate-400 leading-9">
+      Through original works like <span className="italic">Warrior Dad</span>
+      and <span className="italic">The Adventures of Cool Bear</span>, visitors
+      will find stories that blend the grit of combat with the grace of family —
+      a place where poetry and purpose meet.
+    </p>
+
+    <div className="mt-14 border-t border-white/10 pt-12">
+      <p className="text-[#c8a96a] uppercase tracking-[0.25em] text-[10px]">
+        What Sets Warrior Dad Stories Apart
+      </p>
+
+      <p className="mt-6 text-2xl italic font-serif text-slate-200 leading-[1.8]">
+        Stories told by someone who has lived them, written to inspire others
+        to lead with courage, love, and legacy.
+      </p>
+    </div>
+  </div>
+</section>
 
       {/* TIMELINE */}
       <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
@@ -372,6 +439,8 @@ function About() {
           </div>
         </div>
       </section>
+
+<GuidingPrinciples />
 
       <Footer />
     </main>

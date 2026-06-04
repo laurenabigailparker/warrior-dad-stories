@@ -355,11 +355,28 @@ if (loading) {
   meta={`${socialLinks.length} Links`}
 />
 
+
 <AdminCard
   href="/admin/home"
   icon="🏠"
   title="Home Page"
-  desc="Edit homepage content"
+  desc="Edit Homepage content"
+  meta="Content"
+/>
+
+<AdminCard
+  href="/admin/books"
+  icon="📚"
+  title="Books"
+  desc="Manage current and future books"
+  meta="Content"
+/>
+
+<AdminCard
+  href="/admin/about"
+  icon="👤"
+  title="About Page"
+  desc="Edit About page content"
   meta="Content"
 />
 

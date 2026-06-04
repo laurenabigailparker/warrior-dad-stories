@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabase";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { useNavigate } from "react-router-dom";
+import GuidingPrinciples from "../components/GuidingPrinciples";
 
 function Contact() {
 const navigate = useNavigate();
@@ -369,6 +370,8 @@ const handleSubmit = async (e) => {
           Connection begins with a story.
         </p>
       </section>
+
+<GuidingPrinciples />
 
       <Footer />
     </main>

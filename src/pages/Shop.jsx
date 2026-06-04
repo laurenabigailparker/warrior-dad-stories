@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import GuidingPrinciples from "../components/GuidingPrinciples";
 
 function Shop() {
   const [products, setProducts] = useState([]);
@@ -380,6 +381,8 @@ console.log("SHOP PRODUCTS:", data);
         <TrustBar icon="◇" text="Story-first products" />
         <TrustBar icon="↻" text="Built to grow long term" />
       </section>
+
+<GuidingPrinciples />
 
       <Footer />
     </main>

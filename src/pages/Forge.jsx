@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { supabase } from "../lib/supabase";
+import GuidingPrinciples from "../components/GuidingPrinciples";
 
 function Forge() {
   const [content, setContent] = useState({});
@@ -161,34 +162,147 @@ function Forge() {
         </div>
       </section>
 
-      <section
-        className="relative bg-cover bg-center px-8 md:px-20 py-44"
-        style={{
-          backgroundImage: `
-            linear-gradient(
-              rgba(13,15,20,0.88),
-              rgba(13,15,20,0.92)
-            ),
-            url('/reforged-forge.webp')
-          `,
-        }}
-      >
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-            Reforged
-          </p>
+      {/* REFORGED FEATURE */}
+<section
+  className="relative bg-cover bg-center px-8 md:px-20 py-32"
+  style={{
+    backgroundImage: `
+      linear-gradient(
+        rgba(13,15,20,0.9),
+        rgba(13,15,20,0.95)
+      ),
+      url('/reforged-forge.webp')
+    `,
+  }}
+>
+  <div className="max-w-5xl mx-auto">
+    <div className="text-center">
+      <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+        Reforged
+      </p>
 
-          <h2 className="uppercase text-5xl md:text-6xl font-black leading-tight">
-            There Is A Kind Of Breaking <br />
-            That Rebuilds.
-          </h2>
+      <h2 className="uppercase text-5xl md:text-6xl font-black leading-tight">
+        An Ode To The Journey <br />
+        Through PREP
+      </h2>
 
-          <p className="mt-10 text-slate-300 italic font-serif text-2xl leading-10">
-            Pressure does not always destroy. Sometimes it reveals what was
-            buried, what was waiting, and what still holds.
+      <p className="mt-10 text-slate-300 italic font-serif text-xl md:text-2xl leading-10">
+        This journey began with the quiet realization that armor worn too long
+        becomes a burden. PREP was not about fixing what was broken, but about
+        facing what had been avoided, learning to slow down, to listen, and to
+        do the hard internal work required to heal.
+      </p>
+
+      <p className="mt-6 text-slate-400 italic font-serif text-lg leading-9">
+        What follows is not a story of arrival, but of commitment to becoming
+        better, to staying present, and to carrying forward the lessons forged
+        in that crucible.
+      </p>
+    </div>
+
+    <div className="mt-16 bg-[#11141b]/85 border border-white/10 rounded-2xl p-8 md:p-14 shadow-2xl">
+      <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[11px] mb-4">
+        Reforged: An Ode to the Journey Through PREP
+      </p>
+
+      <div className="space-y-14 text-slate-300 font-serif italic leading-9 text-lg">
+        <div>
+          <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
+            I. Armored and Breaking
+          </h3>
+
+          <p className="whitespace-pre-line">
+{`I told myself that I was fine.
+That others needed help, not me.
+The mirror showed scars, but I ignored them,
+Armored, distant, implacable.
+
+Whispers turned to pleas,
+“You’re too angry,” she said, eyes dimmed with tears.
+“I want you to be happy… but we can’t live like this.”
+Their words landed like a hammer; undeniable.
+
+The decision came in fits and starts,
+Years layered by guilt, pride, and pain.
+But in the stillness of truth,
+I saw the better man I could be.
+
+And I whispered,
+
+Let’s do this.
+
+Let’s be better,
+
+For me… for them.`}
           </p>
         </div>
-      </section>
+
+        <div>
+          <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
+            II. The Crucible
+          </h3>
+
+          <p className="whitespace-pre-line">
+{`I arrived not with thunder,
+But with trepidation in every step.
+Would they see me as broken?
+As I see myself, the scarred man in the mirror?
+
+I scanned the faces, strangers, all carrying something.
+And in their hardened silence, I saw my own reflection.
+A fraternity of the weary, not defeated,
+Just exhausted from the march.
+
+Then came the shift.
+The team; calm, ready, unwavering.
+They met my fear; not with judgment,
+But with purpose and compassion.
+
+Every grace, every talk, every breath:
+A movement away from the man hidden beneath the armor,
+Toward the man I could become.
+
+The crucible sears: yes,
+But it tempers, too.`}
+          </p>
+        </div>
+
+        <div>
+          <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
+            III. Reforged
+          </h3>
+
+          <p className="whitespace-pre-line">
+{`This path is enduring.
+But now I walk it,
+Eyes focused, back straighter, steps surer.
+
+We are not cured.
+We are not erased.
+We are renewed, honed, better.
+
+This brotherhood of healing,
+This tribe of warriors; bonded by purpose,
+They have changed me.
+
+I carry with me their strength,
+Their laughter for the hard days ahead,
+Their courage when mine wanes.`}
+          </p>
+        </div>
+<div className="mt-12 text-center">
+  <a
+    href="/contact"
+    className="bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
+  >
+    Connect With TJ
+  </a>
+</div>
+
+      </div>
+    </div>
+  </div>
+</section>
 
       <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
         <div className="text-center">
@@ -333,6 +447,8 @@ function Forge() {
           — T.J. Baird, The Creative Forge
         </p>
       </section>
+
+<GuidingPrinciples />
 
       <Footer />
     </main>

@@ -20,6 +20,10 @@ import SocialLinksManagement from "./pages/admin/SocialLinksManagement";
 import PodcastManagement from "./pages/admin/PodcastManagement";
 import ForgeManagement from "./pages/admin/ForgeManagement";
 import HomeManagement from "./pages/admin/HomeManagement";
+import AboutManagement from "./pages/admin/AboutManagement";
+import BooksManagement from "./pages/admin/BooksManagement";
+import NewBook from "./pages/admin/NewBook";
+
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -73,6 +77,10 @@ function App() {
       <Route path="/admin/podcasts" element={<PodcastManagement />} />
       <Route path="/admin/forge" element={<ForgeManagement />} />
      <Route path="/admin/home" element={<HomeManagement />} />
+     <Route path="/admin/about" element={<AboutManagement />} />
+     <Route path="/admin/books" element={<BooksManagement />} />
+<Route path="/admin/books/new" element={<NewBook />} />
+<Route path="/admin/books/edit/:id" element={<NewBook />} />
       </Routes>
     </BrowserRouter>
   );

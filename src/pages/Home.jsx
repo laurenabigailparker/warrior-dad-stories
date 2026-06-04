@@ -80,7 +80,7 @@ function Hero({ content }) {
 
         <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9 max-w-xl">
           {content.hero_body ||
-  "Warrior Dad Stories exists to inspire others to walk their path, share their story, and remember that the mission does not end — it evolves."}
+  "Every journey begins with purpose. At Warrior Dad Stories, our paths are built from service, strengthened by love, and carried forward through words that endure.\n\nWhether found in a battlefield reflection, a father's promise, or a story yet unwritten — the journey begins here."}
         </p>
 
         <div className="mt-9 flex flex-wrap gap-4">
@@ -143,66 +143,106 @@ function Mission() {
 }
 
 function BookLaunch() {
+  const [featuredBook, setFeaturedBook] = useState(null);
+
+  useEffect(() => {
+    const loadFeaturedBook = async () => {
+      const { data, error } = await supabase
+        .from("books")
+        .select("*")
+        .eq("featured", true)
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setFeaturedBook(data);
+    };
+
+    loadFeaturedBook();
+  }, []);
+
+  const book = featuredBook || {
+    title: "Warrior Dad",
+    subtitle: "A Collection Of Odes",
+    description:
+      "From the frontlines to the home front, Warrior Dad is a collection of odes forged in service and strengthened by love. Each piece captures the heart of a warrior and the soul of a father — moments of courage, loss, faith, and devotion woven into words that honor both duty and family.",
+    cover_image: "/wd-book-cover.png",
+    amazon_url: "https://www.amazon.com/Warrior-Dad-Tj-Baird/dp/B0GXYVQK76",
+    status: "Published",
+  };
+
   return (
     <section id="book" className="bg-[#1b212b] px-8 md:px-20 py-28">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-[340px_1fr] gap-24 items-center">
         <div className="text-center">
           <img
-            src="/wd-book-cover.png"
-            alt="Warrior Dad Book Cover"
+            src={book.cover_image || "/wd-book-cover.png"}
+            alt={book.title}
             className="w-72 mx-auto rounded-sm border border-white/10 shadow-2xl"
           />
 
           <div className="mt-6 text-[#c8a96a]">★★★★★</div>
+
           <p className="text-xs text-slate-500">
-            100 pages of poetry and illustrations
+            {book.status || "Published"}
           </p>
         </div>
 
         <div>
           <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-4">
-            The Book
+            Featured Book
           </p>
 
           <h2 className="text-5xl md:text-6xl uppercase font-black tracking-wide">
-            Warrior Dad
+            {book.title}
           </h2>
 
-          <h3 className="text-2xl md:text-3xl uppercase font-black text-slate-500 mt-2">
-            A Collection Of Odes
-          </h3>
+          {book.subtitle && (
+            <h3 className="text-2xl md:text-3xl uppercase font-black text-slate-500 mt-2">
+              {book.subtitle}
+            </h3>
+          )}
 
-          <p className="mt-8 text-slate-300 font-serif text-lg leading-9 max-w-3xl">
-            A collection of moments, reflections, odes, and illustrations that
-            bridge the space between battlefield and family. Warrior Dad
-            preserves the love, sacrifice, humor, and legacy carried by those
-            who serve — and those who wait for them to come home.
+          <p className="mt-8 text-slate-300 font-serif text-lg leading-9 max-w-3xl whitespace-pre-line">
+            {book.description}
           </p>
 
           <div className="grid grid-cols-3 gap-8 mt-10">
-            <Stat big="Now" small="On Amazon" />
-            <Stat big="100" small="Pages" />
-            <Stat big="HC + Ebook" small="Formats" />
+            <Stat big={book.status === "Published" ? "Now" : "Soon"} small={book.status || "Status"} />
+            <Stat big="WDS" small="Original Work" />
+            <Stat big="Book" small="Featured" />
           </div>
 
-       <div className="mt-10 flex flex-wrap gap-4">
-  <a
-    href="https://www.amazon.com/Warrior-Dad-Tj-Baird/dp/B0GXYVQK76"
-    target="_blank"
-    rel="noreferrer"
-    className="bg-[#c8a96a] text-black px-10 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
-  >
-    Buy The Book
-  </a>
+        <div className="mt-10 flex flex-wrap gap-4">
+  {book.amazon_url ? (
+    <>
+      <a
+        href={book.amazon_url}
+        target="_blank"
+        rel="noreferrer"
+        className="bg-[#c8a96a] text-black px-10 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
+      >
+        Buy The Book
+      </a>
 
-  <a
-    href="https://www.amazon.com/review/create-review?asin=B0GXYVQK76"
-    target="_blank"
-    rel="noreferrer"
-    className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
-  >
-    Leave A Review
-  </a>
+      <a
+        href="/Warrior Dad Companion Guide.pdf"
+        target="_blank"
+        rel="noreferrer"
+        className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
+      >
+        Companion Guide
+      </a>
+    </>
+  ) : (
+    <span className="bg-[#c8a96a] text-black px-10 py-4 text-[11px] uppercase tracking-[0.18em] font-bold">
+      Coming Soon
+    </span>
+  )}
 
   <a
     href="/forge"

@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabase";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
+
 function ProductDetail() {
   const { slug } = useParams();
 
