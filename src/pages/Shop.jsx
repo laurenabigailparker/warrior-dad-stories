@@ -59,7 +59,7 @@ console.log("SHOP PRODUCTS:", data);
 
           <div className="grid grid-cols-3 gap-8 text-center">
             <Trust icon="◇" label="Veteran Owned" />
-            <Trust icon="▣" label="Book Launch May 23" />
+            <Trust icon="▣" label="Book Now Available on Amazon" />
             <Trust icon="★" label="Reader Acclaim" />
           </div>
         </div>
@@ -143,18 +143,23 @@ console.log("SHOP PRODUCTS:", data);
             </div>
 
       <div className="mt-10 flex flex-wrap gap-4">
-  <a
-    href="https://www.thriftbooks.com/w/warrior-dad/58961664/item/89065882/"
-    target="_blank"
-    rel="noreferrer"
-    className="inline-block bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
-  >
-    Buy On ThriftBooks
-  </a>
+ <a
+  href="https://www.amazon.com/Warrior-Dad-Tj-Baird/dp/B0GXYVQK76"
+  target="_blank"
+  rel="noreferrer"
+  className="inline-block bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
+>
+  Buy On Amazon
+</a>
 
-  <button className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 uppercase tracking-[0.18em] text-[11px] hover:bg-[#c8a96a] hover:text-black transition">
-    Download Companion Guide
-  </button>
+<a
+  href="/Warrior%20Dad%20Companion%20Guide.pdf"
+  target="_blank"
+  rel="noreferrer"
+  className="inline-flex items-center justify-center border border-[#c8a96a] text-[#c8a96a] px-10 py-4 uppercase tracking-[0.18em] text-[11px] hover:bg-[#c8a96a] hover:text-black transition"
+>
+  Download Companion Guide
+</a>
 </div>
 
             <p className="mt-5 text-xs text-slate-600">

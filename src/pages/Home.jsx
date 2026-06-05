@@ -301,47 +301,27 @@ function FeaturedIn() {
 function WatchStory() {
   return (
     <section className="bg-[#1f2631] py-28 px-8">
-      <SectionTitle
-        eyebrow="Watch The Story"
-        title="The Journey Behind Warrior Dad"
-      />
+  <SectionTitle
+    eyebrow="Author Message"
+    title="The Story Behind Warrior Dad"
+  />
 
-      <div
-        className="relative mt-14 max-w-5xl mx-auto h-[430px] bg-cover bg-center rounded-xl overflow-hidden border border-white/10 flex items-center justify-center"
-        style={{
-          backgroundImage: `
-            linear-gradient(
-              to top,
-              rgba(0,0,0,0.75),
-              rgba(0,0,0,0.2)
-            ),
-            url('/fatherhood-through-service.jpg')
-          `,
-        }}
+  <p className="mt-6 max-w-3xl mx-auto text-center text-slate-400 italic font-serif text-xl leading-8">
+    TJ Baird shares the inspiration, experiences, and purpose behind Warrior Dad.
+  </p>
+
+  <div className="mt-14 max-w-5xl mx-auto">
+    <div className="overflow-hidden rounded-xl border border-white/10">
+      <video
+        className="w-full object-cover"
+        controls
+        poster="/fatherhood-through-service.jpg"
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-
-     <button
-  className="group relative z-10 h-24 w-24 rounded-full border border-[#c8a96a]/70 bg-black/35 backdrop-blur-md flex items-center justify-center shadow-[0_0_45px_rgba(200,169,106,0.25)] hover:scale-105 hover:bg-[#c8a96a]/20 transition-all duration-300"
-  aria-label="Play video"
->
-  <span className="absolute inset-0 rounded-full border border-[#c8a96a]/30 animate-ping" />
-  <span className="relative ml-1 text-[#c8a96a] text-3xl group-hover:text-white transition">
-    ▶
-  </span>
-</button>
-
-        <div className="absolute bottom-8 left-8 z-10">
-          <h4 className="uppercase text-xl font-black">
-            Watch The Story
-          </h4>
-
-          <p className="text-slate-300 italic font-serif mt-2">
-            Trailer and introduction video coming soon.
-          </p>
-        </div>
-      </div>
-    </section>
+        <source src="/hero-book-video.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</section>
   );
 }
 
