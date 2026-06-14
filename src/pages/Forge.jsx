@@ -6,6 +6,7 @@ import GuidingPrinciples from "../components/GuidingPrinciples";
 
 function Forge() {
   const [content, setContent] = useState({});
+  const [entries, setEntries] = useState([]);
 
   const haikus = [
     "Steel and silk entwined. Duty's weight and love's soft touch. Both hands hold the same.",
@@ -43,27 +44,38 @@ function Forge() {
   useEffect(() => {
     let ignore = false;
 
-    const loadContent = async () => {
-      const { data, error } = await supabase
-        .from("site_content")
-        .select("*")
-        .eq("page", "forge");
+   const loadContent = async () => {
+  const { data, error } = await supabase
+    .from("site_content")
+    .select("*")
+    .eq("page", "forge");
 
-      if (error) {
-        console.error(error);
-        return;
-      }
+  if (error) {
+    console.error(error);
+    return;
+  }
 
-      const mapped = {};
+  const mapped = {};
 
-      data.forEach((item) => {
-        mapped[`${item.section}_${item.field}`] = item.value;
-      });
+  data.forEach((item) => {
+    mapped[`${item.section}_${item.field}`] = item.value;
+  });
 
-      if (!ignore) {
-        setContent(mapped);
-      }
-    };
+  const { data: entryData, error: entryError } = await supabase
+    .from("forge_entries")
+    .select("*")
+    .eq("published", true)
+    .order("created_at", { ascending: false });
+
+  if (entryError) {
+    console.error(entryError);
+  }
+
+  if (!ignore) {
+    setContent(mapped);
+    setEntries(entryData || []);
+  }
+};
 
     loadContent();
 
@@ -303,6 +315,46 @@ Their courage when mine wanes.`}
     </div>
   </div>
 </section>
+
+{entries.length > 0 && (
+  <section className="bg-[#11141b] px-8 md:px-20 py-32">
+    <div className="text-center">
+      <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
+        Creative Forge
+      </p>
+
+      <h2 className="uppercase font-black text-5xl">
+        Latest Entries
+      </h2>
+    </div>
+
+    <div className="max-w-6xl mx-auto mt-20 space-y-8">
+      {entries.map((entry) => (
+        <div
+          key={entry.id}
+          className="bg-[#202632] rounded-xl border border-white/5 p-8"
+        >
+          <p className="text-[#c8a96a] uppercase tracking-[0.25em] text-[10px]">
+            {entry.entry_type}
+          </p>
+
+          <h3 className="mt-4 uppercase font-black text-3xl">
+            {entry.title}
+          </h3>
+
+          <p className="mt-6 text-slate-400 italic font-serif">
+            {entry.excerpt}
+          </p>
+
+          <div className="mt-8 whitespace-pre-line text-slate-300 font-serif leading-8">
+            {entry.body}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+
 
       <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
         <div className="text-center">

@@ -25,6 +25,8 @@ import BooksManagement from "./pages/admin/BooksManagement";
 import NewBook from "./pages/admin/NewBook";
 import HomeContentManagement from "./pages/admin/HomeContentManagement";
 import ForgeEntriesManagement from "./pages/admin/ForgeEntriesManagement";
+import ForgeEntryEditor from "./pages/admin/ForgeEntryEditor";
+
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -83,9 +85,11 @@ function App() {
 <Route path="/admin/books/new" element={<NewBook />} />
 <Route path="/admin/books/edit/:id" element={<NewBook />} />
       <Route path="/admin/home-content" element={<HomeContentManagement />} />
-      <Route path="/admin/forge-entries" element={<ForgeManagement />} />
-     <Route path="/admin/forge-entries" element={<ForgeEntriesManagement />} />
-     
+     <Route path="/admin/forge" element={<ForgeManagement />} />
+<Route path="/admin/forge-entries" element={<ForgeEntriesManagement />} />
+<Route path="/admin/forge-entries/new" element={<ForgeEntryEditor />} />
+<Route path="/admin/forge-entries/edit/:id" element={<ForgeEntryEditor />} />
+
       </Routes>
     </BrowserRouter>
   );

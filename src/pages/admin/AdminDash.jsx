@@ -381,7 +381,7 @@ if (loading) {
 />
 
 <AdminCard
-  href="/admin/forge-entries"
+  href="/admin/forge"
   icon="🔥"
   title="Creative Forge"
   desc="Edit Forge page messaging"
@@ -392,8 +392,8 @@ if (loading) {
   href="/admin/forge-entries"
   icon="🔥"
   title="Creative Forge Entries"
-  desc="Create and manage poems, haikus, odes, artwork, and videos"
-  meta="Entries"
+  desc="Create and manage poems, haikus, reflections, artwork, and videos."
+  meta="CMS"
 />
 
 <AdminCard
