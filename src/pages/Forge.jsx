@@ -32,14 +32,7 @@ function Forge() {
     ],
   ];
 
-  const moments = [
-    ["Morning coffee before the world wakes", "/morning-reflection.webp"],
-    ["The walk that clears the mind", "/forest-walk.webp"],
-    ["Sunset — proof the day is done", "/sunset-reflection.webp"],
-    ["The page where stories live", "/stories-live-here.webp"],
-    ["The thoughts that stay after midnight", "/late-night-reflections.webp"],
-    ["Focus. Discipline. Legacy.", "/focus-discipline-legacy.webp"],
-  ];
+ const [moments, setMoments] = useState([]);
 
   useEffect(() => {
     let ignore = false;
@@ -71,10 +64,21 @@ function Forge() {
     console.error(entryError);
   }
 
-  if (!ignore) {
-    setContent(mapped);
-    setEntries(entryData || []);
-  }
+const { data: reflectionData, error: reflectionError } = await supabase
+  .from("reflection_images")
+  .select("*")
+  .eq("published", true)
+  .order("display_order", { ascending: true });
+
+if (reflectionError) {
+  console.error(reflectionError);
+}
+
+if (!ignore) {
+  setContent(mapped);
+  setEntries(entryData || []);
+  setMoments(reflectionData || []);
+}
 };
 
     loadContent();
@@ -410,7 +414,7 @@ Their courage when mine wanes.`}
         </p>
 
         <div className="max-w-7xl mx-auto mt-20 grid md:grid-cols-6 auto-rows-[220px] gap-8">
-          {moments.map(([caption, image], index) => {
+         {moments.map((moment, index) => {
             const layouts = [
               "md:col-span-3 md:row-span-2",
               "md:col-span-1 md:row-span-1",
@@ -422,12 +426,12 @@ Their courage when mine wanes.`}
 
             return (
               <div
-                key={caption}
+               key={moment.id}
                 className={`relative overflow-hidden rounded-2xl border border-white/5 group bg-[#202632] ${layouts[index]}`}
               >
                 <img
-                  src={image}
-                  alt={caption}
+                 src={moment.image_url}
+alt={moment.caption}
                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700"
                 />
 
@@ -435,7 +439,7 @@ Their courage when mine wanes.`}
 
                 <div className="relative z-10 h-full flex items-end p-6">
                   <p className="text-left text-slate-100 italic font-serif text-lg leading-8">
-                    {caption}
+                 {moment.caption}
                   </p>
                 </div>
               </div>

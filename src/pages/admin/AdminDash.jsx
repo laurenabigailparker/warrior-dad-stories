@@ -396,6 +396,14 @@ if (loading) {
   meta="CMS"
 />
 
+            <AdminCard
+  href="/admin/reflections"
+  icon="📸"
+  title="Reflection Carousel"
+  desc="Manage the Moments That Make Me Smile carousel."
+  meta="CMS"
+/>
+
 <AdminCard
   href="/admin/podcasts"
   icon="🎙"
@@ -435,6 +443,8 @@ if (loading) {
               desc="Manage reader testimonials"
               meta={`${testimonials.length} Reviews`}
             />
+
+
 
           <AdminCard
   href="/admin/newsletter"

@@ -26,7 +26,7 @@ import NewBook from "./pages/admin/NewBook";
 import HomeContentManagement from "./pages/admin/HomeContentManagement";
 import ForgeEntriesManagement from "./pages/admin/ForgeEntriesManagement";
 import ForgeEntryEditor from "./pages/admin/ForgeEntryEditor";
-
+import ReflectionManagement from "./pages/admin/ReflectionManagement";
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -89,6 +89,11 @@ function App() {
 <Route path="/admin/forge-entries" element={<ForgeEntriesManagement />} />
 <Route path="/admin/forge-entries/new" element={<ForgeEntryEditor />} />
 <Route path="/admin/forge-entries/edit/:id" element={<ForgeEntryEditor />} />
+<Route
+  path="/admin/reflections"
+  element={<ProtectedRoute><ReflectionManagement /></ProtectedRoute>}
+/>
+
 
       </Routes>
     </BrowserRouter>
