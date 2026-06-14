@@ -37,15 +37,15 @@ function Home() {
     <main className="min-h-screen bg-[#11141b] text-white">
       <Navbar />
       <Hero content={content} />
-      <Mission />
-      <BookLaunch />
-      <FeaturedIn />
-      <WatchStory />
-      <PathForward />
+<Mission content={content} />
+<WatchStory content={content} />
+<BookLaunch />
+<FeaturedIn content={content} />
+      <PathForward content={content} />
       <TestimonialsCarousel />
-      <CinematicDivider />
-      <PrinciplesPreview />
-      <MeetTJ />
+      <CinematicDivider content={content} />
+      <PrinciplesPreview content={content} />
+      <MeetTJ content={content} />
       <FinalCTA />
       <Footer />
     </main>
@@ -103,19 +103,22 @@ function Hero({ content }) {
   );
 }
 
-function Mission() {
+function Mission({ content }) {
   const pillars = [
     [
-      "Stories With Soul.",
-      "Reflections from service, family, sacrifice, and the quiet moments that shape who we become.",
+      content.mission_1_title || "Stories With Soul.",
+      content.mission_1_body ||
+        "Reflections from service, family, sacrifice, and the quiet moments that shape who we become.",
     ],
     [
-      "Leadership With Humanity.",
-      "A lived approach to resilience, fatherhood, and purpose — not polished theory, but real life.",
+      content.mission_2_title || "Leadership With Humanity.",
+      content.mission_2_body ||
+        "A lived approach to resilience, fatherhood, and purpose — not polished theory, but real life.",
     ],
     [
-      "Legacy Without Limits.",
-      "Words, images, and memories created to outlast the uniform and keep love within reach.",
+      content.mission_3_title || "Legacy Without Limits.",
+      content.mission_3_body ||
+        "Words, images, and memories created to outlast the uniform and keep love within reach.",
     ],
   ];
 
@@ -132,7 +135,7 @@ function Mission() {
               {title}
             </h3>
 
-            <p className="mt-5 text-slate-400 italic font-serif leading-8">
+            <p className="mt-5 text-slate-400 italic font-serif leading-8 whitespace-pre-line">
               {text}
             </p>
           </div>
@@ -257,40 +260,43 @@ function BookLaunch() {
   );
 }
 
-function FeaturedIn() {
+function FeaturedIn({ content }) {
   return (
     <section className="bg-[#202632] py-20 px-8">
       <div className="max-w-5xl mx-auto text-center">
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-          Featured In
+          {content.featured_eyebrow || "Featured In"}
         </p>
 
         <h2 className="uppercase text-4xl md:text-5xl font-black">
-          Recognized Beyond The Page
+          {content.featured_heading || "Recognized Beyond The Page"}
         </h2>
 
         <div className="mt-12 bg-[#1b212b] border border-white/10 rounded-2xl p-10 md:p-14">
           <p className="uppercase tracking-[0.3em] text-[11px] text-[#c8a96a]">
-            Texoma's Homepage
+            {content.featured_source || "Texoma's Homepage"}
           </p>
 
           <h3 className="mt-5 text-3xl font-black uppercase">
-            Veteran Author T.J. Baird Honors Military Members In Lawton
+            {content.featured_title ||
+              "Veteran Author T.J. Baird Honors Military Members In Lawton"}
           </h3>
 
-          <p className="mt-6 text-slate-400 italic font-serif text-lg leading-8">
-            Warrior Dad Stories and author T.J. Baird were featured by
-            Texoma's Homepage for honoring military members through storytelling,
-            service, and community impact.
+          <p className="mt-6 text-slate-400 italic font-serif text-lg leading-8 whitespace-pre-line">
+            {content.featured_body ||
+              "Warrior Dad Stories and author T.J. Baird were featured by Texoma's Homepage for honoring military members through storytelling, service, and community impact."}
           </p>
 
           <a
-            href="https://www.texomashomepage.com/news/local-news/veteran-author-t-j-baird-honors-military-members-in-lawton/"
+            href={
+              content.featured_url ||
+              "https://www.texomashomepage.com/news/local-news/veteran-author-t-j-baird-honors-military-members-in-lawton/"
+            }
             target="_blank"
             rel="noreferrer"
             className="inline-block mt-8 bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition"
           >
-            Read The Article →
+            {content.featured_button_text || "Read The Article →"}
           </a>
         </div>
       </div>
@@ -298,55 +304,65 @@ function FeaturedIn() {
   );
 }
 
-function WatchStory() {
+function WatchStory({ content }) {
   return (
     <section className="bg-[#1f2631] py-28 px-8">
-  <SectionTitle
-    eyebrow="Author Message"
-    title="The Story Behind Warrior Dad"
-  />
+      <SectionTitle
+        eyebrow={content.author_message_eyebrow || "Author Message"}
+        title={content.author_message_title || "The Story Behind Warrior Dad"}
+      />
 
-  <p className="mt-6 max-w-3xl mx-auto text-center text-slate-400 italic font-serif text-xl leading-8">
-    TJ Baird shares the inspiration, experiences, and purpose behind Warrior Dad.
-  </p>
+      <p className="mt-6 max-w-3xl mx-auto text-center text-slate-400 italic font-serif text-xl leading-8 whitespace-pre-line">
+        {content.author_message_body ||
+          "TJ Baird shares the inspiration, experiences, and purpose behind Warrior Dad."}
+      </p>
 
-  <div className="mt-14 max-w-5xl mx-auto">
-    <div className="overflow-hidden rounded-xl border border-white/10">
-      <video
-        className="w-full object-cover"
-        controls
-        poster="/fatherhood-through-service.jpg"
-      >
-        <source src="/hero-book-video.mp4" type="video/mp4" />
-      </video>
-    </div>
-  </div>
-</section>
+      <div className="mt-14 max-w-5xl mx-auto">
+        <div className="overflow-hidden rounded-xl border border-white/10">
+          <video
+            className="w-full object-cover"
+            controls
+            poster={content.author_message_poster || "/fatherhood-through-service.jpg"}
+          >
+            <source
+              src={content.author_message_video || "/hero-book-video.mp4"}
+              type="video/mp4"
+            />
+          </video>
+        </div>
+      </div>
+    </section>
   );
 }
 
-function PathForward() {
+function PathForward({ content }) {
   const cards = [
     [
-      "Warrior Dad",
-      "The Book",
-      "A collection of odes and illustrations about service, fatherhood, love, and legacy.",
+      content.path_1_title || "Warrior Dad",
+      content.path_1_label || "The Book",
+      content.path_1_body ||
+        "A collection of odes and illustrations about service, fatherhood, love, and legacy.",
     ],
     [
-      "The Creative Forge",
-      "Emotional Core",
-      "Haikus, odes, moments, and reflections shaped by pressure, memory, and purpose.",
+      content.path_2_title || "The Creative Forge",
+      content.path_2_label || "Emotional Core",
+      content.path_2_body ||
+        "Haikus, odes, moments, and reflections shaped by pressure, memory, and purpose.",
     ],
     [
-      "Speaking & Media",
-      "Bring The Story",
-      "Invite TJ to share reflections on leadership, resilience, storytelling, and fatherhood.",
+      content.path_3_title || "Speaking & Media",
+      content.path_3_label || "Bring The Story",
+      content.path_3_body ||
+        "Invite TJ to share reflections on leadership, resilience, storytelling, and fatherhood.",
     ],
   ];
 
   return (
     <section className="bg-[#1b212b] py-28 px-8">
-      <SectionTitle eyebrow="Three Ways To Engage" title="Your Path Forward" />
+      <SectionTitle
+        eyebrow={content.path_eyebrow || "Three Ways To Engage"}
+        title={content.path_heading || "Your Path Forward"}
+      />
 
       <div className="max-w-6xl mx-auto mt-16 grid md:grid-cols-3 gap-7">
         {cards.map(([title, label, text]) => (
@@ -366,7 +382,7 @@ function PathForward() {
               {label}
             </p>
 
-            <p className="mt-5 text-slate-300 font-serif leading-8">
+            <p className="mt-5 text-slate-300 font-serif leading-8 whitespace-pre-line">
               {text}
             </p>
           </div>
@@ -460,70 +476,79 @@ function TestimonialsCarousel() {
   );
 }
 
-function CinematicDivider() {
+function CinematicDivider({ content }) {
   return (
-   <section
-  className="relative min-h-[680px] flex items-center justify-center text-center px-8 overflow-hidden bg-cover bg-center"
-  style={{
-    backgroundImage: `
-      linear-gradient(
-        to bottom,
-        rgba(10,12,16,0.72),
-        rgba(10,12,16,0.72)
-      ),
-      url('/warrior-dad-reflections.webp')
-    `,
-    backgroundPosition: "center 42%",
-  }}
->
+    <section
+      className="relative min-h-[680px] flex items-center justify-center text-center px-8 overflow-hidden bg-cover bg-center"
+      style={{
+        backgroundImage: `
+          linear-gradient(
+            to bottom,
+            rgba(10,12,16,0.72),
+            rgba(10,12,16,0.72)
+          ),
+          url('${content.reflection_background_image || "/warrior-dad-reflections.webp"}')
+        `,
+        backgroundPosition: content.reflection_background_position || "center 42%",
+      }}
+    >
       <div className="max-w-4xl relative z-10">
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-8">
-          Reflection
+          {content.reflection_eyebrow || "Reflection"}
         </p>
 
-        <h2 className="uppercase text-4xl md:text-6xl font-black leading-[1.2]">
-          Some Stories <br />
-          Are Written In Ink. <br />
-          <span className="text-[#c8a96a]">
-            Others In Sacrifice.
-          </span>
+        <h2 className="uppercase text-4xl md:text-6xl font-black leading-[1.2] whitespace-pre-line">
+          {content.reflection_heading ||
+            "Some Stories\nAre Written In Ink.\nOthers In Sacrifice."}
         </h2>
 
-        <p className="mt-10 text-slate-300 italic font-serif text-xl leading-9">
-          Warrior Dad Stories exists for the moments that stay with us —
-          long after the uniform, the deployment, or the mission ends.
+        <p className="mt-10 text-slate-300 italic font-serif text-xl leading-9 whitespace-pre-line">
+          {content.reflection_body ||
+            "Warrior Dad Stories exists for the moments that stay with us — long after the uniform, the deployment, or the mission ends."}
         </p>
       </div>
     </section>
   );
 }
 
-function PrinciplesPreview() {
+function PrinciplesPreview({ content }) {
   const principles = [
-    ["Smile", "Lead with positivity, connection, and humanity."],
-    ["Discipline", "Live intentionally and lead with consistency."],
-    ["Be Fit", "Mind, body, and spirit in harmony."],
-    ["Live Fully", "Pursue purpose, service, adventure, and meaningful relationships."],
+    [
+      content.principles_1_title || "Smile",
+      content.principles_1_body || "Lead with positivity, connection, and humanity.",
+    ],
+    [
+      content.principles_2_title || "Discipline",
+      content.principles_2_body || "Live intentionally and lead with consistency.",
+    ],
+    [
+      content.principles_3_title || "Be Fit",
+      content.principles_3_body || "Mind, body, and spirit in harmony.",
+    ],
+    [
+      content.principles_4_title || "Live Fully",
+      content.principles_4_body || "Pursue purpose, service, adventure, and meaningful relationships.",
+    ],
   ];
 
   return (
-   <section className="relative bg-[#1b212b] px-8 md:px-20 py-28 overflow-hidden">
-    <div
-  className="absolute inset-0 opacity-[0.05] bg-cover bg-center"
-  style={{
-    backgroundImage: "url('/warrior-dad-reflections.webp')",
-  }}
-/>
+    <section className="relative bg-[#1b212b] px-8 md:px-20 py-28 overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.05] bg-cover bg-center"
+        style={{
+          backgroundImage: `url('${content.principles_background_image || "/warrior-dad-reflections.webp"}')`,
+        }}
+      />
 
-<div className="absolute inset-0 bg-[#1b212b]/95" />
+      <div className="absolute inset-0 bg-[#1b212b]/95" />
+
       <div className="max-w-6xl mx-auto relative z-10">
         <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6 text-center">
-          Guiding Principles
+          {content.principles_eyebrow || "Guiding Principles"}
         </p>
 
-        <h2 className="text-center uppercase text-4xl md:text-5xl font-black">
-          Not Corporate Values. <br />
-          A Way Of Living.
+        <h2 className="text-center uppercase text-4xl md:text-5xl font-black whitespace-pre-line">
+          {content.principles_heading || "Not Corporate Values.\nA Way Of Living."}
         </h2>
 
         <div className="mt-16 grid md:grid-cols-4 gap-8">
@@ -541,45 +566,37 @@ function PrinciplesPreview() {
   );
 }
 
-function MeetTJ() {
+function MeetTJ({ content }) {
   return (
     <section className="bg-[#1a1f27] py-32 px-8 md:px-20">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_460px] gap-20 items-center">
 
-        {/* LEFT SIDE */}
         <div>
           <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-            Meet TJ
+            {content.meet_tj_eyebrow || "Meet TJ"}
           </p>
 
-          <h2 className="uppercase font-black leading-[0.9] text-5xl md:text-7xl">
-            Warrior. <br />
-            Father. <br />
-            <span className="text-[#c8a96a]">
-              Storyteller.
-            </span>
+          <h2 className="uppercase font-black leading-[0.9] text-5xl md:text-7xl whitespace-pre-line">
+            {content.meet_tj_heading || "Warrior.\nFather.\nStoryteller."}
           </h2>
 
-          <p className="mt-10 max-w-2xl text-slate-300 italic font-serif text-xl leading-10">
-            Becoming a father while serving changed everything. The mission
-            did not end — it evolved. Warrior Dad Stories carries that
-            evolution forward through poetry, reflection, leadership,
-            and legacy.
+          <p className="mt-10 max-w-2xl text-slate-300 italic font-serif text-xl leading-10 whitespace-pre-line">
+            {content.meet_tj_body ||
+              "Becoming a father while serving changed everything. The mission did not end — it evolved. Warrior Dad Stories carries that evolution forward through poetry, reflection, leadership, and legacy."}
           </p>
 
           <a
-            href="/about"
+            href={content.meet_tj_button_url || "/about"}
             className="inline-block mt-10 border border-[#c8a96a] text-[#c8a96a] px-9 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
           >
-            Read The Full Story →
+            {content.meet_tj_button_text || "Read The Full Story →"}
           </a>
         </div>
 
-        {/* RIGHT SIDE */}
         <div>
           <img
-            src="/tj-portrait.webp"
-            alt="TJ Warrior Dad"
+            src={content.meet_tj_image || "/tj-portrait.webp"}
+            alt={content.meet_tj_image_alt || "TJ Warrior Dad"}
             className="w-full rounded-2xl border border-white/10 shadow-2xl"
             loading="eager"
           />

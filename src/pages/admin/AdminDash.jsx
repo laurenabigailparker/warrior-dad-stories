@@ -357,11 +357,11 @@ if (loading) {
 
 
 <AdminCard
-  href="/admin/home"
+  href="/admin/home-content"
   icon="🏠"
   title="Home Page"
   desc="Edit Homepage content"
-  meta="Content"
+  meta="CMS"
 />
 
 <AdminCard
@@ -381,11 +381,19 @@ if (loading) {
 />
 
 <AdminCard
-  href="/admin/forge"
+  href="/admin/forge-entries"
   icon="🔥"
   title="Creative Forge"
   desc="Edit Forge page messaging"
   meta="Content"
+/>
+
+<AdminCard
+  href="/admin/forge-entries"
+  icon="🔥"
+  title="Creative Forge Entries"
+  desc="Create and manage poems, haikus, odes, artwork, and videos"
+  meta="Entries"
 />
 
 <AdminCard
