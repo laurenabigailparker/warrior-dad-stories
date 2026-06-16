@@ -74,6 +74,39 @@ function BooksManagement() {
     showMessage("success", "Book deleted.");
   };
 
+  const handleFeatureBook = async (book) => {
+  const { error: clearError } = await supabase
+    .from("books")
+    .update({ featured: false })
+    .neq("id", book.id);
+
+  if (clearError) {
+    console.error(clearError);
+    showMessage("error", "Failed to update featured book.");
+    return;
+  }
+
+  const { error: featureError } = await supabase
+    .from("books")
+    .update({ featured: true })
+    .eq("id", book.id);
+
+  if (featureError) {
+    console.error(featureError);
+    showMessage("error", "Failed to feature book.");
+    return;
+  }
+
+  setBooks((prev) =>
+    prev.map((item) => ({
+      ...item,
+      featured: item.id === book.id,
+    }))
+  );
+
+  showMessage("success", `"${book.title}" is now the featured book.`);
+};
+
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-7xl mx-auto bg-[#101118] min-h-[850px]">
@@ -160,9 +193,20 @@ function BooksManagement() {
                     {book.status || "In Progress"}
                   </span>
 
-                  <span className="text-slate-400">
-                    {book.featured ? "Yes" : "No"}
-                  </span>
+                  <div>
+  {book.featured ? (
+    <span className="bg-[#c8a96a] text-black px-3 py-2 text-[10px] uppercase font-bold">
+      Featured
+    </span>
+  ) : (
+    <button
+      onClick={() => handleFeatureBook(book)}
+      className="border border-[#c8a96a] text-[#c8a96a] px-3 py-2 text-[10px] uppercase tracking-[0.15em] hover:bg-[#c8a96a] hover:text-black transition"
+    >
+      Feature
+    </button>
+  )}
+</div>
 
                   <div className="flex gap-5 text-slate-400">
                     <Link to={`/admin/books/edit/${book.id}`}>✎</Link>
