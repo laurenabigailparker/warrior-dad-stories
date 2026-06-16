@@ -7,6 +7,7 @@ import GuidingPrinciples from "../components/GuidingPrinciples";
 function Forge() {
   const [content, setContent] = useState({});
   const [entries, setEntries] = useState([]);
+  const [moments, setMoments] = useState([]);
 
   const haikus = [
     "Steel and silk entwined. Duty's weight and love's soft touch. Both hands hold the same.",
@@ -32,54 +33,53 @@ function Forge() {
     ],
   ];
 
- const [moments, setMoments] = useState([]);
-
   useEffect(() => {
     let ignore = false;
 
-   const loadContent = async () => {
-  const { data, error } = await supabase
-    .from("site_content")
-    .select("*")
-    .eq("page", "forge");
+    const loadContent = async () => {
+      const { data, error } = await supabase
+        .from("site_content")
+        .select("*")
+        .eq("page", "forge");
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+      if (error) {
+        console.error(error);
+        return;
+      }
 
-  const mapped = {};
+      const mapped = {};
 
-  data.forEach((item) => {
-    mapped[`${item.section}_${item.field}`] = item.value;
-  });
+      data.forEach((item) => {
+        mapped[`${item.section}_${item.field}`] = item.value;
+      });
 
-  const { data: entryData, error: entryError } = await supabase
-    .from("forge_entries")
-    .select("*")
-    .eq("published", true)
-    .order("created_at", { ascending: false });
-
-  if (entryError) {
-    console.error(entryError);
-  }
-
-const { data: reflectionData, error: reflectionError } = await supabase
-  .from("reflection_images")
+   const { data: entryData, error: entryError } = await supabase
+  .from("forge_entries")
   .select("*")
   .eq("published", true)
-  .order("display_order", { ascending: true });
+  .neq("entry_type", "bingo")
+  .order("created_at", { ascending: false });
 
-if (reflectionError) {
-  console.error(reflectionError);
-}
+      if (entryError) {
+        console.error(entryError);
+      }
 
-if (!ignore) {
-  setContent(mapped);
-  setEntries(entryData || []);
-  setMoments(reflectionData || []);
-}
-};
+      const { data: reflectionData, error: reflectionError } = await supabase
+        .from("reflection_images")
+        .select("*")
+        .eq("published", true)
+        .order("display_order", { ascending: true });
+
+      if (reflectionError) {
+        console.error(reflectionError);
+      }
+
+      if (!ignore) {
+        setContent(mapped);
+        setEntries(entryData || []);
+        setMoments(reflectionData || []);
+      }
+    };
 
     loadContent();
 
@@ -149,6 +149,153 @@ if (!ignore) {
         </p>
       </section>
 
+      {/* REFORGED FEATURE */}
+      <section
+        className="relative bg-cover bg-center px-8 md:px-20 py-32"
+        style={{
+          backgroundImage: `
+            linear-gradient(
+              rgba(13,15,20,0.9),
+              rgba(13,15,20,0.95)
+            ),
+            url('${content.reforged_background_image || "/reforged-forge.webp"}')
+          `,
+        }}
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center">
+            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+              Reforged
+            </p>
+
+            <h2 className="uppercase text-5xl md:text-6xl font-black leading-tight">
+              An Ode To The Journey <br />
+              Through PREP
+            </h2>
+
+            <p className="mt-6 text-[#c8a96a] uppercase tracking-[0.25em] text-[10px]">
+              Award-Winning Poem · 2025
+            </p>
+
+            <p className="mt-10 text-slate-300 italic font-serif text-xl md:text-2xl leading-10">
+              This journey began with the quiet realization that armor worn too long
+              becomes a burden. PREP was not about fixing what was broken, but about
+              facing what had been avoided, learning to slow down, to listen, and to
+              do the hard internal work required to heal.
+            </p>
+
+            <p className="mt-6 text-slate-400 italic font-serif text-lg leading-9">
+              What follows is not a story of arrival, but of commitment to becoming
+              better, to staying present, and to carrying forward the lessons forged
+              in that crucible.
+            </p>
+          </div>
+
+          <div className="mt-16 bg-[#11141b]/85 border border-white/10 rounded-2xl p-8 md:p-14 shadow-2xl">
+            <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[11px] mb-4">
+              Reforged: An Ode to the Journey Through PREP
+            </p>
+
+            <div className="space-y-14 text-slate-300 font-serif italic leading-9 text-lg">
+              <div>
+                <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
+                  I. Armored and Breaking
+                </h3>
+
+                <p className="whitespace-pre-line">
+{`I told myself that I was fine.
+That others needed help, not me.
+The mirror showed scars, but I ignored them,
+Armored, distant, implacable.
+
+Whispers turned to pleas,
+“You’re too angry,” she said, eyes dimmed with tears.
+“I want you to be happy… but we can’t live like this.”
+Their words landed like a hammer; undeniable.
+
+The decision came in fits and starts,
+Years layered by guilt, pride, and pain.
+But in the stillness of truth,
+I saw the better man I could be.
+
+And I whispered,
+
+Let’s do this.
+
+Let’s be better,
+
+For me… for them.`}
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
+                  II. The Crucible
+                </h3>
+
+                <p className="whitespace-pre-line">
+{`I arrived not with thunder,
+But with trepidation in every step.
+Would they see me as broken?
+As I see myself, the scarred man in the mirror?
+
+I scanned the faces, strangers, all carrying something.
+And in their hardened silence, I saw my own reflection.
+A fraternity of the weary, not defeated,
+Just exhausted from the march.
+
+Then came the shift.
+The team; calm, ready, unwavering.
+They met my fear; not with judgment,
+But with purpose and compassion.
+
+Every grace, every talk, every breath:
+A movement away from the man hidden beneath the armor,
+Toward the man I could become.
+
+The crucible sears: yes,
+But it tempers, too.`}
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
+                  III. Reforged
+                </h3>
+
+                <p className="whitespace-pre-line">
+{`This path is enduring.
+But now I walk it,
+Eyes focused, back straighter, steps surer.
+
+We are not cured.
+We are not erased.
+We are renewed, honed, better.
+
+This brotherhood of healing,
+This tribe of warriors; bonded by purpose,
+They have changed me.
+
+I carry with me their strength,
+Their laughter for the hard days ahead,
+Their courage when mine wanes.`}
+                </p>
+              </div>
+
+              <div className="mt-12 text-center">
+                <a
+                  href="/contact"
+                  className="bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
+                >
+                  Connect With TJ
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HAIKUS */}
       <section className="bg-[#11141b] px-8 md:px-20 py-32 text-center">
         <p className="text-[#c8a96a] text-4xl mb-5">✒</p>
 
@@ -178,188 +325,7 @@ if (!ignore) {
         </div>
       </section>
 
-      {/* REFORGED FEATURE */}
-<section
-  className="relative bg-cover bg-center px-8 md:px-20 py-32"
-  style={{
-    backgroundImage: `
-      linear-gradient(
-        rgba(13,15,20,0.9),
-        rgba(13,15,20,0.95)
-      ),
-      url('/reforged-forge.webp')
-    `,
-  }}
->
-  <div className="max-w-5xl mx-auto">
-    <div className="text-center">
-      <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-        Reforged
-      </p>
-
-      <h2 className="uppercase text-5xl md:text-6xl font-black leading-tight">
-        An Ode To The Journey <br />
-        Through PREP
-      </h2>
-
-      <p className="mt-10 text-slate-300 italic font-serif text-xl md:text-2xl leading-10">
-        This journey began with the quiet realization that armor worn too long
-        becomes a burden. PREP was not about fixing what was broken, but about
-        facing what had been avoided, learning to slow down, to listen, and to
-        do the hard internal work required to heal.
-      </p>
-
-      <p className="mt-6 text-slate-400 italic font-serif text-lg leading-9">
-        What follows is not a story of arrival, but of commitment to becoming
-        better, to staying present, and to carrying forward the lessons forged
-        in that crucible.
-      </p>
-    </div>
-
-    <div className="mt-16 bg-[#11141b]/85 border border-white/10 rounded-2xl p-8 md:p-14 shadow-2xl">
-      <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[11px] mb-4">
-        Reforged: An Ode to the Journey Through PREP
-      </p>
-
-      <div className="space-y-14 text-slate-300 font-serif italic leading-9 text-lg">
-        <div>
-          <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
-            I. Armored and Breaking
-          </h3>
-
-          <p className="whitespace-pre-line">
-{`I told myself that I was fine.
-That others needed help, not me.
-The mirror showed scars, but I ignored them,
-Armored, distant, implacable.
-
-Whispers turned to pleas,
-“You’re too angry,” she said, eyes dimmed with tears.
-“I want you to be happy… but we can’t live like this.”
-Their words landed like a hammer; undeniable.
-
-The decision came in fits and starts,
-Years layered by guilt, pride, and pain.
-But in the stillness of truth,
-I saw the better man I could be.
-
-And I whispered,
-
-Let’s do this.
-
-Let’s be better,
-
-For me… for them.`}
-          </p>
-        </div>
-
-        <div>
-          <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
-            II. The Crucible
-          </h3>
-
-          <p className="whitespace-pre-line">
-{`I arrived not with thunder,
-But with trepidation in every step.
-Would they see me as broken?
-As I see myself, the scarred man in the mirror?
-
-I scanned the faces, strangers, all carrying something.
-And in their hardened silence, I saw my own reflection.
-A fraternity of the weary, not defeated,
-Just exhausted from the march.
-
-Then came the shift.
-The team; calm, ready, unwavering.
-They met my fear; not with judgment,
-But with purpose and compassion.
-
-Every grace, every talk, every breath:
-A movement away from the man hidden beneath the armor,
-Toward the man I could become.
-
-The crucible sears: yes,
-But it tempers, too.`}
-          </p>
-        </div>
-
-        <div>
-          <h3 className="text-white uppercase font-black tracking-widest text-2xl mb-8">
-            III. Reforged
-          </h3>
-
-          <p className="whitespace-pre-line">
-{`This path is enduring.
-But now I walk it,
-Eyes focused, back straighter, steps surer.
-
-We are not cured.
-We are not erased.
-We are renewed, honed, better.
-
-This brotherhood of healing,
-This tribe of warriors; bonded by purpose,
-They have changed me.
-
-I carry with me their strength,
-Their laughter for the hard days ahead,
-Their courage when mine wanes.`}
-          </p>
-        </div>
-<div className="mt-12 text-center">
-  <a
-    href="/contact"
-    className="bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
-  >
-    Connect With TJ
-  </a>
-</div>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-{entries.length > 0 && (
-  <section className="bg-[#11141b] px-8 md:px-20 py-32">
-    <div className="text-center">
-      <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
-        Creative Forge
-      </p>
-
-      <h2 className="uppercase font-black text-5xl">
-        Latest Entries
-      </h2>
-    </div>
-
-    <div className="max-w-6xl mx-auto mt-20 space-y-8">
-      {entries.map((entry) => (
-        <div
-          key={entry.id}
-          className="bg-[#202632] rounded-xl border border-white/5 p-8"
-        >
-          <p className="text-[#c8a96a] uppercase tracking-[0.25em] text-[10px]">
-            {entry.entry_type}
-          </p>
-
-          <h3 className="mt-4 uppercase font-black text-3xl">
-            {entry.title}
-          </h3>
-
-          <p className="mt-6 text-slate-400 italic font-serif">
-            {entry.excerpt}
-          </p>
-
-          <div className="mt-8 whitespace-pre-line text-slate-300 font-serif leading-8">
-            {entry.body}
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-)}
-
-
+      {/* STORIES WRITTEN TO LAST */}
       <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
         <div className="text-center">
           <p className="text-[#c8a96a] text-4xl mb-5">✧</p>
@@ -371,6 +337,11 @@ Their courage when mine wanes.`}
           <h2 className="uppercase font-black text-5xl">
             Stories Written To Last
           </h2>
+
+          <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9">
+            Featured stories and poems from the Creative Forge. Start here, then
+            continue deeper into the Warrior Dad Stories experience.
+          </p>
         </div>
 
         <div className="max-w-6xl mx-auto mt-20 space-y-8">
@@ -397,6 +368,61 @@ Their courage when mine wanes.`}
         </div>
       </section>
 
+      {/* LATEST ENTRIES */}
+      {entries.length > 0 && (
+        <section className="bg-[#11141b] px-8 md:px-20 py-32">
+          <div className="text-center">
+            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
+              Creative Forge
+            </p>
+
+            <h2 className="uppercase font-black text-5xl">
+              Latest Entries
+            </h2>
+          </div>
+
+          <div className="max-w-6xl mx-auto mt-20 space-y-8">
+            {entries.map((entry) => (
+              <div
+                key={entry.id}
+                className="bg-[#202632] rounded-xl border border-white/5 p-8"
+              >
+                {(entry.featured_image ||
+                  entry.artwork_image ||
+                  entry.background_image) && (
+                  <img
+                    src={
+                      entry.featured_image ||
+                      entry.artwork_image ||
+                      entry.background_image
+                    }
+                    alt={entry.title}
+                    className="w-full h-[400px] object-cover rounded-xl mb-8"
+                  />
+                )}
+
+                <p className="text-[#c8a96a] uppercase tracking-[0.25em] text-[10px]">
+                  {entry.entry_type}
+                </p>
+
+                <h3 className="mt-4 uppercase font-black text-3xl">
+                  {entry.title}
+                </h3>
+
+                <p className="mt-6 text-slate-400 italic font-serif">
+                  {entry.excerpt}
+                </p>
+
+                <div className="mt-8 whitespace-pre-line text-slate-300 font-serif leading-8">
+                  {entry.body}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* QUIET BEAUTY */}
       <section className="bg-[#11141b] px-8 md:px-20 py-32 text-center">
         <p className="text-[#c8a96a] text-4xl mb-5">♡</p>
 
@@ -413,8 +439,20 @@ Their courage when mine wanes.`}
           remembering.
         </p>
 
+        {content.quiet_beauty_video && (
+          <div className="max-w-5xl mx-auto mt-16 overflow-hidden rounded-2xl border border-white/10">
+            <iframe
+              className="w-full aspect-video"
+              src={content.quiet_beauty_video}
+              title="Because of Them, I Smiled"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        )}
+
         <div className="max-w-7xl mx-auto mt-20 grid md:grid-cols-6 auto-rows-[220px] gap-8">
-         {moments.map((moment, index) => {
+          {moments.map((moment, index) => {
             const layouts = [
               "md:col-span-3 md:row-span-2",
               "md:col-span-1 md:row-span-1",
@@ -426,12 +464,12 @@ Their courage when mine wanes.`}
 
             return (
               <div
-               key={moment.id}
+                key={moment.id}
                 className={`relative overflow-hidden rounded-2xl border border-white/5 group bg-[#202632] ${layouts[index]}`}
               >
                 <img
-                 src={moment.image_url}
-alt={moment.caption}
+                  src={moment.image_url}
+                  alt={moment.caption}
                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700"
                 />
 
@@ -439,42 +477,12 @@ alt={moment.caption}
 
                 <div className="relative z-10 h-full flex items-end p-6">
                   <p className="text-left text-slate-100 italic font-serif text-lg leading-8">
-                 {moment.caption}
+                    {moment.caption}
                   </p>
                 </div>
               </div>
             );
           })}
-        </div>
-      </section>
-
-      <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-16 items-center">
-          <div>
-            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-              Guiding Principles
-            </p>
-
-            <h2 className="uppercase font-black text-5xl leading-tight">
-              Lived In The Work.
-            </h2>
-          </div>
-
-          <div className="space-y-8">
-            {[
-              "Smile and the world smiles with you.",
-              "Discipline, thought, word, and deed.",
-              "Be fit — mind, body, and spirit.",
-              "Live life to its fullest.",
-            ].map((line) => (
-              <p
-                key={line}
-                className="text-slate-300 italic font-serif text-2xl leading-10 border-l border-[#c8a96a] pl-6"
-              >
-                {line}
-              </p>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -495,8 +503,8 @@ alt={moment.caption}
         </div>
 
         <p className="max-w-5xl mx-auto text-slate-200 italic font-serif text-3xl leading-[1.6]">
-          The forge is where pressure becomes strength. Where heat becomes
-          clarity. Where broken pieces are reforged into something that holds.
+          The Forge is where pressure becomes strength. Where heat becomes
+          clarity. Where we come to be reforged into something better.
         </p>
 
         <p className="mt-16 text-[#c8a96a] uppercase tracking-[0.3em] text-[11px]">
@@ -504,7 +512,7 @@ alt={moment.caption}
         </p>
       </section>
 
-<GuidingPrinciples />
+      <GuidingPrinciples />
 
       <Footer />
     </main>

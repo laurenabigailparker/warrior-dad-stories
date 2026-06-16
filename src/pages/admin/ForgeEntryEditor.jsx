@@ -14,18 +14,19 @@ function ForgeEntryEditor({ defaultEntryType = "poem" }) {
   const [messageType, setMessageType] = useState("success");
   
 
-  const [formData, setFormData] = useState({
-    title: "",
-    slug: "",
-    entry_type: defaultEntryType,
-    excerpt: "",
-    body: "",
-    featured_image: "",
-    artwork_image: "",
-    background_image: "",
-    video_url: "",
-    featured: false,
-  });
+const [formData, setFormData] = useState({
+  title: "",
+  slug: "",
+  entry_type: defaultEntryType,
+  forge_section: "",
+  excerpt: "",
+  body: "",
+  featured_image: "",
+  artwork_image: "",
+  background_image: "",
+  video_url: "",
+  featured: false,
+});
 
   const showMessage = (type, text) => {
     setMessageType(type);
@@ -53,6 +54,7 @@ function ForgeEntryEditor({ defaultEntryType = "poem" }) {
         title: data.title || "",
         slug: data.slug || "",
         entry_type: data.entry_type || "poem",
+        forge_section: data.forge_section || "",
         excerpt: data.excerpt || "",
         body: data.body || "",
         featured_image: data.featured_image || "",
@@ -111,6 +113,7 @@ function ForgeEntryEditor({ defaultEntryType = "poem" }) {
       featured: formData.featured,
       published,
       updated_at: new Date().toISOString(),
+      forge_section: formData.forge_section,
     };
 
     const { error } = isEditing
@@ -179,6 +182,34 @@ function ForgeEntryEditor({ defaultEntryType = "poem" }) {
             }
             className="w-full bg-[#202632] p-4"
           />
+          <select
+  value={formData.forge_section}
+  onChange={(e) =>
+    setFormData({
+      ...formData,
+      forge_section: e.target.value,
+    })
+  }
+  className="w-full bg-[#202632] p-4"
+>
+  <option value="">Select Forge Category</option>
+
+  <option value="quiet-beauty">
+    The Quiet Beauty Between the Missions
+  </option>
+
+  <option value="lost-haikus">
+    The Warrior Dad Lost Haikus
+  </option>
+
+  <option value="written-for-others">
+    Written for Others
+  </option>
+
+  <option value="warrior-dad-poetry">
+    Warrior Dad Stories Poems and Haikus
+  </option>
+</select>
 {!isBingoEditor && (
   <select
     value={formData.entry_type}
