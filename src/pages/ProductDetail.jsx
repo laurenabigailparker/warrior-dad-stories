@@ -32,7 +32,21 @@ function ProductDetail() {
     fetchProduct();
   }, [slug]);
 
+if (!product) {
+  return (
+    <main className="min-h-screen bg-[#11141b] text-white">
+      <Navbar />
 
+      <section className="px-8 py-32 text-center">
+        <p className="text-slate-400 italic font-serif">
+          Loading product...
+        </p>
+      </section>
+
+      <Footer />
+    </main>
+  );
+}
 
   const colors = product.colors
     ? product.colors.split(",").map((item) => item.trim()).filter(Boolean)
