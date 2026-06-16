@@ -20,6 +20,15 @@ const fields = [
   ["values", "value_2", "Value 2"],
   ["values", "value_3", "Value 3"],
   ["values", "value_4", "Value 4"],
+
+  ["principles", "eyebrow", "Guiding Principles Eyebrow"],
+["principles", "heading", "Guiding Principles Heading"],
+["principles", "2_title", "Principle 2 Title"],
+["principles", "2_body", "Principle 2 Body"],
+["principles", "3_title", "Principle 3 Title"],
+["principles", "3_body", "Principle 3 Body"],
+["principles", "4_title", "Principle 4 Title"],
+["principles", "4_body", "Principle 4 Body"],
 ];
 
 function AboutManagement() {
