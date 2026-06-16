@@ -88,12 +88,7 @@ const publishedPosts = blogPosts.filter((post) => post.published).length;
   value: blogPosts.length,
   subtext: `${publishedPosts} published`,
 },
-    {
-      icon: "▤",
-      label: "Blog Posts",
-      value: blogPosts.length,
-      subtext: "Stored articles",
-    },
+    
     {
       icon: "▣",
       label: "Products",
@@ -406,6 +401,14 @@ if (loading) {
     desc="Manage books and merchandise"
     meta={`${products.length} Items`}
   />
+
+<AdminCard
+  href="/admin/bingo"
+  icon="🎯"
+  title="Warrior Dad Bingo"
+  desc="Manage monthly Bingo cards and past archives"
+  meta="Monthly Cards"
+/>
 
   {/* CREATIVE FORGE */}
   <AdminCard

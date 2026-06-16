@@ -3,18 +3,21 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import StatusMessage from "../../components/admin/StatusMessage";
 
-function ForgeEntryEditor() {
+function ForgeEntryEditor({ defaultEntryType = "poem" }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  
   const isEditing = Boolean(id);
+  const isBingoEditor = defaultEntryType === "bingo";
 
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
+  
 
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
-    entry_type: "poem",
+    entry_type: defaultEntryType,
     excerpt: "",
     body: "",
     featured_image: "",
@@ -98,7 +101,7 @@ function ForgeEntryEditor() {
     const payload = {
       title: formData.title,
       slug: formData.slug,
-      entry_type: formData.entry_type,
+      entry_type: isBingoEditor ? "bingo" : formData.entry_type,
       excerpt: formData.excerpt,
       body: formData.body,
       featured_image: formData.featured_image,
@@ -130,7 +133,7 @@ function ForgeEntryEditor() {
     );
 
     setTimeout(() => {
-      navigate("/admin/forge-entries");
+      navigate(isBingoEditor ? "/admin/bingo" : "/admin/forge-entries");
     }, 1500);
   };
 
@@ -138,14 +141,20 @@ function ForgeEntryEditor() {
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-5xl mx-auto">
         <Link
-          to="/admin/forge-entries"
+          to={isBingoEditor ? "/admin/bingo" : "/admin/forge-entries"}
           className="text-slate-400 uppercase text-xs"
         >
-          ← Back to Creative Forge Entries
+      {isBingoEditor ? "← Back to Bingo Cards" : "← Back to Creative Forge Entries"}
         </Link>
 
         <h1 className="mt-6 text-4xl font-black uppercase">
-          {isEditing ? "Edit Creative Forge Entry" : "New Creative Forge Entry"}
+         {isBingoEditor
+  ? isEditing
+    ? "Edit Bingo Card"
+    : "New Bingo Card"
+  : isEditing
+  ? "Edit Creative Forge Entry"
+  : "New Creative Forge Entry"}
         </h1>
 
         <div className="mt-8">
@@ -170,19 +179,21 @@ function ForgeEntryEditor() {
             }
             className="w-full bg-[#202632] p-4"
           />
-
-          <select
-            value={formData.entry_type}
-            onChange={(e) =>
-              setFormData({ ...formData, entry_type: e.target.value })
-            }
-            className="w-full bg-[#202632] p-4"
-          >
-            <option value="poem">Poem</option>
-            <option value="haiku">Haiku</option>
-            <option value="ode">Ode</option>
-            <option value="reflection">Reflection</option>
-          </select>
+{!isBingoEditor && (
+  <select
+    value={formData.entry_type}
+    onChange={(e) =>
+      setFormData({ ...formData, entry_type: e.target.value })
+    }
+    className="w-full bg-[#202632] p-4"
+  >
+    <option value="poem">Poem</option>
+    <option value="haiku">Haiku</option>
+    <option value="ode">Ode</option>
+    <option value="reflection">Reflection</option>
+    <option value="bingo">Warrior Dad Bingo</option>
+  </select>
+)}
 
           <textarea
             placeholder="Excerpt"
@@ -231,7 +242,7 @@ function ForgeEntryEditor() {
           />
 
           <textarea
-            placeholder="Full Creative Forge Entry"
+            placeholder="Full Bingo Card Content"
             rows="12"
             value={formData.body}
             onChange={(e) =>

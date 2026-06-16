@@ -9,6 +9,8 @@ function PodcastEdit() {
 
   const [formData, setFormData] = useState({
     title: "",
+    slug: "",
+    image_url: "",
     platform: "",
     url: "",
     description: "",
@@ -31,6 +33,8 @@ function PodcastEdit() {
 
       setFormData({
         title: data.title || "",
+        slug: data.slug || "",
+        image_url: data.image_url || "",
         platform: data.platform || "",
         url: data.url || "",
         description: data.description || "",
@@ -46,6 +50,8 @@ function PodcastEdit() {
       .from("podcasts")
       .update({
         title: formData.title,
+        slug: formData.slug,
+        image_url: formData.image_url,
         platform: formData.platform,
         url: formData.url,
         description: formData.description,
@@ -82,6 +88,22 @@ function PodcastEdit() {
             value={formData.title}
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
+            }
+          />
+
+          <Field
+            label="Slug"
+            value={formData.slug}
+            onChange={(e) =>
+              setFormData({ ...formData, slug: e.target.value })
+            }
+          />
+
+          <Field
+            label="Image URL"
+            value={formData.image_url}
+            onChange={(e) =>
+              setFormData({ ...formData, image_url: e.target.value })
             }
           />
 

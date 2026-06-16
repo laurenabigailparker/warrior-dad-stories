@@ -10,6 +10,8 @@ function Blog() {
   const [posts, setPosts] = useState([]);
   const [email, setEmail] = useState("");
 const [message, setMessage] = useState("");
+const [featuredPodcasts, setFeaturedPodcasts] = useState([]);
+const [featuredBingo, setFeaturedBingo] = useState(null);
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -22,7 +24,7 @@ const [message, setMessage] = useState("");
       if (error) {
         console.error(error);
         return;
-      }
+      }  
 
       setPosts(data || []);
     };
@@ -30,7 +32,46 @@ const [message, setMessage] = useState("");
     fetchBlogPosts();
   }, []);
 
+  useEffect(() => {
+  const fetchFeaturedPodcasts = async () => {
+    const { data, error } = await supabase
+      .from("podcasts")
+      .select("*")
+      .eq("featured", true)
+      .limit(3);
 
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setFeaturedPodcasts(data || []);
+  };
+
+  fetchFeaturedPodcasts();
+}, []);
+
+useEffect(() => {
+  const fetchFeaturedBingo = async () => {
+    const { data, error } = await supabase
+      .from("forge_entries")
+      .select("*")
+      .eq("entry_type", "bingo")
+      .eq("published", true)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setFeaturedBingo(data);
+  };
+
+  fetchFeaturedBingo();
+}, []);
 
 
 const filteredPosts =
@@ -60,11 +101,7 @@ const categories = [
   ],
 ];
 
-  const podcasts = [
-    ["Veterans Voices Podcast", "From Warrior to Writer", "Upcoming"],
-    ["The Dad Edge", "Leadership At Home", "Scheduled"],
-    ["Stories Of Service", "Legacy Through Storytelling", "Coming Soon"],
-  ];
+  
 
 const handleNewsletterSubmit = async (e) => {
   e.preventDefault();
@@ -200,45 +237,49 @@ const handleNewsletterSubmit = async (e) => {
         </div>
       </section>
 
-      <section className="bg-[#1a1f27] px-8 md:px-20 py-28">
-        <div className="max-w-7xl mx-auto bg-[#202632] rounded-2xl overflow-hidden grid lg:grid-cols-[1.2fr_0.9fr] border border-white/5">
-          <div className="min-h-[430px] bg-[#151922] relative">
-            <img
-              src="/what-the-uniform-taught-me-about-fatherhood.png"
-              alt="Featured Warrior Dad story"
-              className="absolute inset-0 h-full w-full object-cover opacity-80"
-            />
+    {featuredBingo && (
+  <section className="bg-[#1a1f27] px-8 md:px-20 py-28">
+    <div className="max-w-7xl mx-auto bg-[#202632] rounded-2xl overflow-hidden grid lg:grid-cols-[1.2fr_0.9fr] border border-white/5">
+      <div className="min-h-[430px] bg-[#151922] relative">
+        <img
+          src={
+            featuredBingo.featured_image ||
+            featuredBingo.artwork_image ||
+            "/warrior-dad-reflections.webp"
+          }
+          alt={featuredBingo.title}
+          className="absolute inset-0 h-full w-full object-cover opacity-80"
+        />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+      </div>
 
-          <div className="p-10 md:p-14 flex flex-col justify-center">
-            <span className="bg-[#c8a96a]/15 text-[#c8a96a] px-3 py-2 text-[10px] uppercase tracking-[0.2em] w-fit">
-              Fatherhood
-            </span>
+      <div className="p-10 md:p-14 flex flex-col justify-center">
+        <span className="bg-[#c8a96a]/15 text-[#c8a96a] px-3 py-2 text-[10px] uppercase tracking-[0.2em] w-fit">
+          Warrior Dad Bingo
+        </span>
 
-            <h2 className="mt-8 uppercase font-black text-4xl leading-tight">
-              What The Uniform Taught Me About Fatherhood
-            </h2>
+        <h2 className="mt-8 uppercase font-black text-4xl leading-tight">
+          {featuredBingo.title}
+        </h2>
 
-            <p className="mt-8 text-slate-400 italic font-serif text-lg leading-8">
-              There is a kind of discipline that comes from the field — and it
-              looks nothing like the kind that works at home.
-            </p>
+        <p className="mt-8 text-slate-400 italic font-serif text-lg leading-8">
+          {featuredBingo.excerpt || "Monthly Warrior Dad Bingo card."}
+        </p>
 
-            <p className="mt-8 text-slate-500 uppercase tracking-[0.2em] text-[10px]">
-              TJ Baird · May 2026 · 6 min read
-            </p>
-
-            <Link
-              to="/blog/the-uniform-taught-me-about-fatherhood"
-              className="mt-10 bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition w-fit inline-block"
-            >
-              Read The Story
-            </Link>
-          </div>
-        </div>
-      </section>
+        <p className="mt-8 text-slate-500 uppercase tracking-[0.2em] text-[10px]">
+          TJ Baird · Monthly Feature
+        </p>
+<Link
+  to="/bingo"
+  className="mt-10 bg-[#c8a96a] text-black px-8 py-4 uppercase tracking-[0.18em] text-[11px] font-bold hover:bg-white transition w-fit inline-block"
+>
+  View Bingo Cards
+</Link>
+      </div>
+    </div>
+  </section>
+)}
 
       <section
         className="relative py-48 bg-cover bg-center overflow-hidden"
@@ -289,25 +330,41 @@ const handleNewsletterSubmit = async (e) => {
           </p>
 
           <div className="mt-14 grid md:grid-cols-3 gap-8">
-            {podcasts.map(([title, subtitle, status]) => (
+          {featuredPodcasts.map((podcast) => (
               <div
-                key={title}
+               key={podcast.id}
                 className="bg-[#202632] border border-white/5 rounded-xl p-8 hover:border-[#c8a96a]/50 transition"
               >
-                <h3 className="uppercase font-black text-xl">{title}</h3>
 
-                <p className="mt-4 text-slate-500 italic font-serif">
-                  {subtitle}
-                </p>
+                {podcast.image_url && (
+  <img
+    src={podcast.image_url}
+    alt={podcast.title}
+    className="w-full h-48 object-cover rounded-lg mb-6"
+  />
+)}
 
-                <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
-                  <span className="text-slate-500 uppercase tracking-[0.2em] text-[10px]">
-                    {status}
-                  </span>
+                <h3 className="uppercase font-black text-xl">{podcast.title}</h3>
 
-                  <span className="text-[#c8a96a] uppercase tracking-[0.2em] text-[10px]">
-                    Details →
-                  </span>
+                <p className="mt-4 text-slate-500 italic font-serif line-clamp-4">
+  {podcast.description}
+</p>
+
+   <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
+  <span className="text-slate-500 uppercase tracking-[0.2em] text-[10px]">
+    Spotify
+  </span>
+
+  <a
+    href={podcast.url}
+    target="_blank"
+    rel="noreferrer"
+    className="text-[#c8a96a] uppercase tracking-[0.2em] text-[10px] hover:text-white transition"
+  >
+    Listen →
+  </a>
+
+                  
                 </div>
               </div>
             ))}

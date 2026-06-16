@@ -11,12 +11,14 @@ function PodcastManagement() {
   const [messageType, setMessageType] = useState("success");
 
   const [formData, setFormData] = useState({
-    title: "",
-    platform: "",
-    url: "",
-    description: "",
-    featured: false,
-  });
+  title: "",
+  slug: "",
+  image_url: "",
+  platform: "",
+  url: "",
+  description: "",
+  featured: false,
+});
 
   const showMessage = (type, text) => {
     setMessageType(type);
@@ -61,13 +63,15 @@ function PodcastManagement() {
 
   const handleAddPodcast = async () => {
     const { error } = await supabase.from("podcasts").insert([
-      {
-        title: formData.title,
-        platform: formData.platform,
-        url: formData.url,
-        description: formData.description,
-        featured: formData.featured,
-      },
+    {
+  title: formData.title,
+  slug: formData.slug,
+  image_url: formData.image_url,
+  platform: formData.platform,
+  url: formData.url,
+  description: formData.description,
+  featured: formData.featured,
+}
     ]);
 
     if (error) {
@@ -82,6 +86,8 @@ function PodcastManagement() {
       url: "",
       description: "",
       featured: false,
+      slug: "",
+image_url: "",
     });
 
     showMessage("success", "Podcast added.");
@@ -220,34 +226,51 @@ function PodcastManagement() {
           </div>
 
           <aside>
-            <Panel title="Add Podcast Link">
-              <Field
-                label="Title"
-                placeholder="Leadership Through Storytelling"
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-              />
+           <Panel title="Add Podcast Link">
+  <Field
+    label="Title"
+    placeholder="Leadership Through Storytelling"
+    value={formData.title}
+    onChange={(e) =>
+      setFormData({ ...formData, title: e.target.value })
+    }
+  />
 
-              <Field
-                label="Platform"
-                placeholder="Spotify / YouTube / Apple Podcasts"
-                value={formData.platform}
-                onChange={(e) =>
-                  setFormData({ ...formData, platform: e.target.value })
-                }
-              />
+  <Field
+    label="Slug"
+    placeholder="leadership-through-storytelling"
+    value={formData.slug}
+    onChange={(e) =>
+      setFormData({ ...formData, slug: e.target.value })
+    }
+  />
 
-              <Field
-                label="URL"
-                placeholder="https://..."
-                value={formData.url}
-                onChange={(e) =>
-                  setFormData({ ...formData, url: e.target.value })
-                }
-              />
+  <Field
+    label="Image URL"
+    placeholder="/podcast-image.jpg or https://..."
+    value={formData.image_url}
+    onChange={(e) =>
+      setFormData({ ...formData, image_url: e.target.value })
+    }
+  />
 
+  <Field
+    label="Platform"
+    placeholder="Spotify / YouTube / Apple Podcasts"
+    value={formData.platform}
+    onChange={(e) =>
+      setFormData({ ...formData, platform: e.target.value })
+    }
+  />
+
+  <Field
+    label="URL"
+    placeholder="https://..."
+    value={formData.url}
+    onChange={(e) =>
+      setFormData({ ...formData, url: e.target.value })
+    }
+  />
               <div>
                 <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
                   Description
