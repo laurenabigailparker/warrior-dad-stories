@@ -3,6 +3,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { supabase } from "../lib/supabase";
 import GuidingPrinciples from "../components/GuidingPrinciples";
+import { Link } from "react-router-dom";
 
 function Forge() {
   const [content, setContent] = useState({});
@@ -15,23 +16,7 @@ function Forge() {
     "Words in the margins. Written between shifts and sleep. Stories find their way.",
   ];
 
-  const odes = [
-    [
-      "Reforged: An Ode To The Journey Through PREP",
-      "There is a kind of breaking that rebuilds. This is what I learned in the fire.",
-      "Award-Winning · 2025",
-    ],
-    [
-      "An Ode To The Daughter Who Watches",
-      "She sees what I carry. She carries what she sees. And still, she chooses to love me.",
-      "Featured In Warrior Dad",
-    ],
-    [
-      "An Ode To The Quiet After Deployment",
-      "The world does not stop when you come home. But sometimes, you do.",
-      "Featured In Warrior Dad",
-    ],
-  ];
+
 
   useEffect(() => {
     let ignore = false;
@@ -325,48 +310,71 @@ Their courage when mine wanes.`}
         </div>
       </section>
 
-      {/* STORIES WRITTEN TO LAST */}
-      <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
-        <div className="text-center">
-          <p className="text-[#c8a96a] text-4xl mb-5">✧</p>
+     {/* STORIES WRITTEN TO LAST */}
+<section className="bg-[#1a1f27] px-8 md:px-20 py-32">
+  <div className="text-center">
+    <p className="text-[#c8a96a] text-4xl mb-5">✧</p>
 
-          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
-            Odes
-          </p>
+    <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
+      Featured Stories
+    </p>
 
-          <h2 className="uppercase font-black text-5xl">
-            Stories Written To Last
-          </h2>
+    <h2 className="uppercase font-black text-5xl">
+      Stories Written To Last
+    </h2>
 
-          <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9">
-            Featured stories and poems from the Creative Forge. Start here, then
-            continue deeper into the Warrior Dad Stories experience.
-          </p>
-        </div>
+    <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9">
+      Featured stories and poems from the Creative Forge. Start here, then
+      continue deeper into the Warrior Dad Stories experience.
+    </p>
+  </div>
 
-        <div className="max-w-6xl mx-auto mt-20 space-y-8">
-          {odes.map(([title, text, tag]) => (
-            <div
-              key={title}
-              className="bg-[#202632] rounded-xl border border-white/5 p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8 hover:border-[#c8a96a]/50 hover:-translate-y-2 transition duration-500"
-            >
-              <div>
-                <p className="text-[#c8a96a] text-xl mb-4">✦</p>
+  <div className="max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-8">
+    {entries
+      .filter((entry) => entry.featured)
+      .slice(0, 3)
+      .map((entry) => {
+        const image =
+          entry.featured_image ||
+          entry.artwork_image ||
+          entry.background_image;
 
-                <h3 className="uppercase font-black text-2xl">{title}</h3>
+        return (
+          <Link
+            key={entry.id}
+            to={`/forge/${entry.slug}`}
+            className="bg-[#202632] rounded-xl border border-white/5 overflow-hidden hover:border-[#c8a96a]/50 hover:-translate-y-2 transition duration-500 group"
+          >
+            {image && (
+              <img
+                src={image}
+                alt={entry.title}
+                className="h-56 w-full object-cover opacity-80 group-hover:opacity-100 transition"
+              />
+            )}
 
-                <p className="mt-4 text-slate-400 italic font-serif text-lg leading-8">
-                  {text}
-                </p>
-              </div>
+            <div className="p-8">
+              <p className="text-[#c8a96a] uppercase tracking-[0.25em] text-[10px]">
+                {entry.entry_type || "Creative Forge"}
+              </p>
 
-              <span className="bg-[#c8a96a]/15 text-[#c8a96a] px-4 py-2 text-[10px] uppercase tracking-[0.22em] w-fit">
-                {tag}
-              </span>
+              <h3 className="mt-4 uppercase font-black text-2xl leading-tight">
+                {entry.title}
+              </h3>
+
+              <p className="mt-4 text-slate-400 italic font-serif text-lg leading-8 line-clamp-4">
+                {entry.excerpt}
+              </p>
+
+              <p className="mt-8 text-[#c8a96a] uppercase tracking-[0.2em] text-[10px]">
+                Read Story →
+              </p>
             </div>
-          ))}
-        </div>
-      </section>
+          </Link>
+        );
+      })}
+  </div>
+</section>
 
       {/* LATEST ENTRIES */}
       {entries.length > 0 && (

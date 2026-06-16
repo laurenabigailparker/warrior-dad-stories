@@ -44,6 +44,8 @@ import SiteSettings from "./pages/admin/SiteSettings";
 import SocialLinksManagement from "./pages/admin/SocialLinksManagement";
 import TestimonialManagement from "./pages/admin/TestimonialManagement";
 import TimeLineManagement from "./pages/admin/TimeLineManagement";
+import ForgeEntryDetail from "./pages/ForgeEntryDetail";
+
 
 function App() {
   return (
@@ -64,7 +66,8 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/shop/:slug" element={<ProductDetail />} />
         <Route path="/thank-you" element={<ThankYou />} />
-
+        <Route path="/forge/:slug" element={<ForgeEntryDetail />} />
+        
         {/* ADMIN LOGIN */}
         <Route path="/admin" element={<AdminAccess />} />
 
