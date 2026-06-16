@@ -338,132 +338,137 @@ if (loading) {
             Content Management
           </h2>
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-            <AdminCard
-              href="/admin/blog"
-              icon="▤"
-              title="Blog Posts"
-              desc="Create and manage blog content"
-              meta={`${blogPosts.length} Posts`}
-            />
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  {/* HOME / MAIN SITE CONTENT */}
+  <AdminCard
+    href="/admin/home-content"
+    icon="🏠"
+    title="Home Page"
+    desc="Edit Homepage content"
+    meta="CMS"
+  />
 
-            <AdminCard
-  href="/admin/socials"
-  icon="◎"
-  title="Social Links"
-  desc="Manage public social and platform links"
-  meta={`${socialLinks.length} Links`}
-/>
+  <AdminCard
+    href="/admin/about"
+    icon="👤"
+    title="About Page"
+    desc="Edit About page content"
+    meta="Content"
+  />
 
+  <AdminCard
+    href="/admin/reflections"
+    icon="📸"
+    title="Reflection Carousel"
+    desc="Manage the Moments That Make Me Smile carousel."
+    meta="CMS"
+  />
 
-<AdminCard
-  href="/admin/home-content"
-  icon="🏠"
-  title="Home Page"
-  desc="Edit Homepage content"
-  meta="CMS"
-/>
+  <AdminCard
+    href="/admin/timeline"
+    icon="▢"
+    title="Timeline Events"
+    desc="Edit military service timeline"
+    meta={`${timelineEvents.length} Events`}
+  />
 
-<AdminCard
-  href="/admin/books"
-  icon="📚"
-  title="Books"
-  desc="Manage current and future books"
-  meta="Content"
-/>
+  {/* BLOG */}
+  <AdminCard
+    href="/admin/blog"
+    icon="▤"
+    title="Blog Posts"
+    desc="Create and manage blog content"
+    meta={`${blogPosts.length} Posts`}
+  />
 
-<AdminCard
-  href="/admin/about"
-  icon="👤"
-  title="About Page"
-  desc="Edit About page content"
-  meta="Content"
-/>
+  {/* PODCASTS */}
+  <AdminCard
+    href="/admin/podcasts"
+    icon="🎙"
+    title="Podcasts"
+    desc="Manage podcast appearances"
+    meta={`${podcasts.length} Episodes`}
+  />
 
-<AdminCard
-  href="/admin/forge"
-  icon="🔥"
-  title="Creative Forge"
-  desc="Edit Forge page messaging"
-  meta="Content"
-/>
+  {/* BOOKS / SHOP */}
+  <AdminCard
+    href="/admin/books"
+    icon="📚"
+    title="Books"
+    desc="Manage current and future books"
+    meta="Content"
+  />
 
-<AdminCard
-  href="/admin/forge-entries"
-  icon="🔥"
-  title="Creative Forge Entries"
-  desc="Create and manage poems, haikus, reflections, artwork, and videos."
-  meta="CMS"
-/>
+  <AdminCard
+    href="/admin/products"
+    icon="▣"
+    title="Products"
+    desc="Manage books and merchandise"
+    meta={`${products.length} Items`}
+  />
 
-            <AdminCard
-  href="/admin/reflections"
-  icon="📸"
-  title="Reflection Carousel"
-  desc="Manage the Moments That Make Me Smile carousel."
-  meta="CMS"
-/>
+  {/* CREATIVE FORGE */}
+  <AdminCard
+    href="/admin/forge"
+    icon="🔥"
+    title="Creative Forge"
+    desc="Edit Forge page messaging"
+    meta="Content"
+  />
 
-<AdminCard
-  href="/admin/podcasts"
-  icon="🎙"
-  title="Podcasts"
-  desc="Manage podcast appearances"
-  meta={`${podcasts.length} Episodes`}
-/>
+  <AdminCard
+    href="/admin/forge-entries"
+    icon="🔥"
+    title="Creative Forge Entries"
+    desc="Create and manage poems, haikus, reflections, artwork, and videos."
+    meta="CMS"
+  />
 
-            <AdminCard
-              href="/admin/products"
-              icon="▣"
-              title="Products"
-              desc="Manage books and merchandise"
-              meta={`${products.length} Items`}
-            />
+  {/* SOCIAL / NEWSLETTER */}
+  <AdminCard
+    href="/admin/socials"
+    icon="◎"
+    title="Social Links"
+    desc="Manage public social and platform links"
+    meta={`${socialLinks.length} Links`}
+  />
 
-            <AdminCard
-              href="/admin/media"
-              icon="▧"
-              title="Media Library"
-              desc="View, copy, and remove product images"
-              meta={`${mediaCount} Files`}
-            />
+  <AdminCard
+    href="/admin/newsletter"
+    icon="✉"
+    title="Newsletter"
+    desc="View mission subscribers"
+    meta="Subscribers"
+  />
 
-            <AdminCard
-              href="/admin/timeline"
-              icon="▢"
-              title="Timeline Events"
-              desc="Edit military service timeline"
-              meta={`${timelineEvents.length} Events`}
-            />
+  {/* MEDIA / GLOBAL SETTINGS */}
+  <AdminCard
+    href="/admin/media"
+    icon="▧"
+    title="Media Library"
+    desc="View, copy, and remove product images"
+    meta={`${mediaCount} Files`}
+  />
 
-            <AdminCard
-              href="/admin/testimonials"
-              icon="♁"
-              title="Testimonials"
-              desc="Manage reader testimonials"
-              meta={`${testimonials.length} Reviews`}
-            />
+  <AdminCard
+    href="/admin/testimonials"
+    icon="♁"
+    title="Testimonials"
+    desc="Manage reader testimonials"
+    meta={`${testimonials.length} Reviews`}
+  />
 
-
-
-          <AdminCard
-  href="/admin/newsletter"
-  icon="✉"
-  title="Newsletter"
-  desc="View mission subscribers"
-  meta="Subscribers"
-/>
-
-            <AdminCard
-              href="/admin/settings"
-              icon="⚙"
-              title="Site Settings"
-              desc="Update footer, contact, and social links"
-              meta="Global Settings"
-            />
+  <AdminCard
+    href="/admin/settings"
+    icon="⚙"
+    title="Site Settings"
+    desc="Update footer, contact, and social links"
+    meta="Global Settings"
+  />
+</div>
 
  
-          </div>
+          
         </section>
       </div>
     </main>
