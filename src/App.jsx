@@ -27,6 +27,8 @@ import HomeContentManagement from "./pages/admin/HomeContentManagement";
 import ForgeEntriesManagement from "./pages/admin/ForgeEntriesManagement";
 import ForgeEntryEditor from "./pages/admin/ForgeEntryEditor";
 import ReflectionManagement from "./pages/admin/ReflectionManagement";
+import PodcastEdit from "./pages/admin/PodcastEdit";
+
 
 // ADMIN
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -93,6 +95,7 @@ function App() {
   path="/admin/reflections"
   element={<ProtectedRoute><ReflectionManagement /></ProtectedRoute>}
 />
+<Route path="/admin/podcasts/edit/:id" element={<PodcastEdit />} />
 
 
       </Routes>

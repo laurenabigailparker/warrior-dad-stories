@@ -186,19 +186,34 @@ function PodcastManagement() {
                       </p>
                     </div>
 
-                    <div className="flex gap-5 text-slate-400">
-                      <button onClick={() => toggleFeatured(item)}>
-                        {item.featured ? "Unfeature" : "Feature"}
-                      </button>
+                   <div className="flex gap-5 text-slate-400">
+  <Link
+    to={`/admin/podcasts/edit/${item.id}`}
+    className="hover:text-[#c8a96a]"
+  >
+    Edit
+  </Link>
 
-                      <button
-                        onClick={() => setDeleteTarget(item)}
-                        className="text-red-400"
-                      >
-                        Delete
-                      </button>
-                    </div>
+  <button
+  onClick={() => toggleFeatured(item)}
+ className={`px-3 py-2 rounded text-xs uppercase tracking-[0.15em] transition ${
+  item.featured
+    ? "bg-[#c8a96a] text-black hover:opacity-90"
+    : "border border-[#c8a96a] text-[#c8a96a] hover:bg-[#c8a96a] hover:text-black"
+}`}
+>
+  {item.featured ? "Unfeature" : "Feature"}
+</button>
+
+  <button
+    onClick={() => setDeleteTarget(item)}
+    className="text-red-400"
+  >
+    Delete
+  </button>
+</div>
                   </div>
+                  
                 ))
               )}
             </div>
