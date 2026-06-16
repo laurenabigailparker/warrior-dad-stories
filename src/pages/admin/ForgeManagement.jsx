@@ -12,6 +12,9 @@ const fields = [
   ["intro", "headline", "Intro Headline"],
   ["intro", "body", "Intro Body"],
   ["intro", "subtext", "Intro Subtext"],
+  ["reforged", "background_image", "Reforged Background Image URL"],
+
+["quiet_beauty", "video", "Because of Them, I Smiled Video URL"],
 ];
 
 function ForgeManagement() {

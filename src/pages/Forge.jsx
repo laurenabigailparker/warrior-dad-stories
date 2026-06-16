@@ -278,17 +278,17 @@ function Forge() {
           remembering.
         </p>
 
-        {content.quiet_beauty_video && (
-          <div className="max-w-5xl mx-auto mt-16 overflow-hidden rounded-2xl border border-white/10">
-            <iframe
-              className="w-full aspect-video"
-              src={content.quiet_beauty_video}
-              title="Because of Them, I Smiled"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        )}
+       {content.quiet_beauty_video && (
+  <div className="max-w-5xl mx-auto mt-16 overflow-hidden rounded-2xl border border-white/10">
+    <iframe
+      className="w-full aspect-video"
+      src={content.quiet_beauty_video}
+      title="Because of Them, I Smiled"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  </div>
+)}
 
         <div className="max-w-7xl mx-auto mt-20 grid md:grid-cols-6 auto-rows-[220px] gap-8">
           {moments.map((moment, index) => {
