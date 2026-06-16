@@ -45,7 +45,8 @@ import SocialLinksManagement from "./pages/admin/SocialLinksManagement";
 import TestimonialManagement from "./pages/admin/TestimonialManagement";
 import TimeLineManagement from "./pages/admin/TimeLineManagement";
 import ForgeEntryDetail from "./pages/ForgeEntryDetail";
-
+import BookJourneyManagement from "./pages/admin/BookJourneyManagement";
+import AboutCarouselManagement from "./pages/admin/AboutCarouselManagement";
 
 function App() {
   return (
@@ -67,7 +68,7 @@ function App() {
         <Route path="/shop/:slug" element={<ProductDetail />} />
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/forge/:slug" element={<ForgeEntryDetail />} />
-        
+
         {/* ADMIN LOGIN */}
         <Route path="/admin" element={<AdminAccess />} />
 
@@ -320,6 +321,23 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/admin/book-journey"
+  element={
+    <ProtectedRoute>
+      <BookJourneyManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/about-carousel"
+  element={
+    <ProtectedRoute>
+      <AboutCarouselManagement />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
     </BrowserRouter>
   );

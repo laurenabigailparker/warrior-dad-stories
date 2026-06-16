@@ -136,18 +136,34 @@ function ProductDetail() {
                 </div>
               )}
 
-              <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                <button className="bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold">
-                  {product.button_label || "Coming Soon"}
-                </button>
+             <div className="mt-10 flex flex-col sm:flex-row gap-4">
+  {product.in_stock ? (
+    <button
+      type="button"
+      onClick={() => {
+        alert("Checkout is coming soon. This product is not connected to Stripe yet.");
+      }}
+      className="bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold hover:bg-white transition"
+    >
+      {product.button_label || "Buy Now"}
+    </button>
+  ) : (
+    <button
+      type="button"
+      disabled
+      className="bg-slate-700 text-slate-400 px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold cursor-not-allowed"
+    >
+      {product.button_label || "Coming Soon"}
+    </button>
+  )}
 
-                <Link
-                  to="/contact"
-                  className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 uppercase tracking-[0.2em] text-[11px] text-center hover:bg-[#c8a96a] hover:text-black transition"
-                >
-                  Ask A Question
-                </Link>
-              </div>
+  <Link
+    to="/contact"
+    className="border border-[#c8a96a] text-[#c8a96a] px-10 py-4 uppercase tracking-[0.2em] text-[11px] text-center hover:bg-[#c8a96a] hover:text-black transition"
+  >
+    Ask A Question
+  </Link>
+</div>
 
               {product.featured && (
                 <div className="mt-6">

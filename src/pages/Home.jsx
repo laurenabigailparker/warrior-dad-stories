@@ -3,11 +3,12 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
-
+import BookJourneyCarousel from "../components/BookJourneyCarousel";
 
 
 function Home() {
   const [content, setContent] = useState({});
+  
 
   useEffect(() => {
     const loadContent = async () => {
@@ -147,26 +148,43 @@ function Mission({ content }) {
 
 function BookLaunch() {
   const [featuredBook, setFeaturedBook] = useState(null);
+  const [bookJourney, setBookJourney] = useState([]);
 
-  useEffect(() => {
-    const loadFeaturedBook = async () => {
-      const { data, error } = await supabase
-        .from("books")
-        .select("*")
-        .eq("featured", true)
-        .limit(1)
-        .maybeSingle();
+useEffect(() => {
+  const loadFeaturedBook = async () => {
+    const { data, error } = await supabase
+      .from("books")
+      .select("*")
+      .eq("featured", true)
+      .limit(1)
+      .maybeSingle();
 
-      if (error) {
-        console.error(error);
-        return;
-      }
+    if (error) {
+      console.error(error);
+      return;
+    }
 
-      setFeaturedBook(data);
-    };
+    setFeaturedBook(data);
+  };
 
-    loadFeaturedBook();
-  }, []);
+  const loadBookJourney = async () => {
+    const { data, error } = await supabase
+      .from("book_journey_images")
+      .select("*")
+      .eq("published", true)
+      .order("display_order", { ascending: true });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setBookJourney(data || []);
+  };
+
+  loadFeaturedBook();
+  loadBookJourney();
+}, []);
 
   const book = featuredBook || {
     title: "Warrior Dad",
@@ -254,9 +272,34 @@ function BookLaunch() {
     Enter The Forge
   </a>
 </div>
-        </div>
-      </div>
-    </section>
+       </div>
+</div>
+
+{bookJourney.length > 0 && (
+  <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#c8a96a]/50 to-transparent" />
+)}
+
+{bookJourney.length > 0 && (
+  <div className="max-w-7xl mx-auto mt-24">
+    <div className="text-center">
+      <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
+        Warrior Dad Journey
+      </p>
+
+      <h3 className="mt-6 uppercase text-4xl font-black">
+        The Story Beyond The Pages
+      </h3>
+
+      <p className="mt-8 max-w-3xl mx-auto text-slate-400 italic font-serif text-xl leading-9">
+        Book signings, speaking engagements, podcasts, community events,
+        and the people Warrior Dad Stories continues to connect with.
+      </p>
+    </div>
+
+    <BookJourneyCarousel images={bookJourney} />
+  </div>
+)}
+</section>
   );
 }
 

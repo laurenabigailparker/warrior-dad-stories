@@ -323,6 +323,22 @@ function AdminDash() {
             <AdminCard href="/admin/testimonials" icon="💬" title="Testimonials" desc="Manage reader testimonials" meta={`${testimonials.length} Reviews`} />
             <AdminCard href="/admin/reflections" icon="📸" title="Reflection Carousel" desc="Manage the Moments That Make Me Smile carousel" meta="CMS" />
             <AdminCard href="/admin/timeline" icon="📅" title="Timeline Events" desc="Edit military service timeline" meta={`${timelineEvents.length} Events`} />
+            <AdminCard
+  href="/admin/book-journey"
+  icon="📘"
+  title="Book Journey Carousel"
+  desc="Manage book signings, speaking engagements, podcasts, and community event photos"
+  meta="CMS"
+/>
+
+<AdminCard
+  href="/admin/about-carousel"
+  icon="👨‍👩‍👧‍👦"
+  title="About Carousel"
+  desc="Manage family, friends, and support system photos"
+  meta="CMS"
+/>
+         
           </div>
 
           <h2 className="uppercase text-2xl font-black tracking-widest mt-14 mb-8">

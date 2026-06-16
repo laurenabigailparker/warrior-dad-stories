@@ -3,10 +3,12 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { supabase } from "../lib/supabase";
 import GuidingPrinciples from "../components/GuidingPrinciples";
+import BookJourneyCarousel from "../components/BookJourneyCarousel";
 
 function About() {
   const [timeline, setTimeline] = useState([]);
   const [content, setContent] = useState({});
+  const [aboutCarousel, setAboutCarousel] = useState([]);
 
   const principles = [
     [
@@ -68,6 +70,25 @@ function About() {
   };
 
   loadContent();
+}, []);
+
+useEffect(() => {
+  const loadAboutCarousel = async () => {
+    const { data, error } = await supabase
+      .from("about_carousel_images")
+      .select("*")
+      .eq("published", true)
+      .order("display_order", { ascending: true });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setAboutCarousel(data || []);
+  };
+
+  loadAboutCarousel();
 }, []);
 
 console.log(content);
@@ -318,6 +339,24 @@ console.log(content);
           </p>
         </div>
       </section>
+
+      <div className="h-px bg-gradient-to-r from-transparent via-[#c8a96a]/50 to-transparent" />
+
+<section className="bg-[#11141b] px-8 md:px-20 py-32 text-center">
+  <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
+    Behind The Mission
+  </p>
+
+  <h2 className="uppercase font-black text-5xl">
+    The People Who Shaped The Journey
+  </h2>
+
+  <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9">
+    Family, friends, and the people who helped shape the journey.
+  </p>
+
+  <BookJourneyCarousel images={aboutCarousel} />
+</section>
 
       {/* PRINCIPLES */}
       <section className="relative bg-[#11141b] px-8 md:px-20 py-32 overflow-hidden">
