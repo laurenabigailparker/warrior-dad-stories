@@ -381,7 +381,7 @@ function AdminDash() {
 
 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
   <AdminCard href="/admin/socials" icon="🌐" title="Social Media" desc="Manage social links" meta="Settings" />
-  <AdminCard href="/admin/settings" icon="⚙️" title="Site Settings" desc="Manage global settings" meta="Settings" />
+ 
   <AdminCard href="/admin/media" icon="🖼️" title="Media Library" desc="Manage uploads" meta="Library" />
 </div>
         

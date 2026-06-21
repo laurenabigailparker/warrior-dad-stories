@@ -89,44 +89,65 @@ function Footer() {
           </div>
         </div>
 
-        <div>
-          <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px] mb-6">
-            Connect
-          </p>
+       <div>
+  <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px] mb-6">
+    Connect
+  </p>
 
-          <div className="space-y-4 text-slate-400">
-            {settings?.youtube_url && (
-              <a
-                href={settings.youtube_url}
-                target="_blank"
-                rel="noreferrer"
-                className="block hover:text-[#c8a96a] transition"
-              >
-                YouTube
-              </a>
-            )}
+  <div className="space-y-4 text-slate-400">
+    {settings?.youtube_url && (
+      <a href={settings.youtube_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
+        YouTube
+      </a>
+    )}
 
-            {settings?.instagram_url && (
-              <a
-                href={settings.instagram_url}
-                target="_blank"
-                rel="noreferrer"
-                className="block hover:text-[#c8a96a] transition"
-              >
-                Instagram
-              </a>
-            )}
+    {settings?.instagram_url && (
+      <a href={settings.instagram_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
+        Instagram
+      </a>
+    )}
 
-            {settings?.facebook_url && (
-              <a
-                href={settings.facebook_url}
-                target="_blank"
-                rel="noreferrer"
-                className="block hover:text-[#c8a96a] transition"
-              >
-                Facebook
-              </a>
-            )}
+    {settings?.facebook_url && (
+      <a href={settings.facebook_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
+        Facebook
+      </a>
+    )}
+
+    {settings?.business_facebook_url && (
+      <a href={settings.business_facebook_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
+        Warrior Dad Facebook
+      </a>
+    )}
+
+    {settings?.linkedin_url && (
+      <a href={settings.linkedin_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
+        LinkedIn
+      </a>
+    )}
+
+    {settings?.x_url && (
+      <a href={settings.x_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
+        X
+      </a>
+    )}
+
+    <div className="pt-4 space-y-2 text-slate-500 border-t border-white/5">
+      <a
+        href={`mailto:${settings?.contact_email || "tj_warriordad@warriordadstories.com"}`}
+        className="block hover:text-[#c8a96a] transition"
+      >
+        {settings?.contact_email || "tj_warriordad@warriordadstories.com"}
+      </a>
+
+      <a
+        href={`mailto:${settings?.derek_contact_email || "derek_warriordad@warriordadstories.com"}`}
+        className="block hover:text-[#c8a96a] transition"
+      >
+        {settings?.derek_contact_email || "derek_warriordad@warriordadstories.com"}
+      </a>
+    </div>
+  </div>
+</div>
 
            <div className="pt-4 space-y-2 text-slate-500">
   <a
@@ -152,8 +173,7 @@ function Footer() {
   </a>
 </div>
           </div>
-        </div>
-      </div>
+      
 
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row gap-6 justify-between items-center text-slate-600 text-sm">
         <p>

@@ -3,17 +3,20 @@ import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 
 function SiteSettings() {
-  const [settings, setSettings] = useState({
-    author_name: "",
-    author_bio: "",
-    contact_email: "",
-    instagram_url: "",
-    facebook_url: "",
-    youtube_url: "",
-    footer_text: "",
-    copyright_text: "",
-  });
-
+const [settings, setSettings] = useState({
+  author_name: "",
+  author_bio: "",
+  contact_email: "",
+  derek_contact_email: "",
+  instagram_url: "",
+  facebook_url: "",
+  business_facebook_url: "",
+  linkedin_url: "",
+  x_url: "",
+  youtube_url: "",
+  footer_text: "",
+  copyright_text: "",
+});
    const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
 
@@ -30,16 +33,20 @@ function SiteSettings() {
         return;
       }
 
-      setSettings({
-        author_name: data.author_name || "",
-        author_bio: data.author_bio || "",
-        contact_email: data.contact_email || "",
-        instagram_url: data.instagram_url || "",
-        facebook_url: data.facebook_url || "",
-        youtube_url: data.youtube_url || "",
-        footer_text: data.footer_text || "",
-        copyright_text: data.copyright_text || "",
-      });
+   setSettings({
+  author_name: data.author_name || "",
+  author_bio: data.author_bio || "",
+  contact_email: data.contact_email || "",
+  derek_contact_email: data.derek_contact_email || "",
+  instagram_url: data.instagram_url || "",
+  facebook_url: data.facebook_url || "",
+  business_facebook_url: data.business_facebook_url || "",
+  linkedin_url: data.linkedin_url || "",
+  x_url: data.x_url || "",
+  youtube_url: data.youtube_url || "",
+  footer_text: data.footer_text || "",
+  copyright_text: data.copyright_text || "",
+});
     };
 
     loadSettings();
@@ -111,6 +118,11 @@ const handleSave = async () => {
                 value={settings.contact_email}
                 onChange={(e) => handleChange("contact_email", e.target.value)}
               />
+              <Field
+  label="Derek Contact Email"
+  value={settings.derek_contact_email}
+  onChange={(e) => handleChange("derek_contact_email", e.target.value)}
+/>
             </Panel>
 
             <Panel title="Social Links">
@@ -131,6 +143,38 @@ const handleSave = async () => {
                 value={settings.youtube_url}
                 onChange={(e) => handleChange("youtube_url", e.target.value)}
               />
+              <Field
+  label="LinkedIn URL"
+  value={settings.linkedin_url || ""}
+  onChange={(e) =>
+    setSettings({
+      ...settings,
+      linkedin_url: e.target.value,
+    })
+  }
+/>
+
+<Field
+  label="Business Facebook URL"
+  value={settings.business_facebook_url || ""}
+  onChange={(e) =>
+    setSettings({
+      ...settings,
+      business_facebook_url: e.target.value,
+    })
+  }
+/>
+
+<Field
+  label="X / Twitter URL"
+  value={settings.x_url || ""}
+  onChange={(e) =>
+    setSettings({
+      ...settings,
+      x_url: e.target.value,
+    })
+  }
+/>
             </Panel>
 
             <Panel title="Footer Content">
