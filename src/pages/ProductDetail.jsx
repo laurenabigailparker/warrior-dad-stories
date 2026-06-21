@@ -56,6 +56,35 @@ if (!product) {
     ? product.sizes.split(",").map((item) => item.trim()).filter(Boolean)
     : [];
 
+
+const handleCheckout = async () => {
+  try {
+    const response = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        slug: product.slug,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Unable to start checkout.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Unable to start checkout.");
+  }
+};
+
   return (
     <main className="min-h-screen bg-[#11141b] text-white">
       <Navbar />
@@ -151,25 +180,18 @@ if (!product) {
               )}
 
              <div className="mt-10 flex flex-col sm:flex-row gap-4">
-  {product.in_stock ? (
-    <button
-      type="button"
-      onClick={() => {
-        alert("Checkout is coming soon. This product is not connected to Stripe yet.");
-      }}
-      className="bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold hover:bg-white transition"
-    >
-      {product.button_label || "Buy Now"}
-    </button>
-  ) : (
-    <button
-      type="button"
-      disabled
-      className="bg-slate-700 text-slate-400 px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold cursor-not-allowed"
-    >
-      {product.button_label || "Coming Soon"}
-    </button>
-  )}
+ {product.in_stock ? (
+  <button
+    type="button"
+    onClick={handleCheckout}
+  >
+    Buy Now
+  </button>
+) : (
+  <button disabled>
+    {product.button_label || "Coming Soon"}
+  </button>
+)}
 
   <Link
     to="/contact"
