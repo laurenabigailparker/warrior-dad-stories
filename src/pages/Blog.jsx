@@ -106,14 +106,28 @@ const categories = [
 const handleNewsletterSubmit = async (e) => {
   e.preventDefault();
 
+  const cleanEmail = email.trim().toLowerCase();
+
   const { error } = await supabase
     .from("newsletter_subscribers")
-    .insert([{ email }]);
+    .insert([{ email: cleanEmail }]);
 
   if (error) {
     console.error(error);
     setMessage("This email may already be signed up.");
     return;
+  }
+
+  try {
+    await fetch("/api/subscribe-mailchimp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: cleanEmail }),
+    });
+  } catch (error) {
+    console.error("Mailchimp sync failed:", error);
   }
 
   setEmail("");
