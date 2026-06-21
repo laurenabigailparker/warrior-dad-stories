@@ -11,6 +11,7 @@ function CarouselImageManagement({
   addTitle,
   saveLabel,
   back,
+  page = "about",
 }) {
   const [images, setImages] = useState([]);
   const [caption, setCaption] = useState("");
@@ -27,26 +28,30 @@ function CarouselImageManagement({
     setTimeout(() => setMessage(""), 4000);
   };
 
-  const loadImages = async () => {
-    const { data, error } = await supabase
-      .from(tableName)
-      .select("*")
-      .order("display_order", { ascending: true });
 
-    if (error) {
-      console.error(error);
-      showMessage("error", "Failed to load images.");
-      return;
-    }
 
-    setImages(data || []);
-  };
+const loadImages = async () => {
+  const { data, error } = await supabase
+    .from(tableName)
+    .select("*")
+    .eq("page", page)
+    .order("display_order", { ascending: true });
+
+  if (error) {
+    console.error(error);
+    showMessage("error", "Failed to load images.");
+    return;
+  }
+
+  setImages(data || []);
+};
 
 useEffect(() => {
   const fetchImages = async () => {
     const { data, error } = await supabase
       .from(tableName)
       .select("*")
+      .eq("page", page)
       .order("display_order", { ascending: true });
 
     if (error) {
@@ -59,7 +64,7 @@ useEffect(() => {
   };
 
   fetchImages();
-}, [tableName]);
+}, [tableName, page]);
 
   const handleUpload = async (event) => {
     const file = event.target.files?.[0];
@@ -97,6 +102,7 @@ useEffect(() => {
 
     const { error } = await supabase.from(tableName).insert([
       {
+        page,
         image_url: imageUrl,
         caption,
         display_order: Number(displayOrder) || 0,
@@ -122,7 +128,8 @@ useEffect(() => {
     const { error } = await supabase
       .from(tableName)
       .update({ [field]: value })
-      .eq("id", item.id);
+      .eq("id", item.id)
+      .eq("page", page);
 
     if (error) {
       console.error(error);
@@ -145,7 +152,8 @@ useEffect(() => {
     const { error } = await supabase
       .from(tableName)
       .delete()
-      .eq("id", deleteTarget.id);
+      .eq("id", deleteTarget.id)
+      .eq("page", page);
 
     if (error) {
       console.error(error);

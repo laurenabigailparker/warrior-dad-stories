@@ -313,6 +313,30 @@ function AdminDash() {
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
             <AdminCard href="/admin/home-content" icon="🏠" title="Home Page" desc="Edit Homepage content" meta="CMS" />
             <AdminCard href="/admin/about" icon="👤" title="About Page" desc="Edit About page content" meta="Content" />
+            <AdminCard
+  href="/admin/derek"
+  icon="👥"
+  title="Derek Page"
+  desc="Edit Derek's About page content"
+  meta="Content"
+/>
+
+
+<AdminCard
+  href="/admin/derek-timeline"
+  icon="📅"
+  title="Derek Timeline"
+  desc="Manage Derek's timeline events"
+  meta="Timeline"
+/>
+
+<AdminCard
+  href="/admin/derek-carousel"
+  icon="🖼️"
+  title="Derek Carousel"
+  desc="Manage Derek's About page carousel photos"
+  meta="CMS"
+/>
             <AdminCard href="/admin/books" icon="📚" title="Books" desc="Manage current and future books" meta="Content" />
             <AdminCard href="/admin/podcasts" icon="🎙" title="Podcasts" desc="Manage podcast appearances" meta={`${podcasts.length} Episodes`} />
             <AdminCard href="/admin/blog" icon="▤" title="Blog Posts" desc="Create and manage blog content" meta={`${blogPosts.length} Posts`} />
@@ -338,6 +362,7 @@ function AdminDash() {
   desc="Manage family, friends, and support system photos"
   meta="CMS"
 />
+
          
           </div>
 

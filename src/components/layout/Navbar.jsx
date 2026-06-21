@@ -47,10 +47,12 @@ function Navbar() {
           </span>
         </Link>
 
+        {/* DESKTOP NAV */}
         <nav className="hidden lg:flex items-center gap-8 uppercase tracking-[0.2em] text-[11px] text-slate-300">
           <Link to="/">Home</Link>
           <Link to="/shop">Shop</Link>
-          <Link to="/about">About</Link>
+          <Link to="/about">About TJ</Link>
+          <Link to="/derek">Meet Derek</Link>
           <Link to="/blog">Blog</Link>
           <Link to="/forge">The Forge</Link>
           <Link to="/contact">Contact</Link>
@@ -87,6 +89,7 @@ function Navbar() {
           )}
         </nav>
 
+        {/* MOBILE MENU BUTTON */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="lg:hidden text-white text-3xl"
@@ -95,13 +98,22 @@ function Navbar() {
         </button>
       </div>
 
+      {/* MOBILE MENU */}
       {menuOpen && (
         <div className="lg:hidden bg-[#101118] border-t border-white/5 px-6 py-8 space-y-6 uppercase tracking-[0.2em] text-[11px] text-slate-300">
-          <Link to="/" className="block" onClick={() => setMenuOpen(false)}>
+          <Link
+            to="/"
+            className="block"
+            onClick={() => setMenuOpen(false)}
+          >
             Home
           </Link>
 
-          <Link to="/shop" className="block" onClick={() => setMenuOpen(false)}>
+          <Link
+            to="/shop"
+            className="block"
+            onClick={() => setMenuOpen(false)}
+          >
             Shop
           </Link>
 
@@ -110,10 +122,22 @@ function Navbar() {
             className="block"
             onClick={() => setMenuOpen(false)}
           >
-            About
+            About TJ
           </Link>
 
-          <Link to="/blog" className="block" onClick={() => setMenuOpen(false)}>
+          <Link
+            to="/derek"
+            className="block"
+            onClick={() => setMenuOpen(false)}
+          >
+            Meet Derek
+          </Link>
+
+          <Link
+            to="/blog"
+            className="block"
+            onClick={() => setMenuOpen(false)}
+          >
             Blog
           </Link>
 

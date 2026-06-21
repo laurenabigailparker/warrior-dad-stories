@@ -124,9 +124,29 @@ function Footer() {
               </a>
             )}
 
-            <p className="pt-4 text-slate-500">
-              {settings?.contact_email || "tj_warriordad@warriordadstories.com"}
-            </p>
+           <div className="pt-4 space-y-2 text-slate-500">
+  <a
+    href={`mailto:${
+      settings?.contact_email ||
+      "tj_warriordad@warriordadstories.com"
+    }`}
+    className="block hover:text-[#c8a96a] transition"
+  >
+    {settings?.contact_email ||
+      "tj_warriordad@warriordadstories.com"}
+  </a>
+
+  <a
+    href={`mailto:${
+      settings?.derek_contact_email ||
+      "derek_warriordad@warriordadstories.com"
+    }`}
+    className="block hover:text-[#c8a96a] transition"
+  >
+    {settings?.derek_contact_email ||
+      "derek_warriordad@warriordadstories.com"}
+  </a>
+</div>
           </div>
         </div>
       </div>

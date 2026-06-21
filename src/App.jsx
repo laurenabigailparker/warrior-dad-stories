@@ -16,6 +16,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Shop from "./pages/Shop";
 import ThankYou from "./pages/ThankYou";
 import NewsletterSuccess from "./pages/NewsletterSuccess";
+import Derek from "./pages/Derek";
 
 // ADMIN AUTH / DASHBOARD
 import AdminAccess from "./pages/admin/AdminAccess";
@@ -47,6 +48,9 @@ import TimeLineManagement from "./pages/admin/TimeLineManagement";
 import ForgeEntryDetail from "./pages/ForgeEntryDetail";
 import BookJourneyManagement from "./pages/admin/BookJourneyManagement";
 import AboutCarouselManagement from "./pages/admin/AboutCarouselManagement";
+import DerekManagement from "./pages/admin/DerekManagement";
+import DerekTimelineManagement from "./pages/admin/DerekTimelineManagement";
+import DerekCarouselManagement from "./pages/admin/DerekCarouselManagement";
 
 function App() {
   return (
@@ -58,6 +62,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/bingo" element={<Bingo />} />
+        <Route path="/derek" element={<Derek />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/contact" element={<Contact />} />
@@ -107,6 +112,23 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/admin/derek-timeline"
+  element={
+    <ProtectedRoute>
+      <DerekTimelineManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/derek-carousel"
+  element={
+    <ProtectedRoute>
+      <DerekCarouselManagement />
+    </ProtectedRoute>
+  }
+/>
 
         {/* ADMIN BLOG */}
         <Route
@@ -335,6 +357,14 @@ function App() {
   element={
     <ProtectedRoute>
       <AboutCarouselManagement />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/derek"
+  element={
+    <ProtectedRoute>
+      <DerekManagement />
     </ProtectedRoute>
   }
 />

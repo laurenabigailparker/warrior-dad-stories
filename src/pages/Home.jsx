@@ -47,6 +47,7 @@ function Home() {
       <CinematicDivider content={content} />
       <PrinciplesPreview content={content} />
       <MeetTJ content={content} />
+      <MeetDerek content={content} />
       <FinalCTA />
       <Footer />
     </main>
@@ -649,6 +650,47 @@ function MeetTJ({ content }) {
   );
 }
 
+function MeetDerek({ content }) {
+  return (
+    <section className="bg-[#1a1f27] py-32 px-8 md:px-20">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_460px] gap-20 items-center">
+        <div>
+          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+            {content.meet_derek_eyebrow || "Meet Derek"}
+          </p>
+
+          <h2 className="uppercase font-black leading-[0.9] text-5xl md:text-7xl whitespace-pre-line">
+            {content.meet_derek_heading ||
+              "Warrior.\nFather.\nStoryteller."}
+          </h2>
+
+          <p className="mt-10 max-w-2xl text-slate-300 italic font-serif text-xl leading-10 whitespace-pre-line">
+            {content.meet_derek_body ||
+              "Derek's story, service, leadership, and journey continue to shape the mission of Warrior Dad Stories through family, resilience, and purpose."}
+          </p>
+<a
+  href={content.meet_derek_button_url || "/derek"}
+  className="inline-block mt-10 border border-[#c8a96a] text-[#c8a96a] px-9 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
+>
+  {content.meet_derek_button_text || "Read The Full Story →"}
+</a>
+        </div>
+
+        <div>
+          <img
+            src={content.meet_derek_image || "/derek-portrait.webp"}
+            alt={
+              content.meet_derek_image_alt ||
+              "Derek Warrior Dad"
+            }
+            className="w-full rounded-2xl border border-white/10 shadow-2xl"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
 function FinalCTA() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
