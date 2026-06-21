@@ -9,7 +9,7 @@ function GuidingPrinciples({ compact = false }) {
       const { data, error } = await supabase
         .from("site_content")
         .select("*")
-        .eq("page", "about");
+        .eq("page", "principles");
 
       if (error) {
         console.error(error);
@@ -30,16 +30,21 @@ function GuidingPrinciples({ compact = false }) {
 
   const principles = [
     [
-      content.principles_2_title || "Discipline",
-      content.principles_2_body || "Discipline, thought, word, and deed.",
+      content.main_1_title || "Smile And The World Smiles With You",
+      content.main_1_body || "Lead with positivity, connection, and humanity.",
     ],
     [
-      content.principles_3_title || "Be Fit",
-      content.principles_3_body || "Be fit — mind, body, and spirit.",
+      content.main_2_title || "Discipline, Thought, Word, And Deed",
+      content.main_2_body || "Live intentionally and lead with consistency.",
     ],
     [
-      content.principles_4_title || "Live Fully",
-      content.principles_4_body || "Live life to its fullest.",
+      content.main_3_title || "Be Fit — Mind, Body, And Spirit",
+      content.main_3_body || "Growth requires harmony across every part of life.",
+    ],
+    [
+      content.main_4_title || "Live Life To Its Fullest",
+      content.main_4_body ||
+        "Pursue purpose, service, adventure, and meaningful relationships.",
     ],
   ];
 
@@ -49,19 +54,20 @@ function GuidingPrinciples({ compact = false }) {
         {!compact && (
           <div className="text-center mb-16">
             <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
-              {content.principles_eyebrow || "Guiding Principles"}
+              {content.main_eyebrow || "Guiding Principles"}
             </p>
 
             <h2 className="mt-6 uppercase text-4xl md:text-5xl font-black">
-              {content.principles_heading || "Lived. Not Lectured."}
+              {content.main_heading || "Lived. Not Lectured."}
             </h2>
           </div>
         )}
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           {principles.map(([title, text]) => (
             <div key={title} className="border-l border-[#c8a96a] pl-5">
               <h3 className="uppercase text-xl font-black">{title}</h3>
+
               <p className="mt-4 text-slate-400 italic font-serif leading-7">
                 {text}
               </p>

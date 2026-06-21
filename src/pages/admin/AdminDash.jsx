@@ -306,65 +306,85 @@ function AdminDash() {
             </aside>
           </div>
 
-          <h2 className="uppercase text-2xl font-black tracking-widest mt-14 mb-8">
-            Site Content
-          </h2>
+     {/* HOME */}
+<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+  Home
+</h2>
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-            <AdminCard href="/admin/home-content" icon="🏠" title="Home Page" desc="Edit Homepage content" meta="CMS" />
-            <AdminCard href="/admin/about" icon="👤" title="About Page" desc="Edit About page content" meta="Content" />
-            <AdminCard
-  href="/admin/derek"
-  icon="👥"
-  title="Derek Page"
-  desc="Edit Derek's About page content"
-  meta="Content"
-/>
+<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <AdminCard href="/admin/home-content" icon="🏠" title="Home Page" desc="Edit homepage content" meta="CMS" />
+  <AdminCard href="/admin/principles" icon="🧭" title="Four Life Principles" desc="Edit principles sitewide" meta="Global" />
+</div>
 
+{/* ABOUT */}
+<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+  About
+</h2>
 
-<AdminCard
-  href="/admin/derek-timeline"
-  icon="📅"
-  title="Derek Timeline"
-  desc="Manage Derek's timeline events"
-  meta="Timeline"
-/>
+<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <AdminCard href="/admin/about" icon="👤" title="TJ Page" desc="Edit TJ content" meta="Content" />
+  <AdminCard href="/admin/timeline" icon="📅" title="TJ Timeline" desc="Manage TJ timeline" meta={`${timelineEvents.length} Events`} />
+  <AdminCard href="/admin/about-carousel" icon="👨‍👩‍👧‍👦" title="TJ Carousel" desc="Manage TJ photos" meta="CMS" />
 
-<AdminCard
-  href="/admin/derek-carousel"
-  icon="🖼️"
-  title="Derek Carousel"
-  desc="Manage Derek's About page carousel photos"
-  meta="CMS"
-/>
-            <AdminCard href="/admin/books" icon="📚" title="Books" desc="Manage current and future books" meta="Content" />
-            <AdminCard href="/admin/podcasts" icon="🎙" title="Podcasts" desc="Manage podcast appearances" meta={`${podcasts.length} Episodes`} />
-            <AdminCard href="/admin/blog" icon="▤" title="Blog Posts" desc="Create and manage blog content" meta={`${blogPosts.length} Posts`} />
-            <AdminCard href="/admin/forge" icon="🔥" title="Creative Forge" desc="Edit Forge page messaging" meta="Content" />
-            <AdminCard href="/admin/forge-entries" icon="✍️" title="Creative Forge Entries" desc="Manage poems, reflections, artwork, and videos" meta="CMS" />
-            <AdminCard href="/admin/bingo" icon="🎯" title="Warrior Dad Bingo" desc="Manage monthly Bingo cards and archives" meta="Monthly Cards" />
-            <AdminCard href="/admin/products" icon="🛒" title="Shop Products" desc="Manage merchandise and products" meta={`${products.length} Items`} />
-            <AdminCard href="/admin/testimonials" icon="💬" title="Testimonials" desc="Manage reader testimonials" meta={`${testimonials.length} Reviews`} />
-            <AdminCard href="/admin/reflections" icon="📸" title="Reflection Carousel" desc="Manage the Moments That Make Me Smile carousel" meta="CMS" />
-            <AdminCard href="/admin/timeline" icon="📅" title="Timeline Events" desc="Edit military service timeline" meta={`${timelineEvents.length} Events`} />
-            <AdminCard
-  href="/admin/book-journey"
-  icon="📘"
-  title="Book Journey Carousel"
-  desc="Manage book signings, speaking engagements, podcasts, and community event photos"
-  meta="CMS"
-/>
+  <AdminCard href="/admin/derek" icon="👥" title="Derek Page" desc="Edit Derek content" meta="Content" />
+  <AdminCard href="/admin/derek-timeline" icon="📅" title="Derek Timeline" desc="Manage Derek timeline" meta="Timeline" />
+  <AdminCard href="/admin/derek-carousel" icon="🖼️" title="Derek Carousel" desc="Manage Derek photos" meta="CMS" />
+</div>
 
-<AdminCard
-  href="/admin/about-carousel"
-  icon="👨‍👩‍👧‍👦"
-  title="About Carousel"
-  desc="Manage family, friends, and support system photos"
-  meta="CMS"
-/>
+{/* STORIES & MEDIA */}
+<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+  Stories & Media
+</h2>
 
-         
-          </div>
+<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <AdminCard href="/admin/blog" icon="▤" title="Blog Posts" desc="Manage articles" meta={`${blogPosts.length} Posts`} />
+  <AdminCard href="/admin/podcasts" icon="🎙" title="Podcasts" desc="Manage podcast appearances" meta={`${podcasts.length} Episodes`} />
+  <AdminCard href="/admin/books" icon="📚" title="Books" desc="Manage books" meta="Content" />
+  <AdminCard href="/admin/bingo" icon="🎯" title="Warrior Dad Bingo" desc="Manage monthly cards" meta="Monthly" />
+</div>
+
+{/* THE FORGE */}
+<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+  The Forge
+</h2>
+
+<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <AdminCard href="/admin/forge" icon="🔥" title="Forge Page" desc="Edit Forge messaging" meta="Content" />
+  <AdminCard href="/admin/forge-entries" icon="✍️" title="Forge Entries" desc="Manage poems and reflections" meta="CMS" />
+  <AdminCard href="/admin/reflections" icon="📸" title="Moments Carousel" desc="Manage smile moments" meta="CMS" />
+</div>
+
+{/* SHOP */}
+<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+  Shop
+</h2>
+
+<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <AdminCard href="/admin/products" icon="🛒" title="Products" desc="Manage merchandise" meta={`${products.length} Items`} />
+</div>
+
+{/* COMMUNITY */}
+<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+  Community
+</h2>
+
+<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <AdminCard href="/admin/testimonials" icon="💬" title="Testimonials" desc="Manage testimonials" meta={`${testimonials.length} Reviews`} />
+  <AdminCard href="/admin/book-journey" icon="📘" title="Book Journey" desc="Manage event photos" meta="CMS" />
+  <AdminCard href="/admin/newsletter" icon="✉️" title="Newsletter" desc="View subscribers" meta="Mailchimp" />
+</div>
+
+{/* SITE SETTINGS */}
+<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+  Site Settings
+</h2>
+
+<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <AdminCard href="/admin/socials" icon="🌐" title="Social Media" desc="Manage social links" meta="Settings" />
+  <AdminCard href="/admin/settings" icon="⚙️" title="Site Settings" desc="Manage global settings" meta="Settings" />
+  <AdminCard href="/admin/media" icon="🖼️" title="Media Library" desc="Manage uploads" meta="Library" />
+</div>
+        
 
           <h2 className="uppercase text-2xl font-black tracking-widest mt-14 mb-8">
             Marketing & Community

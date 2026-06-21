@@ -53,7 +53,7 @@ function Navbar() {
           <Link to="/shop">Shop</Link>
           <Link to="/about">About TJ</Link>
           <Link to="/derek">Meet Derek</Link>
-          <Link to="/blog">Blog</Link>
+          <Link to="/blog">Perspectives & Conversations </Link>
           <Link to="/forge">The Forge</Link>
           <Link to="/contact">Contact</Link>
 
@@ -134,12 +134,12 @@ function Navbar() {
           </Link>
 
           <Link
-            to="/blog"
-            className="block"
-            onClick={() => setMenuOpen(false)}
-          >
-            Blog
-          </Link>
+  to="/blog"
+  className="block"
+  onClick={() => setMenuOpen(false)}
+>
+ Perspectives & Conversations
+</Link>
 
           <Link
             to="/forge"

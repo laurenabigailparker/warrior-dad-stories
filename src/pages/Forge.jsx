@@ -8,7 +8,7 @@ import GuidingPrinciples from "../components/GuidingPrinciples";
 function Forge() {
   const [content, setContent] = useState({});
   const [entries, setEntries] = useState([]);
-  const [moments, setMoments] = useState([]);
+  
 
   const haikus = [
     "Steel and silk entwined. Duty's weight and love's soft touch. Both hands hold the same.",
@@ -47,21 +47,11 @@ function Forge() {
         console.error(entryError);
       }
 
-      const { data: reflectionData, error: reflectionError } = await supabase
-        .from("reflection_images")
-        .select("*")
-        .eq("published", true)
-        .order("display_order", { ascending: true });
 
-      if (reflectionError) {
-        console.error(reflectionError);
-      }
-
-      if (!ignore) {
-        setContent(mapped);
-        setEntries(entryData || []);
-        setMoments(reflectionData || []);
-      }
+     if (!ignore) {
+  setContent(mapped);
+  setEntries(entryData || []);
+}
     };
 
     loadContent();
@@ -261,69 +251,34 @@ function Forge() {
         eyebrow="Poems & Haikus"
         entries={warriorDadPoetryEntries}
       />
+<section className="bg-[#11141b] px-8 md:px-20 py-32 text-center">
+  <p className="text-[#c8a96a] text-4xl mb-5">♡</p>
 
-      <section className="bg-[#11141b] px-8 md:px-20 py-32 text-center">
-        <p className="text-[#c8a96a] text-4xl mb-5">♡</p>
+  <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
+    {content.moments_eyebrow || "Moments That Make Me Smile"}
+  </p>
 
-        <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-5">
-          Moments That Make Me Smile
-        </p>
+  <h2 className="uppercase font-black text-5xl whitespace-pre-line">
+    {content.moments_headline || "The Quiet Beauty Between The Missions"}
+  </h2>
 
-        <h2 className="uppercase font-black text-5xl">
-          The Quiet Beauty Between The Missions
-        </h2>
+  <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9 whitespace-pre-line">
+    {content.moments_body ||
+      "Not every moment needs weight. Some are just good. Simple. Worth remembering."}
+  </p>
 
-        <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9">
-          Not every moment needs weight. Some are just good. Simple. Worth
-          remembering.
-        </p>
-
-       {content.quiet_beauty_video && (
-  <div className="max-w-5xl mx-auto mt-16 overflow-hidden rounded-2xl border border-white/10">
-    <iframe
-      className="w-full aspect-video"
-      src={content.quiet_beauty_video}
-      title="Because of Them, I Smiled"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
-  </div>
-)}
-
-        <div className="max-w-7xl mx-auto mt-20 grid md:grid-cols-6 auto-rows-[220px] gap-8">
-          {moments.map((moment, index) => {
-            const layouts = [
-              "md:col-span-3 md:row-span-2",
-              "md:col-span-1 md:row-span-1",
-              "md:col-span-2 md:row-span-2",
-              "md:col-span-3 md:row-span-1",
-              "md:col-span-1 md:row-span-1",
-              "md:col-span-2 md:row-span-1",
-            ];
-
-            return (
-              <div
-                key={moment.id}
-                className={`relative overflow-hidden rounded-2xl border border-white/5 group bg-[#202632] ${layouts[index]}`}
-              >
-                <img
-                  src={moment.image_url}
-                  alt={moment.caption}
-                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-
-                <div className="relative z-10 h-full flex items-end p-6">
-                  <p className="text-left text-slate-100 italic font-serif text-lg leading-8">
-                    {moment.caption}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+  {content.moments_video_url && (
+    <div className="max-w-5xl mx-auto mt-16 overflow-hidden rounded-2xl border border-white/10">
+      <iframe
+        className="w-full aspect-video"
+        src={content.moments_video_url}
+        title={content.moments_video_title || "Because of Them, I Smiled"}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </div>
+  )}
+</section>
 
       <section
         className="relative px-8 md:px-20 py-32 text-center overflow-hidden bg-cover bg-center"

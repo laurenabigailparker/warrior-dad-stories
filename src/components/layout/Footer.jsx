@@ -64,13 +64,17 @@ function Footer() {
               Shop
             </Link>
 
-            <Link to="/about" className="block hover:text-[#c8a96a] transition">
-              About
-            </Link>
+         <Link to="/about" className="block hover:text-[#c8a96a] transition">
+  About TJ
+</Link>
 
-            <Link to="/blog" className="block hover:text-[#c8a96a] transition">
-              Blog
-            </Link>
+<Link to="/derek" className="block hover:text-[#c8a96a] transition">
+  Meet Derek
+</Link>
+
+<Link to="/blog" className="block hover:text-[#c8a96a] transition">
+  Perspectives & Conversations
+</Link>
 
             <Link to="/forge" className="block hover:text-[#c8a96a] transition">
               The Creative Forge

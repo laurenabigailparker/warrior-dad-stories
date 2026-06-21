@@ -12,6 +12,7 @@ function Blog() {
 const [message, setMessage] = useState("");
 const [featuredPodcasts, setFeaturedPodcasts] = useState([]);
 const [featuredBingo, setFeaturedBingo] = useState(null);
+const [expandedPodcast, setExpandedPodcast] = useState(null);
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -38,7 +39,7 @@ const [featuredBingo, setFeaturedBingo] = useState(null);
       .from("podcasts")
       .select("*")
       .eq("featured", true)
-      .limit(3);
+      .limit(6);
 
     if (error) {
       console.error(error);
@@ -138,20 +139,20 @@ const handleNewsletterSubmit = async (e) => {
     <main className="min-h-screen bg-[#11141b] text-white">
       <Navbar />
 
-      <section className="bg-[#171c25] px-8 md:px-20 py-28 border-b border-white/5">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
-            The Warrior Dad Blog
-          </p>
+     <section className="bg-[#171c25] px-8 md:px-20 py-28 border-b border-white/5">
+  <div className="max-w-7xl mx-auto">
+    <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px] mb-6">
+      Perspectives & Conversations
+    </p>
 
-          <h1 className="uppercase font-black text-5xl md:text-7xl leading-tight max-w-5xl">
-            Lessons Written In Real Life.
-          </h1>
+    <h1 className="uppercase font-black text-5xl md:text-7xl leading-tight max-w-5xl">
+      Reflections. Conversations. Stories.
+    </h1>
 
-          <p className="mt-8 max-w-4xl text-slate-300 italic font-serif text-xl leading-9">
-            Words forged through service, fatherhood, resilience, and the quiet
-            work of becoming who we were called to be.
-          </p>
+    <p className="mt-8 max-w-4xl text-slate-300 italic font-serif text-xl leading-9">
+      Articles, podcasts, conversations, and reflections forged through service,
+      fatherhood, leadership, and the moments that shape our legacy.
+    </p>
 
           <div className="mt-14 flex flex-wrap gap-3">
             {categories.map((category) => (
@@ -360,14 +361,33 @@ const handleNewsletterSubmit = async (e) => {
 
                 <h3 className="uppercase font-black text-xl">{podcast.title}</h3>
 
-                <p className="mt-4 text-slate-500 italic font-serif line-clamp-4">
-  {podcast.description}
+                <p className="mt-4 text-slate-500 italic font-serif leading-7">
+  {expandedPodcast === podcast.id
+    ? podcast.description
+    : `${podcast.description?.slice(0, 180) || ""}${
+        podcast.description?.length > 180 ? "..." : ""
+      }`}
 </p>
+
+{podcast.description?.length > 180 && (
+  <button
+    onClick={() =>
+      setExpandedPodcast(
+        expandedPodcast === podcast.id ? null : podcast.id
+      )
+    }
+    className="mt-4 text-[#c8a96a] uppercase tracking-[0.2em] text-[10px] hover:text-white transition"
+  >
+    {expandedPodcast === podcast.id
+      ? "Read Less"
+      : "Read More"}
+  </button>
+)}
 
    <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
   <span className="text-slate-500 uppercase tracking-[0.2em] text-[10px]">
-    Spotify
-  </span>
+  {podcast.platform || "Podcast"}
+</span>
 
   <a
     href={podcast.url}

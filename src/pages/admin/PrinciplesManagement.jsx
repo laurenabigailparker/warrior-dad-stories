@@ -4,24 +4,23 @@ import { supabase } from "../../lib/supabase";
 import StatusMessage from "../../components/admin/StatusMessage";
 
 const fields = [
-  ["hero", "eyebrow", "Hero Eyebrow"],
-  ["hero", "headline", "Hero Headline"],
-  ["hero", "body", "Hero Body"],
-  ["hero", "tagline", "Hero Tagline"],
-  ["intro", "eyebrow", "Intro Eyebrow"],
-  ["intro", "headline", "Intro Headline"],
-  ["intro", "body", "Intro Body"],
-  ["intro", "subtext", "Intro Subtext"],
-  ["reforged", "background_image", "Reforged Background Image URL"],
-  ["moments", "eyebrow", "Moments Eyebrow"],
-["moments", "headline", "Moments Headline"],
-["moments", "body", "Moments Body"],
-["moments", "video_url", "Video URL"],
-["moments", "video_title", "Video Title"],
-["quiet_beauty", "video", "Because of Them, I Smiled Video URL"],
+  ["main", "eyebrow", "Section Eyebrow"],
+  ["main", "heading", "Section Heading"],
+
+  ["main", "1_title", "Principle 1 Title"],
+  ["main", "1_body", "Principle 1 Body"],
+
+  ["main", "2_title", "Principle 2 Title"],
+  ["main", "2_body", "Principle 2 Body"],
+
+  ["main", "3_title", "Principle 3 Title"],
+  ["main", "3_body", "Principle 3 Body"],
+
+  ["main", "4_title", "Principle 4 Title"],
+  ["main", "4_body", "Principle 4 Body"],
 ];
 
-function ForgeManagement() {
+function PrinciplesManagement() {
   const [content, setContent] = useState({});
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
@@ -37,11 +36,11 @@ function ForgeManagement() {
       const { data, error } = await supabase
         .from("site_content")
         .select("*")
-        .eq("page", "forge");
+        .eq("page", "principles");
 
       if (error) {
         console.error(error);
-        showMessage("error", "Failed to load Forge content.");
+        showMessage("error", "Failed to load principles.");
         return;
       }
 
@@ -59,7 +58,7 @@ function ForgeManagement() {
 
   const handleSave = async () => {
     const rows = fields.map(([section, field]) => ({
-      page: "forge",
+      page: "principles",
       section,
       field,
       value: content[`${section}_${field}`] || "",
@@ -73,40 +72,42 @@ function ForgeManagement() {
 
     if (error) {
       console.error(error);
-      showMessage("error", "Failed to save Forge content.");
+      showMessage("error", "Failed to save principles.");
       return;
     }
 
-    showMessage("success", "Forge content updated.");
+    showMessage("success", "Principles updated.");
   };
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-7xl mx-auto bg-[#101118] min-h-[850px]">
-        <AdminSubTop title="Creative Forge" back="/admin/dashboard" />
+        <AdminSubTop
+          title="Four Life Principles"
+          back="/admin/dashboard"
+        />
 
         <section className="p-8">
           <StatusMessage message={message} type={messageType} />
 
           <div className="mb-10">
             <h2 className="uppercase text-3xl font-black tracking-widest">
-              Edit Forge Page
+              Global Principles
             </h2>
 
             <p className="mt-4 text-slate-500 italic font-serif max-w-3xl">
-              Update the main Creative Forge messaging without touching code.
-              These fields control the hero and intro sections on the public
-              Forge page.
+              These principles appear throughout the website. Updating them
+              here updates every page automatically.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-6">
             {fields.map(([section, field, label]) => {
               const key = `${section}_${field}`;
+
               const isLong =
-                field === "body" ||
-                field === "subtext" ||
-                field === "headline";
+                field.includes("body") ||
+                field === "heading";
 
               return (
                 <div
@@ -126,7 +127,7 @@ function ForgeManagement() {
                           [key]: e.target.value,
                         })
                       }
-                      className="w-full h-36 bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
+                      className="w-full h-32 bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
                     />
                   ) : (
                     <input
@@ -149,7 +150,7 @@ function ForgeManagement() {
             onClick={handleSave}
             className="mt-10 bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
           >
-            Save Forge Content
+            Save Principles
           </button>
         </section>
       </div>
@@ -176,4 +177,4 @@ function AdminSubTop({ title, back }) {
   );
 }
 
-export default ForgeManagement;
+export default PrinciplesManagement;

@@ -51,6 +51,7 @@ import AboutCarouselManagement from "./pages/admin/AboutCarouselManagement";
 import DerekManagement from "./pages/admin/DerekManagement";
 import DerekTimelineManagement from "./pages/admin/DerekTimelineManagement";
 import DerekCarouselManagement from "./pages/admin/DerekCarouselManagement";
+import PrinciplesManagement from "./pages/admin/PrinciplesManagement";
 
 function App() {
   return (
@@ -112,23 +113,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-  path="/admin/derek-timeline"
-  element={
-    <ProtectedRoute>
-      <DerekTimelineManagement />
-    </ProtectedRoute>
-  }
-/>
 
-<Route
-  path="/admin/derek-carousel"
-  element={
-    <ProtectedRoute>
-      <DerekCarouselManagement />
-    </ProtectedRoute>
-  }
-/>
+
 
         {/* ADMIN BLOG */}
         <Route
@@ -294,56 +280,80 @@ function App() {
           }
         />
 
-        {/* ADMIN OTHER CONTENT */}
-        <Route
-          path="/admin/reflections"
-          element={
-            <ProtectedRoute>
-              <ReflectionManagement />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/timeline"
-          element={
-            <ProtectedRoute>
-              <TimeLineManagement />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/testimonials"
-          element={
-            <ProtectedRoute>
-              <TestimonialManagement />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/newsletter"
-          element={
-            <ProtectedRoute>
-              <NewsletterManagement />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/socials"
-          element={
-            <ProtectedRoute>
-              <SocialLinksManagement />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/settings"
-          element={
-            <ProtectedRoute>
-              <SiteSettings />
-            </ProtectedRoute>
-          }
-        />
-        <Route
+     {/* ADMIN OTHER CONTENT */}
+<Route
+  path="/admin/reflections"
+  element={
+    <ProtectedRoute>
+      <ReflectionManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/timeline"
+  element={
+    <ProtectedRoute>
+      <TimeLineManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/derek-timeline"
+  element={
+    <ProtectedRoute>
+      <DerekTimelineManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/principles"
+  element={
+    <ProtectedRoute>
+      <PrinciplesManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/testimonials"
+  element={
+    <ProtectedRoute>
+      <TestimonialManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/newsletter"
+  element={
+    <ProtectedRoute>
+      <NewsletterManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/socials"
+  element={
+    <ProtectedRoute>
+      <SocialLinksManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/settings"
+  element={
+    <ProtectedRoute>
+      <SiteSettings />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
   path="/admin/book-journey"
   element={
     <ProtectedRoute>
@@ -360,11 +370,21 @@ function App() {
     </ProtectedRoute>
   }
 />
+
 <Route
   path="/admin/derek"
   element={
     <ProtectedRoute>
       <DerekManagement />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/derek-carousel"
+  element={
+    <ProtectedRoute>
+      <DerekCarouselManagement />
     </ProtectedRoute>
   }
 />
