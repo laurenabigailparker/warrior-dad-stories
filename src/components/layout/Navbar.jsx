@@ -47,47 +47,44 @@ function Navbar() {
           </span>
         </Link>
 
-        {/* DESKTOP NAV */}
-        <nav className="hidden lg:flex items-center gap-8 uppercase tracking-[0.2em] text-[11px] text-slate-300">
-          <Link to="/">Home</Link>
-          <Link to="/shop">Shop</Link>
-          <Link to="/about">About TJ</Link>
-          <Link to="/derek">Meet Derek</Link>
-          <Link to="/blog">Perspectives & Conversations </Link>
-          <Link to="/forge">The Forge</Link>
-          <Link to="/contact">Contact</Link>
+   {/* DESKTOP NAV */}
+<nav className="hidden lg:flex items-center gap-5 uppercase tracking-[0.14em] text-[10px] text-slate-300">
+  <Link to="/">Home</Link>
+  <Link to="/shop">Shop</Link>
+  <Link to="/about">About TJ</Link>
+  <Link to="/derek">Meet Derek</Link>
+  <Link to="/blog">Perspectives & Conversations</Link>
+  <Link to="/forge">The Forge</Link>
+  <Link to="/contact">Contact</Link>
 
-          {showPreOrder && (
-            <Link
-              to="/preorder"
-              className="bg-[#c8a96a] text-black px-5 py-3 font-bold"
-            >
-              Pre Order
-            </Link>
-          )}
+  {showPreOrder && (
+    <Link
+      to="/preorder"
+      className="bg-[#c8a96a] text-black px-5 py-3 font-bold"
+    >
+      Pre Order
+    </Link>
+  )}
 
-          {session ? (
-            <>
-              <Link
-                to="/admin/dashboard"
-                className="text-[#c8a96a] font-bold"
-              >
-                Dashboard
-              </Link>
+  {session ? (
+    <>
+      <Link to="/admin/dashboard" className="text-[#c8a96a] font-bold">
+        Dashboard
+      </Link>
 
-              <button
-                onClick={handleLogout}
-                className="text-slate-400 hover:text-[#c8a96a] transition"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <Link to="/admin" className="text-[#c8a96a] font-bold">
-              Admin
-            </Link>
-          )}
-        </nav>
+      <button
+        onClick={handleLogout}
+        className="text-slate-400 hover:text-[#c8a96a] transition"
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <Link to="/admin" className="text-[#c8a96a] font-bold">
+      Admin
+    </Link>
+  )}
+</nav>
 
         {/* MOBILE MENU BUTTON */}
         <button
