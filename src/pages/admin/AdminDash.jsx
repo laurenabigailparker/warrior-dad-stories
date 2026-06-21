@@ -374,16 +374,7 @@ function AdminDash() {
   <AdminCard href="/admin/newsletter" icon="✉️" title="Newsletter" desc="View subscribers" meta="Mailchimp" />
 </div>
 
-{/* SITE SETTINGS */}
-<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
-  Site Settings
-</h2>
 
-<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-  <AdminCard href="/admin/socials" icon="🌐" title="Social Media" desc="Manage social links" meta="Settings" />
- 
-  <AdminCard href="/admin/media" icon="🖼️" title="Media Library" desc="Manage uploads" meta="Library" />
-</div>
         
 
           <h2 className="uppercase text-2xl font-black tracking-widest mt-14 mb-8">

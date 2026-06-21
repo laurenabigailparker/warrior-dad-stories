@@ -14,8 +14,10 @@ const [settings, setSettings] = useState({
   linkedin_url: "",
   x_url: "",
   youtube_url: "",
+  peloton_url: "",
   footer_text: "",
   copyright_text: "",
+  
 });
    const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
@@ -43,6 +45,7 @@ const [settings, setSettings] = useState({
   business_facebook_url: data.business_facebook_url || "",
   linkedin_url: data.linkedin_url || "",
   x_url: data.x_url || "",
+  peloton_url: data.peloton_url || "",
   youtube_url: data.youtube_url || "",
   footer_text: data.footer_text || "",
   copyright_text: data.copyright_text || "",
@@ -174,6 +177,11 @@ const handleSave = async () => {
       x_url: e.target.value,
     })
   }
+/>
+<Field
+  label="Peloton URL"
+  value={settings.peloton_url || ""}
+  onChange={(e) => handleChange("peloton_url", e.target.value)}
 />
             </Panel>
 

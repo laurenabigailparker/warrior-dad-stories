@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { Link } from "react-router-dom";
 
 function Bingo() {
   const [cards, setCards] = useState([]);
@@ -34,6 +35,12 @@ function Bingo() {
 
       <main className="min-h-screen bg-[#080a0f] text-white px-6 py-20">
         <div className="max-w-6xl mx-auto">
+   <Link
+  to="/forge"
+  className="inline-flex items-center px-4 py-2 bg-[#202632] text-[#c8a96a] uppercase tracking-[0.18em] text-[10px] hover:bg-[#c8a96a] hover:text-black transition"
+>
+  ← Back to The Creative Forge
+</Link>
           <div className="text-center">
             <span className="inline-block px-4 py-2 bg-[#202632] text-[#c8a96a] uppercase tracking-[0.2em] text-[10px]">
               Warrior Dad Bingo
