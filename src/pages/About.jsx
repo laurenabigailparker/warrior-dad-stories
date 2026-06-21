@@ -10,24 +10,7 @@ function About() {
   const [content, setContent] = useState({});
   const [aboutCarousel, setAboutCarousel] = useState([]);
 
-  const principles = [
-    [
-      "Smile And The World Smiles With You",
-      "Lead with positivity, connection, and humanity.",
-    ],
-    [
-      "Discipline, Thought, Word, And Deed",
-      "Live intentionally and lead with consistency.",
-    ],
-    [
-      "Be Fit — Mind, Body, And Spirit",
-      "Growth requires harmony across every part of life.",
-    ],
-    [
-      "Live Life To Its Fullest",
-      "Pursue purpose, service, adventure, and meaningful relationships.",
-    ],
-  ];
+
 
   useEffect(() => {
     const loadTimeline = async () => {
@@ -358,34 +341,7 @@ console.log(content);
   <BookJourneyCarousel images={aboutCarousel} />
 </section>
 
-      {/* PRINCIPLES */}
-      <section className="relative bg-[#11141b] px-8 md:px-20 py-32 overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center">
-            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
-              Guiding Principles
-            </p>
-
-            <h2 className="mt-6 uppercase text-5xl font-black">
-              Lived. Not Lectured.
-            </h2>
-          </div>
-
-          <div className="mt-20 grid md:grid-cols-2 gap-12">
-            {principles.map(([title, text]) => (
-              <div key={title} className="border-l border-[#c8a96a] pl-6">
-                <h3 className="uppercase text-2xl font-black leading-tight">
-                  {title}
-                </h3>
-
-                <p className="mt-5 text-slate-400 italic font-serif leading-8">
-                  {text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* LIFE BEYOND SERVICE */}
       <section className="bg-[#1a1f27] px-8 md:px-20 py-32">

@@ -10,25 +10,7 @@ function Derek() {
   const [content, setContent] = useState({});
   const [aboutCarousel, setAboutCarousel] = useState([]);
 
-  const principles = [
-    [
-      content.principles_1_title || "Smile And The World Smiles With You",
-      content.principles_1_body || "Lead with positivity, connection, and humanity.",
-    ],
-    [
-      content.principles_2_title || "Discipline, Thought, Word, And Deed",
-      content.principles_2_body || "Live intentionally and lead with consistency.",
-    ],
-    [
-      content.principles_3_title || "Be Fit — Mind, Body, And Spirit",
-      content.principles_3_body || "Growth requires harmony across every part of life.",
-    ],
-    [
-      content.principles_4_title || "Live Life To Its Fullest",
-      content.principles_4_body || "Pursue purpose, service, adventure, and meaningful relationships.",
-    ],
-  ];
-
+ 
   useEffect(() => {
     const loadTimeline = async () => {
       const { data, error } = await supabase
@@ -325,34 +307,7 @@ function Derek() {
         <BookJourneyCarousel images={aboutCarousel} />
       </section>
 
-      <section className="relative bg-[#11141b] px-8 md:px-20 py-32 overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center">
-            <p className="text-[#c8a96a] uppercase tracking-[0.35em] text-[11px]">
-              {content.principles_eyebrow || "Guiding Principles"}
-            </p>
-
-            <h2 className="mt-6 uppercase text-5xl font-black">
-              {content.principles_heading || "Lived. Not Lectured."}
-            </h2>
-          </div>
-
-          <div className="mt-20 grid md:grid-cols-2 gap-12">
-            {principles.map(([title, text]) => (
-              <div key={title} className="border-l border-[#c8a96a] pl-6">
-                <h3 className="uppercase text-2xl font-black leading-tight">
-                  {title}
-                </h3>
-
-                <p className="mt-5 text-slate-400 italic font-serif leading-8">
-                  {text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+   
       <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_520px] gap-20 items-center">
           <div>
