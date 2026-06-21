@@ -680,15 +680,17 @@ function MeetDerek({ content }) {
         </div>
 
         <div>
-          <img
-            src={content.meet_derek_image || "/derek-portrait.webp"}
-            alt={
-              content.meet_derek_image_alt ||
-              "Derek Warrior Dad"
-            }
-            className="w-full rounded-2xl border border-white/10 shadow-2xl"
-            loading="lazy"
-          />
+         {content.meet_derek_image && (
+  <img
+    src={content.meet_derek_image}
+    alt={
+      content.meet_derek_image_alt ||
+      "Derek Warrior Dad"
+    }
+    className="w-full rounded-2xl border border-white/10 shadow-2xl"
+    loading="lazy"
+  />
+)}
         </div>
       </div>
     </section>
