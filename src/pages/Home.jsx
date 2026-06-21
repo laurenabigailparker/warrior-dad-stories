@@ -86,21 +86,29 @@ function Hero({ content }) {
         </p>
 
         <div className="mt-9 flex flex-wrap gap-4">
-          <a
-            href="#book"
-            className="bg-[#c8a96a] text-black px-8 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
-          >
-           {content.hero_button_text || "Start The Mission"}
-          </a>
+  <a
+    href="#book"
+    className="bg-[#c8a96a] text-black px-8 py-4 text-[11px] uppercase tracking-[0.18em] font-bold hover:bg-white transition"
+  >
+    {content.hero_button_text || "Start The Mission"}
+  </a>
 
-          <a
-            href="/about"
-            className="border border-[#c8a96a] text-[#c8a96a] px-8 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
-          >
-            Meet TJ
-          </a>
+  <a
+    href="/about"
+    className="border border-[#c8a96a] text-[#c8a96a] px-8 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
+  >
+    Meet TJ
+  </a>
+
+  <a
+    href="/derek"
+    className="border border-[#c8a96a] text-[#c8a96a] px-8 py-4 text-[11px] uppercase tracking-[0.18em] hover:bg-[#c8a96a] hover:text-black transition"
+  >
+    Meet Derek
+  </a>
+</div>
         </div>
-      </div>
+      
     </section>
   );
 }

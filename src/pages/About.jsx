@@ -14,11 +14,12 @@ function About() {
 
   useEffect(() => {
     const loadTimeline = async () => {
-      const { data, error } = await supabase
-        .from("timeline_events")
-        .select("*")
-        .eq("published", true)
-        .order("sort_order", { ascending: true });
+     const { data, error } = await supabase
+  .from("timeline_events")
+  .select("*")
+  .eq("published", true)
+  .eq("person", "tj")
+  .order("sort_order", { ascending: true });
 
       if (error) {
         console.error(error);
