@@ -184,11 +184,16 @@ const handleCheckout = async () => {
   <button
     type="button"
     onClick={handleCheckout}
+    className="bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold hover:bg-white transition"
   >
-    Buy Now
+    Secure Checkout
   </button>
 ) : (
-  <button disabled>
+  <button
+    type="button"
+    disabled
+    className="bg-slate-700 text-slate-400 px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold cursor-not-allowed"
+  >
     {product.button_label || "Coming Soon"}
   </button>
 )}
