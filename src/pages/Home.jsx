@@ -361,20 +361,23 @@ function WatchStory({ content }) {
           "TJ Baird shares the inspiration, experiences, and purpose behind Warrior Dad."}
       </p>
 
-      <div className="mt-14 max-w-5xl mx-auto">
-        <div className="overflow-hidden rounded-xl border border-white/10">
-          <video
-            className="w-full object-cover"
-            controls
-            poster={content.author_message_poster || "/fatherhood-through-service.jpg"}
-          >
-            <source
-              src={content.author_message_video || "/hero-book-video.mp4"}
-              type="video/mp4"
-            />
-          </video>
-        </div>
-      </div>
+   <div className="mt-14 max-w-5xl mx-auto">
+  <div className="overflow-hidden rounded-xl border border-white/10">
+    <iframe
+      className="w-full aspect-video"
+      src={
+        content.author_message_video ||
+        "https://www.youtube.com/embed/"
+      }
+      title={
+        content.author_message_title ||
+        "The Story Behind Warrior Dad"
+      }
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  </div>
+</div>
     </section>
   );
 }
