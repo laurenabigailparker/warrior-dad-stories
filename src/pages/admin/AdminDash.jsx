@@ -371,7 +371,7 @@ function AdminDash() {
 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
   <AdminCard href="/admin/testimonials" icon="💬" title="Testimonials" desc="Manage testimonials" meta={`${testimonials.length} Reviews`} />
   <AdminCard href="/admin/book-journey" icon="📘" title="Book Journey" desc="Manage event photos" meta="CMS" />
-  <AdminCard href="/admin/newsletter" icon="✉️" title="Newsletter" desc="View subscribers" meta="Mailchimp" />
+ 
 </div>
 
 

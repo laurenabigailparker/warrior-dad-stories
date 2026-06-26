@@ -24,6 +24,40 @@ function Footer() {
     loadSettings();
   }, []);
 
+  useEffect(() => {
+    const existingScript = document.querySelector(
+      'script[src="https://bellevuenebraska.chambermaster.com/Content/Script/Member.js"]'
+    );
+
+    const createBadge = () => {
+      const badge = document.getElementById("wds-chamber-badge");
+
+      if (badge && window.MNI?.Widgets?.Member) {
+        badge.innerHTML = "";
+
+        new window.MNI.Widgets.Member("wds-chamber-badge", {
+          member: 11569,
+          styleTemplate:
+            "#@id{text-align:center;position:relative}#@id .mn-widget-member-name{font-weight:700}#@id .mn-widget-member-logo{max-width:100%}",
+        }).create();
+      }
+    };
+
+    if (existingScript) {
+      createBadge();
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src =
+      "https://bellevuenebraska.chambermaster.com/Content/Script/Member.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.onload = createBadge;
+
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <footer className="bg-black border-t border-white/5 px-8 md:px-20 py-20">
       <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16">
@@ -64,17 +98,17 @@ function Footer() {
               Shop
             </Link>
 
-         <Link to="/about" className="block hover:text-[#c8a96a] transition">
-  About TJ
-</Link>
+            <Link to="/about" className="block hover:text-[#c8a96a] transition">
+              About TJ
+            </Link>
 
-<Link to="/derek" className="block hover:text-[#c8a96a] transition">
-  Meet Derek
-</Link>
+            <Link to="/derek" className="block hover:text-[#c8a96a] transition">
+              Meet Derek
+            </Link>
 
-<Link to="/blog" className="block hover:text-[#c8a96a] transition">
-  Perspectives & Conversations
-</Link>
+            <Link to="/blog" className="block hover:text-[#c8a96a] transition">
+              Perspectives & Conversations
+            </Link>
 
             <Link to="/forge" className="block hover:text-[#c8a96a] transition">
               The Creative Forge
@@ -89,79 +123,114 @@ function Footer() {
           </div>
         </div>
 
-       <div>
-  <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px] mb-6">
-    Connect
-  </p>
+        <div>
+          <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px] mb-6">
+            Connect
+          </p>
 
-  <div className="space-y-4 text-slate-400">
-    {settings?.youtube_url && (
-      <a href={settings.youtube_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
-        YouTube
-      </a>
-    )}
+          <div className="space-y-4 text-slate-400">
+            {settings?.youtube_url && (
+              <a
+                href={settings.youtube_url}
+                target="_blank"
+                rel="noreferrer"
+                className="block hover:text-[#c8a96a] transition"
+              >
+                YouTube
+              </a>
+            )}
 
-    {settings?.instagram_url && (
-      <a href={settings.instagram_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
-        Instagram
-      </a>
-    )}
+            {settings?.instagram_url && (
+              <a
+                href={settings.instagram_url}
+                target="_blank"
+                rel="noreferrer"
+                className="block hover:text-[#c8a96a] transition"
+              >
+                Instagram
+              </a>
+            )}
 
-    {settings?.facebook_url && (
-      <a href={settings.facebook_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
-        Facebook
-      </a>
-    )}
+            {settings?.facebook_url && (
+              <a
+                href={settings.facebook_url}
+                target="_blank"
+                rel="noreferrer"
+                className="block hover:text-[#c8a96a] transition"
+              >
+                Facebook
+              </a>
+            )}
 
-    {settings?.business_facebook_url && (
-      <a href={settings.business_facebook_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
-        Warrior Dad Facebook
-      </a>
-    )}
+            {settings?.business_facebook_url && (
+              <a
+                href={settings.business_facebook_url}
+                target="_blank"
+                rel="noreferrer"
+                className="block hover:text-[#c8a96a] transition"
+              >
+                Warrior Dad Facebook
+              </a>
+            )}
 
-    {settings?.linkedin_url && (
-      <a href={settings.linkedin_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
-        LinkedIn
-      </a>
-    )}
+            {settings?.linkedin_url && (
+              <a
+                href={settings.linkedin_url}
+                target="_blank"
+                rel="noreferrer"
+                className="block hover:text-[#c8a96a] transition"
+              >
+                LinkedIn
+              </a>
+            )}
 
-    {settings?.x_url && (
-      <a href={settings.x_url} target="_blank" rel="noreferrer" className="block hover:text-[#c8a96a] transition">
-        X
-      </a>
-    )}
+            {settings?.x_url && (
+              <a
+                href={settings.x_url}
+                target="_blank"
+                rel="noreferrer"
+                className="block hover:text-[#c8a96a] transition"
+              >
+                X
+              </a>
+            )}
 
-    <div className="pt-4 space-y-2 text-slate-500 border-t border-white/5">
-      <a
-        href={`mailto:${settings?.contact_email || "tj_warriordad@warriordadstories.com"}`}
-        className="block hover:text-[#c8a96a] transition"
-      >
-        {settings?.contact_email || "tj_warriordad@warriordadstories.com"}
-      </a>
+            <div className="pt-4 space-y-2 text-slate-500 border-t border-white/5">
+              <a
+                href={`mailto:${
+                  settings?.contact_email ||
+                  "tj_warriordad@warriordadstories.com"
+                }`}
+                className="block hover:text-[#c8a96a] transition"
+              >
+                {settings?.contact_email ||
+                  "tj_warriordad@warriordadstories.com"}
+              </a>
 
-      <a
-        href={`mailto:${settings?.derek_contact_email || "derek_warriordad@warriordadstories.com"}`}
-        className="block hover:text-[#c8a96a] transition"
-      >
-        {settings?.derek_contact_email || "derek_warriordad@warriordadstories.com"}
-      </a>
-    </div>
-  </div>
-</div>
+              <a
+                href={`mailto:${
+                  settings?.derek_contact_email ||
+                  "derek_warriordad@warriordadstories.com"
+                }`}
+                className="block hover:text-[#c8a96a] transition"
+              >
+                {settings?.derek_contact_email ||
+                  "derek_warriordad@warriordadstories.com"}
+              </a>
+            </div>
 
-          
+            <div className="pt-6 border-t border-white/5">
+              <div id="wds-chamber-badge" />
+            </div>
           </div>
-      
+        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row gap-6 justify-between items-center text-slate-600 text-sm">
-        <p>
-          {settings?.copyright_text || "© 2026 Warrior Dad Stories"}
-        </p>
+        <p>{settings?.copyright_text || "© 2026 Warrior Dad Stories"}</p>
 
         <div className="flex flex-wrap items-center gap-6 text-center">
           <p>A Disabled Veteran-Owned Business</p>
-
-          
         </div>
       </div>
     </footer>
