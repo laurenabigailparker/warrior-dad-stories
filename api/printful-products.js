@@ -1,20 +1,15 @@
 export default async function handler(req, res) {
   try {
-    const response = await fetch(
-      "https://api.printful.com/sync/products/44024506",
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.PRINTFUL_API_KEY}`,
-        },
-      }
-    );
-
-    const data = await response.json();
-
-    return res.status(response.status).json(data);
-  } catch (error) {
-    return res.status(500).json({
-      error: error.message,
+    const response = await fetch("https://api.printful.com/store/products", {
+      headers: {
+        Authorization: `Bearer ${process.env.PRINTFUL_API_KEY}`,
+      },
     });
+
+    const text = await response.text();
+
+    return res.status(response.status).send(text);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 }
