@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     const productId = "44024506";
 
     const response = await fetch(
-      `https://api.printful.com/store/products/${productId}`,
+      `https://api.printful.com/store/products/@${productId}`,
       {
         headers: {
           Authorization: `Bearer ${process.env.PRINTFUL_API_KEY}`,
