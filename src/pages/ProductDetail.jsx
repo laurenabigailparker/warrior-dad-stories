@@ -81,7 +81,7 @@ const handleCheckout = async () => {
     const data = await response.json();
 
     if (data.url) {
-      window.location.href = data.url;
+      window.location.assign(data.url);
     } else {
       alert("Unable to start checkout.");
     }

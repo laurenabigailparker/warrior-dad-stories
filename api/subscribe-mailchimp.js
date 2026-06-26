@@ -1,5 +1,5 @@
-/* eslint-env node */
-/* global process */
+
+
 
 import crypto from "crypto";
 const MAILCHIMP_SERVER = "us8";
