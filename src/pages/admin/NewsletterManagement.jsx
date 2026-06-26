@@ -31,6 +31,7 @@ function NewsletterManagement() {
         <section className="p-8">
           <div className="grid md:grid-cols-2 gap-6 mb-10">
             <Stat label="Total Subscribers" value={subscribers.length} />
+
             <Stat
               label="Latest Signup"
               value={
@@ -63,11 +64,13 @@ function NewsletterManagement() {
                   <p className="text-slate-200">{item.email}</p>
 
                   <p className="text-slate-500">
-                    {new Date(item.created_at).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
+                    {item.created_at
+                      ? new Date(item.created_at).toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })
+                      : "Unknown"}
                   </p>
                 </div>
               ))

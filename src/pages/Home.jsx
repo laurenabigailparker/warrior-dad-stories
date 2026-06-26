@@ -710,21 +710,37 @@ function FinalCTA() {
   const navigate = useNavigate();
 
   const handleNewsletterSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const { error } = await supabase
-      .from("newsletter_subscribers")
-      .insert([{ email }]);
+  const cleanEmail = email.trim().toLowerCase();
 
-    if (error) {
-      console.error(error);
-      setMessage("This email may already be signed up.");
-      return;
-    }
+  const { error } = await supabase
+    .from("newsletter_subscribers")
+    .insert([{ email: cleanEmail }]);
 
-    setEmail("");
-    navigate("/newsletter-success");
-  };
+  if (error) {
+    console.error(error);
+    setMessage("This email may already be signed up.");
+    return;
+  }
+
+  try {
+    await fetch("/api/subscribe-mailchimp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: cleanEmail,
+      }),
+    });
+  } catch (err) {
+    console.error("Mailchimp sync failed:", err);
+  }
+
+  setEmail("");
+  navigate("/newsletter-success");
+};
 
   return (
     <section className="bg-[#202632] px-8 md:px-20 py-28 text-center">
