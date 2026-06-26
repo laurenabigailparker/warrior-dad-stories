@@ -1,5 +1,11 @@
 export default async function handler(req, res) {
   try {
+    if (!process.env.PRINTFUL_API_KEY) {
+      return res.status(500).json({
+        error: "Missing PRINTFUL_API_KEY in Vercel environment variables",
+      });
+    }
+
     const response = await fetch("https://api.printful.com/store/products", {
       headers: {
         Authorization: `Bearer ${process.env.PRINTFUL_API_KEY}`,
@@ -8,13 +14,10 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      return res.status(response.status).json(data);
-    }
-
-    res.status(200).json(data);
+    return res.status(response.status).json(data);
   } catch (error) {
-    console.error("Printful products error:", error);
-    res.status(500).json({ error: "Unable to fetch Printful products." });
+    return res.status(500).json({
+      error: error.message,
+    });
   }
 }
