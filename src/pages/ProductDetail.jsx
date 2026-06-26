@@ -59,6 +59,9 @@ if (!product) {
 
 const handleCheckout = async () => {
   try {
+    const finalColor = selectedColor || colors[0] || "";
+    const finalSize = selectedSize || sizes[0] || "";
+
     const response = await fetch("/api/create-checkout-session", {
       method: "POST",
       headers: {
@@ -69,6 +72,9 @@ const handleCheckout = async () => {
         price: product.price,
         image: product.image,
         slug: product.slug,
+        productId: product.id,
+        color: finalColor,
+        size: finalSize,
       }),
     });
 

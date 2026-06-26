@@ -8,19 +8,37 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, price, image, slug } = req.body;
+    const { name, price, image, slug, productId, size, color, printfulVariantId } =
+      req.body;
 
-   const baseUrl = "https://warrior-dad-stories-clean.vercel.app";
+    const baseUrl = "https://warrior-dad-stories-clean.vercel.app";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
+
+      shipping_address_collection: {
+        allowed_countries: ["US"],
+      },
+
+      phone_number_collection: {
+        enabled: true,
+      },
+
+      metadata: {
+        productId: productId || "",
+        slug: slug || "",
+        size: size || "",
+        color: color || "",
+        printfulVariantId: printfulVariantId || "",
+      },
+
       line_items: [
         {
           price_data: {
             currency: "usd",
             product_data: {
-              name,
+              name: size ? `${name} - ${size}` : name,
               images: image ? [image] : [],
             },
             unit_amount: Math.round(Number(price) * 100),
@@ -28,6 +46,7 @@ export default async function handler(req, res) {
           quantity: 1,
         },
       ],
+
       success_url: `${baseUrl}/thank-you`,
       cancel_url: `${baseUrl}/shop/${slug}`,
     });
