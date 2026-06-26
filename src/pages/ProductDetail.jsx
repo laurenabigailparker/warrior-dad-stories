@@ -67,15 +67,16 @@ const handleCheckout = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        slug: product.slug,
-        productId: product.id,
-        color: finalColor,
-        size: finalSize,
-      }),
+     body: JSON.stringify({
+  name: product.name,
+  price: product.price,
+  image: product.image,
+  slug: product.slug,
+  productId: product.id,
+  color: finalColor,
+  size: finalSize,
+  printfulVariantId,
+}),
     });
 
     const data = await response.json();
