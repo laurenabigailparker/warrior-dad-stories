@@ -56,41 +56,61 @@ if (!product) {
     ? product.sizes.split(",").map((item) => item.trim()).filter(Boolean)
     : [];
 
-
 const handleCheckout = async () => {
   try {
     const finalColor = selectedColor || colors[0] || "";
     const finalSize = selectedSize || sizes[0] || "";
+
+    const variantKey = `${finalColor}_${finalSize}`;
+
+    const printfulVariants =
+      typeof product.printful_variants === "string"
+        ? JSON.parse(product.printful_variants)
+        : product.printful_variants || {};
+
+    const printfulVariantId = printfulVariants[variantKey] || "";
+
+    if (!printfulVariantId) {
+      alert(`This variant is not mapped yet: ${variantKey}`);
+      return;
+    }
 
     const response = await fetch("/api/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-     body: JSON.stringify({
-  name: product.name,
-  price: product.price,
-  image: product.image,
-  slug: product.slug,
-  productId: product.id,
-  color: finalColor,
-  size: finalSize,
-  printfulVariantId,
-}),
+      body: JSON.stringify({
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        slug: product.slug,
+        productId: product.id,
+        color: finalColor,
+        size: finalSize,
+        printfulVariantId,
+      }),
     });
 
     const data = await response.json();
 
-    if (data.url) {
-      window.location.assign(data.url);
-    } else {
-      alert("Unable to start checkout.");
+    if (!response.ok) {
+      throw new Error(data.error || "Unable to create checkout session.");
     }
+
+    if (!data.url) {
+      throw new Error("Stripe did not return a checkout URL.");
+    }
+
+    window.location.assign(data.url);
   } catch (error) {
-    console.error(error);
-    alert("Unable to start checkout.");
+    console.error("Checkout error:", error);
+    alert(error.message || "Unable to start checkout.");
   }
 };
+
+  
+
 
   return (
     <main className="min-h-screen bg-[#11141b] text-white">
@@ -288,6 +308,8 @@ const handleCheckout = async () => {
   );
 }
 
+
+
 function AccordionSection({
   id,
   title,
@@ -323,5 +345,6 @@ function AccordionSection({
     </div>
   );
 }
+
 
 export default ProductDetail;
