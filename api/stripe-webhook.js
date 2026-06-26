@@ -1,4 +1,3 @@
-
 import Stripe from "stripe";
 
 export const config = {
@@ -11,11 +10,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 async function buffer(readable) {
   const chunks = [];
-
   for await (const chunk of readable) {
     chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
   }
-
   return Buffer.concat(chunks);
 }
 
@@ -42,11 +39,66 @@ export default async function handler(req, res) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
+    const shipping = session.shipping_details;
+    const customer = session.customer_details;
+    const metadata = session.metadata || {};
 
-    console.log("Checkout completed:", session.id);
-    console.log("Customer email:", session.customer_details?.email);
-    console.log("Shipping:", session.shipping_details);
-    console.log("Metadata:", session.metadata);
+    if (!shipping?.address) {
+      console.error("Missing shipping address");
+      return res.status(200).json({ received: true });
+    }
+
+    if (!metadata.printfulVariantId) {
+      console.error("Missing printfulVariantId in Stripe metadata");
+      return res.status(200).json({ received: true });
+    }
+
+    const variantValue = metadata.printfulVariantId;
+    const isNumericVariant = /^\d+$/.test(variantValue);
+
+    const item = isNumericVariant
+      ? {
+          sync_variant_id: Number(variantValue),
+          quantity: 1,
+        }
+      : {
+          external_variant_id: variantValue,
+          quantity: 1,
+        };
+
+    const printfulOrder = {
+      external_id: session.id,
+      confirm: false,
+      recipient: {
+        name: shipping.name || customer?.name || "Customer",
+        email: customer?.email,
+        phone: customer?.phone || "",
+        address1: shipping.address.line1,
+        address2: shipping.address.line2 || "",
+        city: shipping.address.city,
+        state_code: shipping.address.state,
+        country_code: shipping.address.country,
+        zip: shipping.address.postal_code,
+      },
+      items: [item],
+    };
+
+    const printfulResponse = await fetch("https://api.printful.com/orders", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.PRINTFUL_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(printfulOrder),
+    });
+
+    const printfulData = await printfulResponse.json();
+
+    if (!printfulResponse.ok) {
+      console.error("Printful order failed:", printfulData);
+    } else {
+      console.log("Printful draft order created:", printfulData);
+    }
   }
 
   return res.status(200).json({ received: true });
