@@ -48,15 +48,20 @@ export default async function handler(req, res) {
     console.log("Customer:", customer);
     console.log("Metadata:", metadata);
 
-    if (!shipping?.address) {
-      console.error("Missing shipping address", session);
-      return res.status(200).json({ received: true });
-    }
+    // TEMP DEBUG
+console.log("Shipping object:", JSON.stringify(shipping, null, 2));
+console.log("Metadata object:", JSON.stringify(metadata, null, 2));
 
-    if (!metadata.printfulVariantId) {
-      console.error("Missing printfulVariantId", metadata);
-      return res.status(200).json({ received: true });
-    }
+// Temporarily disable these checks
+// if (!shipping?.address) {
+//   console.error("Missing shipping address", session);
+//   return res.status(200).json({ received: true });
+// }
+
+// if (!metadata.printfulVariantId) {
+//   console.error("Missing printfulVariantId", metadata);
+//   return res.status(200).json({ received: true });
+// }
 
     const printfulOrder = {
       external_id: session.id,
