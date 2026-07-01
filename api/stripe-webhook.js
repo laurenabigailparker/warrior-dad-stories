@@ -78,11 +78,11 @@ console.log("Metadata object:", JSON.stringify(metadata, null, 2));
     zip: shipping.address.postal_code,
   },
   items: [
-    {
-      external_variant_id: metadata.printfulVariantId,
-      quantity: 1,
-    },
-  ],
+  {
+    sync_variant_id: 5358583058,
+    quantity: 1,
+  },
+],
 };
 
     console.log("Printful order payload:", printfulOrder);
