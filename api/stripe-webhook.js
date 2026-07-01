@@ -38,11 +38,15 @@ export default async function handler(req, res) {
   }
 
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const shipping = session.shipping_details;
-    const customer = session.customer_details;
-    const metadata = session.metadata || {};
+ const session = event.data.object;
 
+const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+  expand: ["line_items"],
+});
+
+const shipping = fullSession.shipping_details;
+const customer = fullSession.customer_details;
+const metadata = fullSession.metadata || {};
     if (!shipping?.address) {
       console.error("Missing shipping address");
       return res.status(200).json({ received: true });
@@ -66,8 +70,11 @@ export default async function handler(req, res) {
           quantity: 1,
         };
 
+console.log("Stripe webhook metadata:", metadata);
+console.log("Printful order payload:", printfulOrder);
+
     const printfulOrder = {
-      external_id: session.id,
+      external_id: fullSession.id,
       confirm: false,
       recipient: {
         name: shipping.name || customer?.name || "Customer",
