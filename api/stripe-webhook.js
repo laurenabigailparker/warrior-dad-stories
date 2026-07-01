@@ -63,27 +63,27 @@ console.log("Metadata object:", JSON.stringify(metadata, null, 2));
 //   return res.status(200).json({ received: true });
 // }
 
-    const printfulOrder = {
-      external_id: session.id,
-      confirm: false,
-      recipient: {
-        name: shipping.name || customer?.name || "Customer",
-        email: customer?.email || "",
-        phone: customer?.phone || "",
-        address1: shipping.address.line1,
-        address2: shipping.address.line2 || "",
-        city: shipping.address.city,
-        state_code: shipping.address.state,
-        country_code: shipping.address.country,
-        zip: shipping.address.postal_code,
-      },
-      items: [
-        {
-          external_variant_id: metadata.printfulVariantId,
-          quantity: 1,
-        },
-      ],
-    };
+ const printfulOrder = {
+  external_id: `stripe-${session.payment_intent}`,
+  confirm: false,
+  recipient: {
+    name: shipping.name || customer?.name || "Customer",
+    email: customer?.email || "",
+    phone: customer?.phone || "",
+    address1: shipping.address.line1,
+    address2: shipping.address.line2 || "",
+    city: shipping.address.city,
+    state_code: shipping.address.state,
+    country_code: shipping.address.country,
+    zip: shipping.address.postal_code,
+  },
+  items: [
+    {
+      external_variant_id: metadata.printfulVariantId,
+      quantity: 1,
+    },
+  ],
+};
 
     console.log("Printful order payload:", printfulOrder);
 
