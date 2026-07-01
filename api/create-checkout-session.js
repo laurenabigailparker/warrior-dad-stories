@@ -13,6 +13,16 @@ export default async function handler(req, res) {
 
     const baseUrl = "https://warrior-dad-stories-clean.vercel.app";
 
+console.log("Checkout request body:", {
+  name,
+  price,
+  slug,
+  productId,
+  size,
+  color,
+  printfulVariantId,
+});
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],

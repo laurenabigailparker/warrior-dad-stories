@@ -75,6 +75,11 @@ const handleCheckout = async () => {
       return;
     }
 
+console.log("Checkout product:", product);
+console.log("Final size:", finalSize);
+console.log("Final color:", finalColor);
+console.log("Printful Variant ID:", printfulVariantId);
+
     const response = await fetch("/api/create-checkout-session", {
       method: "POST",
       headers: {
