@@ -150,7 +150,7 @@ function AdminDash() {
                   Welcome Back
                 </p>
 
-                <h3 className="mt-3 text-2xl font-black">TJ Baird</h3>
+                <h3 className="mt-3 text-2xl font-black">TJ & Derek Baird</h3>
 
                 <p className="mt-3 text-slate-500 italic font-serif">
                   Manage products, blog content, testimonials, media, and timeline events
