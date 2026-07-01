@@ -63,8 +63,7 @@ console.log("Metadata object:", JSON.stringify(metadata, null, 2));
 //   return res.status(200).json({ received: true });
 // }
 
- const printfulOrder = {
-  external_id: `stripe-${session.payment_intent}`,
+const printfulOrder = {
   confirm: false,
   recipient: {
     name: shipping.name || customer?.name || "Customer",
