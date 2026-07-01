@@ -44,45 +44,47 @@ export default async function handler(req, res) {
     const customer = session.customer_details;
     const metadata = session.metadata || {};
 
-    console.log("Shipping:", shipping);
-    console.log("Customer:", customer);
-    console.log("Metadata:", metadata);
+    if (!shipping?.address) {
+      console.error("Missing shipping address", session);
+      return res.status(200).json({ received: true });
+    }
 
-    // TEMP DEBUG
-console.log("Shipping object:", JSON.stringify(shipping, null, 2));
-console.log("Metadata object:", JSON.stringify(metadata, null, 2));
+    if (!metadata.printfulVariantId) {
+      console.error("Missing printfulVariantId", metadata);
+      return res.status(200).json({ received: true });
+    }
 
-// Temporarily disable these checks
-// if (!shipping?.address) {
-//   console.error("Missing shipping address", session);
-//   return res.status(200).json({ received: true });
-// }
+    const variantMap = {
+      "6a330964764ad2": 5358583058, // Warrior Husband Tee / Black / XS
+    };
 
-// if (!metadata.printfulVariantId) {
-//   console.error("Missing printfulVariantId", metadata);
-//   return res.status(200).json({ received: true });
-// }
+    const syncVariantId = variantMap[metadata.printfulVariantId];
 
-const printfulOrder = {
-  confirm: false,
-  recipient: {
-    name: shipping.name || customer?.name || "Customer",
-    email: customer?.email || "",
-    phone: customer?.phone || "",
-    address1: shipping.address.line1,
-    address2: shipping.address.line2 || "",
-    city: shipping.address.city,
-    state_code: shipping.address.state,
-    country_code: shipping.address.country,
-    zip: shipping.address.postal_code,
-  },
-  items: [
-  {
-    sync_variant_id: 5358583058,
-    quantity: 1,
-  },
-],
-};
+    if (!syncVariantId) {
+      console.error("Missing sync variant ID:", metadata.printfulVariantId);
+      return res.status(200).json({ received: true });
+    }
+
+    const printfulOrder = {
+      confirm: true,
+      recipient: {
+        name: shipping.name || customer?.name || "Customer",
+        email: customer?.email || "",
+        phone: customer?.phone || "",
+        address1: shipping.address.line1,
+        address2: shipping.address.line2 || "",
+        city: shipping.address.city,
+        state_code: shipping.address.state,
+        country_code: shipping.address.country,
+        zip: shipping.address.postal_code,
+      },
+      items: [
+        {
+          sync_variant_id: syncVariantId,
+          quantity: 1,
+        },
+      ],
+    };
 
     console.log("Printful order payload:", printfulOrder);
 
@@ -100,7 +102,7 @@ const printfulOrder = {
     if (!printfulResponse.ok) {
       console.error("Printful order failed:", printfulData);
     } else {
-      console.log("Printful draft order created:", printfulData);
+      console.log("Printful order created:", printfulData);
     }
   }
 
