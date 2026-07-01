@@ -38,57 +38,32 @@ export default async function handler(req, res) {
   }
 
   if (event.type === "checkout.session.completed") {
- const session = event.data.object;
+    const session = event.data.object;
 
-const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
-  expand: ["line_items", "customer"],
-});
+    const shipping = session.collected_information?.shipping_details;
+    const customer = session.customer_details;
+    const metadata = session.metadata || {};
 
-console.log("Full Stripe session:", JSON.stringify(fullSession, null, 2));
-
-const shipping =
-  fullSession.shipping_details ||
-  fullSession.collected_information?.shipping_details ||
-  session.shipping_details ||
-  session.collected_information?.shipping_details;
-
-const customer = fullSession.customer_details;
-const metadata = session.metadata || fullSession.metadata || {};
-
-console.log("Shipping details:", shipping);
-console.log("Customer details:", customer);
-console.log("Stripe webhook metadata:", metadata);
+    console.log("Shipping:", shipping);
+    console.log("Customer:", customer);
+    console.log("Metadata:", metadata);
 
     if (!shipping?.address) {
-      console.error("Missing shipping address");
+      console.error("Missing shipping address", session);
       return res.status(200).json({ received: true });
     }
 
     if (!metadata.printfulVariantId) {
-      console.error("Missing printfulVariantId in Stripe metadata");
+      console.error("Missing printfulVariantId", metadata);
       return res.status(200).json({ received: true });
     }
 
-    const variantValue = metadata.printfulVariantId;
-    const isNumericVariant = /^\d+$/.test(variantValue);
-
-    const item = isNumericVariant
-      ? {
-          sync_variant_id: Number(variantValue),
-          quantity: 1,
-        }
-      : {
-          external_variant_id: variantValue,
-          quantity: 1,
-        };
-
-
     const printfulOrder = {
-      external_id: fullSession.id,
+      external_id: session.id,
       confirm: false,
       recipient: {
         name: shipping.name || customer?.name || "Customer",
-        email: customer?.email,
+        email: customer?.email || "",
         phone: customer?.phone || "",
         address1: shipping.address.line1,
         address2: shipping.address.line2 || "",
@@ -97,11 +72,15 @@ console.log("Stripe webhook metadata:", metadata);
         country_code: shipping.address.country,
         zip: shipping.address.postal_code,
       },
-      items: [item],
+      items: [
+        {
+          external_variant_id: metadata.printfulVariantId,
+          quantity: 1,
+        },
+      ],
     };
 
-console.log("Stripe webhook metadata:", metadata);
-console.log("Printful order payload:", printfulOrder);
+    console.log("Printful order payload:", printfulOrder);
 
     const printfulResponse = await fetch("https://api.printful.com/orders", {
       method: "POST",
