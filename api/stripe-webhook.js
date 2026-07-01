@@ -41,12 +41,19 @@ export default async function handler(req, res) {
  const session = event.data.object;
 
 const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
-  expand: ["line_items"],
+  expand: ["line_items", "customer"],
 });
+
+console.log("Full Stripe session:", JSON.stringify(fullSession, null, 2));
 
 const shipping = fullSession.shipping_details;
 const customer = fullSession.customer_details;
 const metadata = fullSession.metadata || {};
+
+console.log("Shipping details:", shipping);
+console.log("Customer details:", customer);
+console.log("Stripe webhook metadata:", metadata);
+
     if (!shipping?.address) {
       console.error("Missing shipping address");
       return res.status(200).json({ received: true });
@@ -70,8 +77,6 @@ const metadata = fullSession.metadata || {};
           quantity: 1,
         };
 
-console.log("Stripe webhook metadata:", metadata);
-console.log("Printful order payload:", printfulOrder);
 
     const printfulOrder = {
       external_id: fullSession.id,
@@ -89,6 +94,9 @@ console.log("Printful order payload:", printfulOrder);
       },
       items: [item],
     };
+
+console.log("Stripe webhook metadata:", metadata);
+console.log("Printful order payload:", printfulOrder);
 
     const printfulResponse = await fetch("https://api.printful.com/orders", {
       method: "POST",
