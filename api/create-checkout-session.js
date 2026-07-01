@@ -57,7 +57,7 @@ console.log("Checkout request body:", {
         },
       ],
 
-      success_url: `${baseUrl}/thank-you`,
+     success_url: `${baseUrl}/thank-you?type=order`,
       cancel_url: `${baseUrl}/shop/${slug}`,
     });
 
