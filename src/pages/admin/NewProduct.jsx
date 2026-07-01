@@ -319,28 +319,28 @@ function NewProduct() {
                 onChange={handleGalleryUpload}
                 className="w-full bg-[#101118] border border-white/5 px-5 py-4"
               />
+{Array.isArray(formData.gallery_images) &&
+  formData.gallery_images.length > 0 && (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+      {formData.gallery_images.map((url, index) => (
+        <div key={`${url}-${index}`} className="relative">
+          <img
+            src={url}
+            alt={`Gallery ${index + 1}`}
+            className="h-32 w-full object-cover rounded border border-white/10"
+          />
 
-              {(formData.gallery_images || []).length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                  {formData.gallery_images.map((url, index) => (
-                    <div key={`${url}-${index}`} className="relative">
-                      <img
-                        src={url}
-                        alt={`Gallery ${index + 1}`}
-                        className="h-32 w-full object-cover rounded border border-white/10"
-                      />
-
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveGalleryImage(index)}
-                        className="absolute top-2 right-2 bg-black/80 text-white h-8 w-8 rounded-full"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+          <button
+            type="button"
+            onClick={() => handleRemoveGalleryImage(index)}
+            className="absolute top-2 right-2 bg-black/80 text-white h-8 w-8 rounded-full"
+          >
+            ✕
+          </button>
+        </div>
+      ))}
+    </div>
+)}
             </div>
 
             <div className="md:col-span-2">
