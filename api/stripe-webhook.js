@@ -46,7 +46,10 @@ const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
 
 console.log("Full Stripe session:", JSON.stringify(fullSession, null, 2));
 
-const shipping = fullSession.shipping_details;
+const shipping =
+  fullSession.shipping_details ||
+  fullSession.collected_information?.shipping_details;
+
 const customer = fullSession.customer_details;
 const metadata = fullSession.metadata || {};
 
