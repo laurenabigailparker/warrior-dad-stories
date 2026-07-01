@@ -53,7 +53,7 @@ const shipping =
   session.collected_information?.shipping_details;
 
 const customer = fullSession.customer_details;
-const metadata = fullSession.metadata || {};
+const metadata = session.metadata || fullSession.metadata || {};
 
 console.log("Shipping details:", shipping);
 console.log("Customer details:", customer);
