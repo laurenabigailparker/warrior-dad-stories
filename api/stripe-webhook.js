@@ -48,7 +48,9 @@ console.log("Full Stripe session:", JSON.stringify(fullSession, null, 2));
 
 const shipping =
   fullSession.shipping_details ||
-  fullSession.collected_information?.shipping_details;
+  fullSession.collected_information?.shipping_details ||
+  session.shipping_details ||
+  session.collected_information?.shipping_details;
 
 const customer = fullSession.customer_details;
 const metadata = fullSession.metadata || {};
