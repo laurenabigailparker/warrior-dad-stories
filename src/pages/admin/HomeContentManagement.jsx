@@ -31,6 +31,18 @@ const fieldLabels = {
   meet_derek_image_alt: "Meet Derek Image Alt Text",
 };
 
+const sectionLabels = {
+  author_message: "Welcome Video",
+  hero: "Hero Section",
+  mission: "Mission Cards",
+  featured: "Featured In",
+  path: "Path Forward",
+  reflection: "Reflection Banner",
+  principles: "Guiding Principles",
+  meet_tj: "Meet TJ",
+  meet_derek: "Meet Derek",
+};
+
 function getFieldLabel(item) {
   const key = `${item.section}_${item.field}`;
 
@@ -68,6 +80,12 @@ function HomeContentManagement() {
 
     fetchContent();
   }, []);
+
+  const groupedItems = items.reduce((acc, item) => {
+    if (!acc[item.section]) acc[item.section] = [];
+    acc[item.section].push(item);
+    return acc;
+  }, {});
 
   const handleChange = (id, value) => {
     setItems((prev) =>
@@ -112,32 +130,45 @@ function HomeContentManagement() {
 
       {message && <p className="mt-6 text-[#c8a96a]">{message}</p>}
 
-      <div className="mt-10 space-y-6">
-        {items.map((item) => (
+      <div className="mt-10 space-y-10">
+        {Object.entries(groupedItems).map(([section, sectionItems]) => (
           <div
-            key={item.id}
-            className="bg-[#1b212b] border border-white/10 rounded-xl p-6"
+            key={section}
+            className="bg-[#151922] border border-white/10 rounded-2xl p-8"
           >
-            <p className="text-xs uppercase tracking-[0.25em] text-[#c8a96a]">
-              {getFieldLabel(item)}
-            </p>
+            <h2 className="text-2xl font-black uppercase text-[#c8a96a] tracking-[0.18em] mb-8">
+              {sectionLabels[section] || section.replaceAll("_", " ")}
+            </h2>
 
-            <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-slate-600">
-              {item.section} / {item.field}
-            </p>
+            <div className="space-y-6">
+              {sectionItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-[#1b212b] border border-white/10 rounded-xl p-6"
+                >
+                  <p className="text-xs uppercase tracking-[0.25em] text-[#c8a96a]">
+                    {getFieldLabel(item)}
+                  </p>
 
-            <textarea
-              value={item.value || ""}
-              onChange={(e) => handleChange(item.id, e.target.value)}
-              className="mt-4 w-full min-h-[120px] bg-[#11141b] border border-white/10 rounded-lg p-4 text-white outline-none focus:border-[#c8a96a]"
-            />
+                  <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-slate-600">
+                    {item.section} / {item.field}
+                  </p>
 
-            <button
-              onClick={() => handleSave(item)}
-              className="mt-4 bg-[#c8a96a] text-black px-6 py-3 text-xs uppercase tracking-[0.18em] font-bold hover:bg-white transition"
-            >
-              Save
-            </button>
+                  <textarea
+                    value={item.value || ""}
+                    onChange={(e) => handleChange(item.id, e.target.value)}
+                    className="mt-4 w-full min-h-[120px] bg-[#11141b] border border-white/10 rounded-lg p-4 text-white outline-none focus:border-[#c8a96a]"
+                  />
+
+                  <button
+                    onClick={() => handleSave(item)}
+                    className="mt-4 bg-[#c8a96a] text-black px-6 py-3 text-xs uppercase tracking-[0.18em] font-bold hover:bg-white transition"
+                  >
+                    Save
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
