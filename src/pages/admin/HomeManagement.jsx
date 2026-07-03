@@ -1,174 +1,252 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
-import StatusMessage from "../../components/admin/StatusMessage";
+import { Link } from "react-router-dom";
 
-const fields = [
-  ["hero", "eyebrow", "Hero Eyebrow"],
-  ["hero", "headline", "Hero Headline"],
-  ["hero", "body", "Hero Body"],
-  ["hero", "button_text", "Hero Button Text"],
+const imageFieldKeys = [
+  "author_message_poster",
+  "hero_image",
+  "reflection_background_image",
+  "principles_background_image",
+  "meet_tj_image",
+  "meet_derek_image",
 
-  ["mission", "headline", "Mission Headline"],
-  ["mission", "body", "Mission Body"],
-
-  ["featured", "headline", "Featured Headline"],
-  ["featured", "body", "Featured Body"],
+  // backup matches in case your Supabase rows are named differently
+  "hero_background_image",
+  "hero_background",
+  "reflection_image",
+  "principles_image",
 ];
 
-function HomeManagement() {
-  const [content, setContent] = useState({});
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("success");
+const fieldLabels = {
+  author_message_eyebrow: "Welcome Video Eyebrow",
+  author_message_title: "Welcome Video Title",
+  author_message_body: "Welcome Video Description",
+  author_message_video: "Welcome Video YouTube Embed URL",
+  author_message_poster: "Welcome Video Poster Image",
 
-  const showMessage = (type, text) => {
-    setMessageType(type);
-    setMessage(text);
-    setTimeout(() => setMessage(""), 4000);
-  };
+  hero_eyebrow: "Hero Eyebrow",
+  hero_headline: "Hero Headline",
+  hero_body: "Hero Body",
+  hero_button_text: "Hero Button Text",
+  hero_image: "Hero Image",
+
+  meet_tj_eyebrow: "Meet TJ Eyebrow",
+  meet_tj_heading: "Meet TJ Heading",
+  meet_tj_body: "Meet TJ Body",
+  meet_tj_button_text: "Meet TJ Button Text",
+  meet_tj_button_url: "Meet TJ Button URL",
+  meet_tj_image: "Meet TJ Image",
+  meet_tj_image_alt: "Meet TJ Image Alt Text",
+
+  meet_derek_eyebrow: "Meet Derek Eyebrow",
+  meet_derek_heading: "Meet Derek Heading",
+  meet_derek_body: "Meet Derek Body",
+  meet_derek_button_text: "Meet Derek Button Text",
+  meet_derek_button_url: "Meet Derek Button URL",
+  meet_derek_image: "Meet Derek Image",
+  meet_derek_image_alt: "Meet Derek Image Alt Text",
+};
+
+function getFieldKey(item) {
+  return `${item.section}_${item.field}`;
+}
+
+function getFieldLabel(item) {
+  const key = getFieldKey(item);
+
+  if (fieldLabels[key]) return fieldLabels[key];
+
+  return `${item.section.replaceAll("_", " ")} / ${item.field.replaceAll(
+    "_",
+    " "
+  )}`;
+}
+
+function HomeContentManagement() {
+  const [items, setItems] = useState([]);
+  const [message, setMessage] = useState("");
+  const [uploadingId, setUploadingId] = useState("");
 
   useEffect(() => {
-    const loadContent = async () => {
+    async function fetchContent() {
       const { data, error } = await supabase
         .from("site_content")
         .select("*")
-        .eq("page", "home");
+        .eq("page", "home")
+        .order("section", { ascending: true })
+        .order("field", { ascending: true });
 
       if (error) {
         console.error(error);
-        showMessage("error", "Failed to load Home content.");
+        setMessage("Could not load home page content.");
         return;
       }
 
-      const mapped = {};
+      setItems(data || []);
+    }
 
-      data.forEach((item) => {
-        mapped[`${item.section}_${item.field}`] = item.value;
-      });
-
-      setContent(mapped);
-    };
-
-    loadContent();
+    fetchContent();
   }, []);
 
-  const handleSave = async () => {
-    const rows = fields.map(([section, field]) => ({
-      page: "home",
-      section,
-      field,
-      value: content[`${section}_${field}`] || "",
-    }));
+  const handleChange = (id, value) => {
+    setItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, value } : item))
+    );
+  };
 
-    const { error } = await supabase
-      .from("site_content")
-      .upsert(rows, {
-        onConflict: "page,section,field",
+  const uploadImage = async (event, item) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadingId(item.id);
+    setMessage("Uploading image...");
+
+    const fileExt = file.name.split(".").pop();
+    const safeName = file.name
+      .replace(/\.[^/.]+$/, "")
+      .replace(/[^a-z0-9]/gi, "-")
+      .toLowerCase();
+
+ const uniqueId = crypto.randomUUID();
+
+    const fileName = `home/${getFieldKey(
+      item
+    )}-${safeName}-${uniqueId}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("site-images")
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: true,
       });
 
-    if (error) {
-      console.error(error);
-      showMessage("error", "Failed to save Home content.");
+    if (uploadError) {
+      console.error(uploadError);
+      setMessage("Image upload failed.");
+      setUploadingId("");
       return;
     }
 
-    showMessage("success", "Home content updated.");
+    const { data } = supabase.storage
+      .from("site-images")
+      .getPublicUrl(fileName);
+
+    handleChange(item.id, data.publicUrl);
+
+    setUploadingId("");
+    setMessage("Image uploaded. Click Save to publish.");
+  };
+
+  const handleSave = async (item) => {
+    const { error } = await supabase
+      .from("site_content")
+      .update({ value: item.value })
+      .eq("id", item.id);
+
+    if (error) {
+      console.error(error);
+      setMessage("Could not save content.");
+      return;
+    }
+
+    setMessage("Content saved.");
   };
 
   return (
-    <main className="min-h-screen bg-[#080a0f] text-white p-8">
-      <div className="max-w-7xl mx-auto bg-[#101118] min-h-[850px]">
-        <AdminSubTop title="Home" back="/admin/dashboard" />
-
-        <section className="p-8">
-          <StatusMessage message={message} type={messageType} />
-
-          <div className="mb-10">
-            <h2 className="uppercase text-3xl font-black tracking-widest">
-              Edit Home Page
-            </h2>
-
-            <p className="mt-4 text-slate-500 italic font-serif max-w-3xl">
-              Update the main Creative Home messaging without touching code.
-              These fields control the hero and intro sections on the public
-              Home page.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-6">
-            {fields.map(([section, field, label]) => {
-              const key = `${section}_${field}`;
-              const isLong =
-                field === "body" ||
-                field === "subtext" ||
-                field === "headline";
-
-              return (
-                <div
-                  key={key}
-                  className={isLong ? "lg:col-span-2" : ""}
-                >
-                  <label className="block text-slate-400 uppercase tracking-[0.25em] text-[10px] mb-3">
-                    {label}
-                  </label>
-
-                  {isLong ? (
-                    <textarea
-                      value={content[key] || ""}
-                      onChange={(e) =>
-                        setContent({
-                          ...content,
-                          [key]: e.target.value,
-                        })
-                      }
-                      className="w-full h-36 bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
-                    />
-                  ) : (
-                    <input
-                      value={content[key] || ""}
-                      onChange={(e) =>
-                        setContent({
-                          ...content,
-                          [key]: e.target.value,
-                        })
-                      }
-                      className="w-full bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a]"
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          <button
-            onClick={handleSave}
-            className="mt-10 bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
-          >
-            Save Home Content
-          </button>
-        </section>
-      </div>
-    </main>
-  );
-}
-
-function AdminSubTop({ title, back }) {
-  return (
-    <header className="h-20 bg-[#202632] px-8 grid grid-cols-3 items-center">
+    <div className="min-h-screen bg-[#11141b] text-white px-8 py-10">
       <Link
-        to={back}
-        className="uppercase tracking-[0.2em] text-[11px] text-slate-400"
+        to="/admin/dashboard"
+        className="inline-flex items-center gap-2 text-[#c8a96a] uppercase tracking-[0.2em] text-[11px] hover:text-white transition mb-6"
       >
-        ← Back To Dashboard
+        ← Back to Dashboard
       </Link>
 
-      <h1 className="uppercase tracking-[0.25em] font-black text-center">
-        {title}
-      </h1>
+      <h1 className="text-4xl font-black uppercase">Home Page Content</h1>
 
-      <div />
-    </header>
+      <p className="mt-3 text-slate-400">
+        Edit homepage text, image paths, button links, and YouTube embed URLs.
+      </p>
+
+      <p className="mt-3 text-slate-500 italic font-serif">
+        For YouTube videos, paste the embed URL format:
+        https://www.youtube.com/embed/VIDEOID
+      </p>
+
+      {message && <p className="mt-6 text-[#c8a96a]">{message}</p>}
+
+      <div className="mt-10 space-y-6">
+        {items.map((item) => {
+          const key = getFieldKey(item);
+          const isImage = imageFieldKeys.includes(key);
+
+console.log("HOME FIELD:", key, "IS IMAGE:", isImage);
+
+          return (
+            <div
+              key={item.id}
+              className="bg-[#1b212b] border border-white/10 rounded-xl p-6"
+            >
+              <p className="text-xs uppercase tracking-[0.25em] text-[#c8a96a]">
+                {getFieldLabel(item)}
+              </p>
+
+              <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-slate-600">
+                {item.section} / {item.field}
+              </p>
+
+              {isImage ? (
+                <div className="mt-4 bg-[#11141b] border border-white/10 rounded-lg p-5">
+                  {item.value && (
+                    <img
+                      src={item.value}
+                      alt={getFieldLabel(item)}
+                      className="mb-4 h-48 w-full object-contain rounded border border-white/10 bg-black"
+                    />
+                  )}
+
+                  <p className="text-[#c8a96a] uppercase tracking-[0.2em] text-[11px] font-bold mb-3">
+                    Upload Image
+                  </p>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => uploadImage(e, item)}
+                    className="block w-full cursor-pointer rounded bg-[#202632] border border-white/10 px-4 py-4 text-sm text-slate-300 file:mr-4 file:cursor-pointer file:border-0 file:bg-[#c8a96a] file:px-4 file:py-2 file:text-black file:font-bold file:uppercase"
+                  />
+
+                  {uploadingId === item.id && (
+                    <p className="mt-3 text-[#c8a96a] text-xs uppercase tracking-[0.2em]">
+                      Uploading...
+                    </p>
+                  )}
+
+                  <textarea
+                    value={item.value || ""}
+                    onChange={(e) => handleChange(item.id, e.target.value)}
+                    className="mt-4 w-full min-h-[90px] bg-[#11141b] border border-white/10 rounded-lg p-4 text-white outline-none focus:border-[#c8a96a]"
+                  />
+                </div>
+              ) : (
+                <textarea
+                  value={item.value || ""}
+                  onChange={(e) => handleChange(item.id, e.target.value)}
+                  className="mt-4 w-full min-h-[120px] bg-[#11141b] border border-white/10 rounded-lg p-4 text-white outline-none focus:border-[#c8a96a]"
+                />
+              )}
+
+              <button
+                onClick={() => handleSave(item)}
+                className="mt-4 bg-[#c8a96a] text-black px-6 py-3 text-xs uppercase tracking-[0.18em] font-bold hover:bg-white transition"
+              >
+                Save
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
-export default HomeManagement;
+export default HomeContentManagement;

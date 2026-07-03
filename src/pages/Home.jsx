@@ -705,42 +705,52 @@ function MeetDerek({ content }) {
   );
 }
 function FinalCTA() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleNewsletterSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const cleanEmail = email.trim().toLowerCase();
+    const cleanEmail = email.trim().toLowerCase();
 
-  const { error } = await supabase
-    .from("newsletter_subscribers")
-    .insert([{ email: cleanEmail }]);
-
-  if (error) {
-    console.error(error);
-    setMessage("This email may already be signed up.");
-    return;
-  }
-
-  try {
-    await fetch("/api/subscribe-mailchimp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    const { error } = await supabase.from("newsletter_subscribers").insert([
+      {
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
         email: cleanEmail,
-      }),
-    });
-  } catch (err) {
-    console.error("Mailchimp sync failed:", err);
-  }
+      },
+    ]);
 
-  setEmail("");
-  navigate("/newsletter-success");
-};
+    if (error) {
+      console.error(error);
+      setMessage("This email may already be signed up.");
+      return;
+    }
+
+    try {
+      await fetch("/api/subscribe-mailchimp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          email: cleanEmail,
+        }),
+      });
+    } catch (err) {
+      console.error("Mailchimp sync failed:", err);
+    }
+
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    navigate("/newsletter-success");
+  };
 
   return (
     <section className="bg-[#202632] px-8 md:px-20 py-28 text-center">
@@ -764,14 +774,32 @@ function FinalCTA() {
 
       <form
         onSubmit={handleNewsletterSubmit}
-        className="mt-10 flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto"
+        className="mt-10 grid md:grid-cols-[1fr_1fr_1.4fr_auto] gap-4 justify-center max-w-5xl mx-auto"
       >
         <input
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          className="bg-[#1b212b] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Last Name"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          className="bg-[#1b212b] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
+          required
+        />
+
+        <input
           type="email"
-          placeholder="your@email.com"
+          placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="flex-1 bg-[#1b212b] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
+          className="bg-[#1b212b] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
           required
         />
 

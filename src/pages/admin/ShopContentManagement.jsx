@@ -4,37 +4,26 @@ import { supabase } from "../../lib/supabase";
 import StatusMessage from "../../components/admin/StatusMessage";
 
 const fields = [
-  ["hero", "eyebrow", "Hero Eyebrow"],
-  ["hero", "headline", "Hero Headline"],
-  ["hero", "body", "Hero Body"],
-  ["hero", "image", "Hero Image"],
-
-  ["mission", "eyebrow", "Mission Eyebrow"],
-  ["mission", "headline", "Mission Headline"],
-  ["mission", "body", "Mission Body"],
-  ["mission", "image", "Mission Image"],
-
-  ["new_season", "eyebrow", "New Season Eyebrow"],
-  ["new_season", "title", "New Season Title"],
-  ["new_season", "body", "New Season Body"],
-  ["new_season", "image", "New Season Image"],
-
-  ["why", "eyebrow", "Why Eyebrow"],
-  ["why", "title", "Why Warrior Dad Stories Title"],
-  ["why", "body", "Why Warrior Dad Stories Body"],
-
-  ["legacy", "eyebrow", "Legacy Eyebrow"],
-  ["legacy", "title", "Legacy Title"],
-  ["legacy", "body", "Legacy Body"],
-  ["legacy", "image", "Legacy Background Image"],
-
-  ["live_fully", "eyebrow", "Live Fully Eyebrow"],
-  ["live_fully", "title", "Live Fully Title"],
-  ["live_fully", "body", "Live Fully Body"],
-  ["live_fully", "image", "Live Fully Image"],
+  ["featured_book", "eyebrow", "Eyebrow", "text"],
+  ["featured_book", "title", "Book Title", "long"],
+  ["featured_book", "subtitle", "Subtitle", "text"],
+  ["featured_book", "description", "Description", "long"],
+  ["featured_book", "cover_image", "Cover Image", "image"],
+  ["featured_book", "cover_note", "Cover Note", "text"],
+  ["featured_book", "hardcover_price", "Hardcover Price", "text"],
+  ["featured_book", "hardcover_label", "Hardcover Label", "text"],
+  ["featured_book", "ebook_price", "Ebook Price", "text"],
+  ["featured_book", "ebook_label", "Ebook Label", "text"],
+  ["featured_book", "kindle_price", "Kindle Price", "text"],
+  ["featured_book", "kindle_label", "Kindle Label", "text"],
+  ["featured_book", "amazon_url", "Amazon URL", "text"],
+  ["featured_book", "companion_guide_url", "Companion Guide URL", "text"],
+  ["featured_book", "primary_button_text", "Primary Button Text", "text"],
+  ["featured_book", "secondary_button_text", "Secondary Button Text", "text"],
+  ["featured_book", "bottom_note", "Bottom Note", "long"],
 ];
 
-function AboutManagement() {
+function ShopContentManagement() {
   const [content, setContent] = useState({});
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
@@ -51,11 +40,11 @@ function AboutManagement() {
       const { data, error } = await supabase
         .from("site_content")
         .select("*")
-        .eq("page", "about");
+        .eq("page", "shop");
 
       if (error) {
         console.error(error);
-        showMessage("error", "Failed to load TJ about content.");
+        showMessage("error", "Failed to load shop content.");
         return;
       }
 
@@ -77,12 +66,7 @@ function AboutManagement() {
     setUploadingKey(key);
 
     const fileExt = file.name.split(".").pop();
-    const safeName = file.name
-      .replace(/\.[^/.]+$/, "")
-      .replace(/[^a-z0-9]/gi, "-")
-      .toLowerCase();
-
-    const fileName = `about-pages/${key}-${safeName}-${Date.now()}.${fileExt}`;
+    const fileName = `shop/${key}-${Date.now()}.${fileExt}`;
 
     const { error: uploadError } = await supabase.storage
       .from("site-images")
@@ -95,9 +79,7 @@ function AboutManagement() {
       return;
     }
 
-    const { data } = supabase.storage
-      .from("site-images")
-      .getPublicUrl(fileName);
+    const { data } = supabase.storage.from("site-images").getPublicUrl(fileName);
 
     setContent((prev) => ({
       ...prev,
@@ -110,7 +92,7 @@ function AboutManagement() {
 
   const handleSave = async () => {
     const rows = fields.map(([section, field]) => ({
-      page: "about",
+      page: "shop",
       section,
       field,
       value: content[`${section}_${field}`] || "",
@@ -122,39 +104,35 @@ function AboutManagement() {
 
     if (error) {
       console.error(error);
-      showMessage("error", "Failed to save TJ content.");
+      showMessage("error", "Failed to save shop content.");
       return;
     }
 
-    showMessage("success", "TJ content updated.");
+    showMessage("success", "Shop content updated.");
   };
 
   return (
     <main className="min-h-screen bg-[#080a0f] text-white p-8">
       <div className="max-w-7xl mx-auto bg-[#101118] min-h-[850px]">
-        <AdminSubTop title="TJ About Page" back="/admin/dashboard" />
+        <AdminSubTop title="Shop Book Section" back="/admin/dashboard" />
 
         <section className="p-8">
           <StatusMessage message={message} type={messageType} />
 
           <div className="mb-10">
             <h2 className="uppercase text-3xl font-black tracking-widest">
-              Edit TJ About Page
+              Edit Shop Book Section
             </h2>
 
             <p className="mt-4 text-slate-500 italic font-serif max-w-3xl">
-              Update TJ&apos;s About page content, wording, and images without
-              touching code.
+              Edit the featured book section shown on the shop page.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-6">
-            {fields.map(([section, field, label]) => {
+            {fields.map(([section, field, label, type]) => {
               const key = `${section}_${field}`;
-              const isLong =
-                field === "body" ||
-                field === "headline" ||
-                field === "title";
+              const isLong = type === "long";
 
               return (
                 <div key={key} className={isLong ? "lg:col-span-2" : ""}>
@@ -162,7 +140,7 @@ function AboutManagement() {
                     {label}
                   </label>
 
-                  {field === "image" ? (
+                  {type === "image" ? (
                     <div className="bg-[#202632] border border-white/5 p-5">
                       {content[key] && (
                         <img
@@ -182,12 +160,9 @@ function AboutManagement() {
                       <input
                         value={content[key] || ""}
                         onChange={(e) =>
-                          setContent({
-                            ...content,
-                            [key]: e.target.value,
-                          })
+                          setContent({ ...content, [key]: e.target.value })
                         }
-                        placeholder="Uploaded image URL will appear here"
+                        placeholder="Image URL will appear here"
                         className="mt-4 w-full bg-[#101118] border border-white/5 px-4 py-3 outline-none focus:border-[#c8a96a]"
                       />
 
@@ -201,10 +176,7 @@ function AboutManagement() {
                     <textarea
                       value={content[key] || ""}
                       onChange={(e) =>
-                        setContent({
-                          ...content,
-                          [key]: e.target.value,
-                        })
+                        setContent({ ...content, [key]: e.target.value })
                       }
                       className="w-full h-36 bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
                     />
@@ -212,10 +184,7 @@ function AboutManagement() {
                     <input
                       value={content[key] || ""}
                       onChange={(e) =>
-                        setContent({
-                          ...content,
-                          [key]: e.target.value,
-                        })
+                        setContent({ ...content, [key]: e.target.value })
                       }
                       className="w-full bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a]"
                     />
@@ -229,7 +198,7 @@ function AboutManagement() {
             onClick={handleSave}
             className="mt-10 bg-[#c8a96a] text-black px-10 py-4 uppercase tracking-[0.2em] text-[11px] font-bold"
           >
-            Save TJ Content
+            Save Shop Content
           </button>
         </section>
       </div>
@@ -256,4 +225,4 @@ function AdminSubTop({ title, back }) {
   );
 }
 
-export default AboutManagement;
+export default ShopContentManagement;

@@ -10,7 +10,6 @@ function Derek() {
   const [content, setContent] = useState({});
   const [aboutCarousel, setAboutCarousel] = useState([]);
 
- 
   useEffect(() => {
     const loadTimeline = async () => {
       const { data, error } = await supabase
@@ -106,7 +105,7 @@ function Derek() {
           </h1>
 
           <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9 max-w-2xl whitespace-pre-line">
-            {content.hero_body || "Add Derek bio here."}
+            {content.hero_body || ""}
           </p>
         </div>
       </section>
@@ -123,14 +122,14 @@ function Derek() {
             </h2>
 
             <p className="mt-8 text-slate-300 font-serif italic leading-9 text-lg whitespace-pre-line">
-              {content.mission_body || "Add Derek mission content here."}
+              {content.mission_body || ""}
             </p>
           </div>
 
           <div className="relative">
             <img
               src={content.mission_image || "/tj-portrait.webp"}
-              alt={content.mission_image_alt || "Derek reflecting and writing"}
+              alt={content.mission_image_alt || "Derek"}
               className="rounded-2xl shadow-2xl border border-white/10 max-h-[620px] w-full object-cover"
             />
 
@@ -147,27 +146,50 @@ function Derek() {
             {content.new_season_eyebrow || "A New Season"}
           </p>
 
-          <h2 className="mt-6 uppercase text-6xl font-black whitespace-pre-line">
+          <h2 className="mt-6 uppercase text-5xl md:text-6xl font-black whitespace-pre-line leading-tight">
             {content.new_season_title || "The Turn"}
           </h2>
 
-          <p className="mt-10 text-2xl italic font-serif text-slate-300 leading-[1.9] whitespace-pre-line">
-            {content.new_season_body || "Add Derek new season content here."}
-          </p>
+          <div className="mt-12 space-y-10 text-2xl italic font-serif text-slate-300 leading-[1.9]">
+            {content.new_season_paragraph_1 && (
+              <p className="whitespace-pre-line">
+                {content.new_season_paragraph_1}
+              </p>
+            )}
 
-          <div className="mt-16 grid lg:grid-cols-[1fr_420px] gap-16 items-center text-left">
+            {content.new_season_paragraph_2 && (
+              <p className="whitespace-pre-line">
+                {content.new_season_paragraph_2}
+              </p>
+            )}
+
+            {content.new_season_paragraph_3 && (
+              <p className="whitespace-pre-line">
+                {content.new_season_paragraph_3}
+              </p>
+            )}
+
+            {!content.new_season_paragraph_1 &&
+              !content.new_season_paragraph_2 &&
+              !content.new_season_paragraph_3 &&
+              content.new_season_body && (
+                <p className="whitespace-pre-line">{content.new_season_body}</p>
+              )}
+          </div>
+
+          <div className="mt-20 grid lg:grid-cols-[1fr_420px] gap-16 items-center text-left">
             <div>
-              <p className="text-slate-300 leading-9 text-lg font-serif italic whitespace-pre-line">
-                {content.new_season_body_2 || "Add supporting Derek content here."}
-              </p>
+              {content.new_season_supporting && (
+                <p className="text-slate-400 italic font-serif text-lg leading-9 whitespace-pre-line">
+                  {content.new_season_supporting}
+                </p>
+              )}
 
-              <p className="mt-8 text-slate-400 leading-8 whitespace-pre-line">
-                {content.new_season_body_3 || ""}
-              </p>
-
-              <p className="mt-8 text-slate-300 font-serif italic text-xl leading-9 whitespace-pre-line">
-                {content.new_season_body_4 || ""}
-              </p>
+              {!content.new_season_supporting && content.new_season_body_2 && (
+                <p className="text-slate-400 italic font-serif text-lg leading-9 whitespace-pre-line">
+                  {content.new_season_body_2}
+                </p>
+              )}
             </div>
 
             <img
@@ -189,26 +211,34 @@ function Derek() {
             {content.why_title || "Built Through Service.\nWritten For Legacy."}
           </h2>
 
-          <p className="mt-10 text-slate-300 italic font-serif text-xl leading-10 whitespace-pre-line">
-            {content.why_body || "Add Derek perspective here."}
-          </p>
+          {content.why_body && (
+            <p className="mt-10 text-slate-300 italic font-serif text-xl leading-10 whitespace-pre-line">
+              {content.why_body}
+            </p>
+          )}
 
-          <p className="mt-8 text-slate-400 leading-9 whitespace-pre-line">
-            {content.why_body_2 || ""}
-          </p>
+          {content.why_body_2 && (
+            <p className="mt-8 text-slate-400 leading-9 whitespace-pre-line">
+              {content.why_body_2}
+            </p>
+          )}
 
-          <p className="mt-8 text-slate-400 leading-9 whitespace-pre-line">
-            {content.why_body_3 || ""}
-          </p>
+          {content.why_body_3 && (
+            <p className="mt-8 text-slate-400 leading-9 whitespace-pre-line">
+              {content.why_body_3}
+            </p>
+          )}
 
           <div className="mt-14 border-t border-white/10 pt-12">
             <p className="text-[#c8a96a] uppercase tracking-[0.25em] text-[10px]">
               {content.why_callout_eyebrow || "What Sets Warrior Dad Stories Apart"}
             </p>
 
-            <p className="mt-6 text-2xl italic font-serif text-slate-200 leading-[1.8] whitespace-pre-line">
-              {content.why_callout_body || "Add Derek callout here."}
-            </p>
+            {content.why_callout_body && (
+              <p className="mt-6 text-2xl italic font-serif text-slate-200 leading-[1.8] whitespace-pre-line">
+                {content.why_callout_body}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -282,9 +312,11 @@ function Derek() {
               "Legacy Is Not\nWhat We Leave Behind.\nIt's What We Carry Forward."}
           </h2>
 
-          <p className="mt-10 max-w-3xl mx-auto text-slate-300 italic font-serif text-xl leading-10 whitespace-pre-line">
-            {content.legacy_body || "Add Derek legacy content here."}
-          </p>
+          {content.legacy_body && (
+            <p className="mt-10 max-w-3xl mx-auto text-slate-300 italic font-serif text-xl leading-10 whitespace-pre-line">
+              {content.legacy_body}
+            </p>
+          )}
         </div>
       </section>
 
@@ -299,15 +331,15 @@ function Derek() {
           {content.carousel_heading || "The People Who Shaped The Journey"}
         </h2>
 
-        <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9 whitespace-pre-line">
-          {content.carousel_body ||
-            "Family, friends, and the people who helped shape the journey."}
-        </p>
+        {content.carousel_body && (
+          <p className="mt-8 max-w-4xl mx-auto text-slate-400 italic font-serif text-xl leading-9 whitespace-pre-line">
+            {content.carousel_body}
+          </p>
+        )}
 
         <BookJourneyCarousel images={aboutCarousel} />
       </section>
 
-   
       <section className="bg-[#1a1f27] px-8 md:px-20 py-32">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_520px] gap-20 items-center">
           <div>
@@ -319,13 +351,17 @@ function Derek() {
               {content.live_fully_title || "The Mission\nEvolved."}
             </h2>
 
-            <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9 whitespace-pre-line">
-              {content.live_fully_body || "Add Derek live fully content here."}
-            </p>
+            {content.live_fully_body && (
+              <p className="mt-8 text-slate-300 italic font-serif text-xl leading-9 whitespace-pre-line">
+                {content.live_fully_body}
+              </p>
+            )}
 
-            <p className="mt-8 text-slate-400 italic font-serif text-lg leading-8 whitespace-pre-line">
-              {content.live_fully_body_2 || ""}
-            </p>
+            {content.live_fully_body_2 && (
+              <p className="mt-8 text-slate-400 italic font-serif text-lg leading-8 whitespace-pre-line">
+                {content.live_fully_body_2}
+              </p>
+            )}
 
             <div className="mt-10 flex flex-wrap gap-4">
               <a
@@ -364,14 +400,17 @@ function Derek() {
             {content.cta_heading || "Share The Journey"}
           </h2>
 
-          <p className="mt-10 text-slate-300 italic font-serif text-xl leading-10 whitespace-pre-line">
-            {content.cta_body ||
-              "Warrior Dad Stories exists to inspire others to walk their path and share their stories with the world."}
-          </p>
+          {content.cta_body && (
+            <p className="mt-10 text-slate-300 italic font-serif text-xl leading-10 whitespace-pre-line">
+              {content.cta_body}
+            </p>
+          )}
 
-          <p className="mt-8 text-slate-400 leading-8 max-w-3xl mx-auto whitespace-pre-line">
-            {content.cta_body_2 || ""}
-          </p>
+          {content.cta_body_2 && (
+            <p className="mt-8 text-slate-400 leading-8 max-w-3xl mx-auto whitespace-pre-line">
+              {content.cta_body_2}
+            </p>
+          )}
 
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <a

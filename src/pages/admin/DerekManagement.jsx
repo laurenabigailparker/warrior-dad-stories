@@ -4,40 +4,43 @@ import { supabase } from "../../lib/supabase";
 import StatusMessage from "../../components/admin/StatusMessage";
 
 const fields = [
-  ["hero", "eyebrow", "Hero Eyebrow"],
-  ["hero", "headline", "Hero Headline"],
-  ["hero", "body", "Hero Body"],
-  ["hero", "image", "Hero Image URL"],
+  ["hero", "eyebrow", "Hero Eyebrow", "text"],
+  ["hero", "headline", "Hero Headline", "long"],
+  ["hero", "body", "Hero Body", "long"],
+  ["hero", "image", "Hero Image", "image"],
 
-  ["mission", "eyebrow", "Mission Eyebrow"],
-  ["mission", "headline", "Mission Headline"],
-  ["mission", "body", "Mission Body"],
-  ["mission", "image", "Mission Image URL"],
+  ["mission", "eyebrow", "Mission Eyebrow", "text"],
+  ["mission", "headline", "Mission Headline", "long"],
+  ["mission", "body", "Mission Body", "long"],
+  ["mission", "image", "Mission Image", "image"],
 
-  ["new_season", "eyebrow", "New Season Eyebrow"],
-  ["new_season", "title", "New Season Title"],
-  ["new_season", "body", "New Season Body"],
-  ["new_season", "image", "New Season Image URL"],
+  ["new_season", "eyebrow", "New Season Eyebrow", "text"],
+  ["new_season", "title", "New Season Title", "long"],
+  ["new_season", "body", "New Season Body", "long"],
+  ["new_season", "body_2", "New Season Supporting Body", "long"],
+  ["new_season", "image", "New Season Image", "image"],
 
-  ["why", "eyebrow", "Why Eyebrow"],
-  ["why", "title", "Why Warrior Dad Stories Title"],
-  ["why", "body", "Why Warrior Dad Stories Body"],
+  ["why", "eyebrow", "Why Eyebrow", "text"],
+  ["why", "title", "Why Warrior Dad Stories Title", "long"],
+  ["why", "body", "Why Warrior Dad Stories Body", "long"],
+  ["why", "callout_body", "Why Callout Body", "long"],
 
-  ["legacy", "eyebrow", "Legacy Eyebrow"],
-  ["legacy", "title", "Legacy Title"],
-  ["legacy", "body", "Legacy Body"],
-  ["legacy", "image", "Legacy Background Image URL"],
+  ["legacy", "eyebrow", "Legacy Eyebrow", "text"],
+  ["legacy", "title", "Legacy Title", "long"],
+  ["legacy", "body", "Legacy Body", "long"],
+  ["legacy", "image", "Legacy Background Image", "image"],
 
-  ["live_fully", "eyebrow", "Live Fully Eyebrow"],
-  ["live_fully", "title", "Live Fully Title"],
-  ["live_fully", "body", "Live Fully Body"],
-  ["live_fully", "image", "Live Fully Image URL"],
+  ["live_fully", "eyebrow", "Live Fully Eyebrow", "text"],
+  ["live_fully", "title", "Live Fully Title", "long"],
+  ["live_fully", "body", "Live Fully Body", "long"],
+  ["live_fully", "image", "Live Fully Image", "image"],
 ];
 
 function DerekManagement() {
   const [content, setContent] = useState({});
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
+  const [uploadingKey, setUploadingKey] = useState("");
 
   const showMessage = (type, text) => {
     setMessageType(type);
@@ -59,7 +62,6 @@ function DerekManagement() {
       }
 
       const mapped = {};
-
       data.forEach((item) => {
         mapped[`${item.section}_${item.field}`] = item.value;
       });
@@ -69,6 +71,39 @@ function DerekManagement() {
 
     loadContent();
   }, []);
+
+  const uploadImage = async (e, key) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingKey(key);
+
+    const fileExt = file.name.split(".").pop();
+    const fileName = `derek/${key}-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("site-images")
+      .upload(fileName, file, { upsert: true });
+
+    if (uploadError) {
+      console.error(uploadError);
+      showMessage("error", "Image upload failed.");
+      setUploadingKey("");
+      return;
+    }
+
+    const { data } = supabase.storage
+      .from("site-images")
+      .getPublicUrl(fileName);
+
+    setContent((prev) => ({
+      ...prev,
+      [key]: data.publicUrl,
+    }));
+
+    setUploadingKey("");
+    showMessage("success", "Image uploaded. Click save to publish.");
+  };
 
   const handleSave = async () => {
     const rows = fields.map(([section, field]) => ({
@@ -103,20 +138,12 @@ function DerekManagement() {
             <h2 className="uppercase text-3xl font-black tracking-widest">
               Edit Derek Page
             </h2>
-
-            <p className="mt-4 text-slate-500 italic font-serif max-w-3xl">
-              Update Derek&apos;s About page content, section wording, and image
-              URLs without touching code.
-            </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-6">
-            {fields.map(([section, field, label]) => {
+            {fields.map(([section, field, label, type]) => {
               const key = `${section}_${field}`;
-              const isLong =
-                field === "body" ||
-                field === "headline" ||
-                field === "title";
+              const isLong = type === "long";
 
               return (
                 <div key={key} className={isLong ? "lg:col-span-2" : ""}>
@@ -124,14 +151,43 @@ function DerekManagement() {
                     {label}
                   </label>
 
-                  {isLong ? (
+                  {type === "image" ? (
+                    <div className="bg-[#202632] border border-white/5 p-5">
+                      {content[key] && (
+                        <img
+                          src={content[key]}
+                          alt={label}
+                          className="mb-4 h-40 w-full object-cover rounded border border-white/10"
+                        />
+                      )}
+
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => uploadImage(e, key)}
+                        className="block w-full text-sm text-slate-300"
+                      />
+
+                      <input
+                        value={content[key] || ""}
+                        onChange={(e) =>
+                          setContent({ ...content, [key]: e.target.value })
+                        }
+                        placeholder="Image URL will appear here"
+                        className="mt-4 w-full bg-[#101118] border border-white/5 px-4 py-3 outline-none focus:border-[#c8a96a]"
+                      />
+
+                      {uploadingKey === key && (
+                        <p className="mt-3 text-[#c8a96a] text-xs uppercase tracking-[0.2em]">
+                          Uploading...
+                        </p>
+                      )}
+                    </div>
+                  ) : isLong ? (
                     <textarea
                       value={content[key] || ""}
                       onChange={(e) =>
-                        setContent({
-                          ...content,
-                          [key]: e.target.value,
-                        })
+                        setContent({ ...content, [key]: e.target.value })
                       }
                       className="w-full h-36 bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a] resize-none"
                     />
@@ -139,10 +195,7 @@ function DerekManagement() {
                     <input
                       value={content[key] || ""}
                       onChange={(e) =>
-                        setContent({
-                          ...content,
-                          [key]: e.target.value,
-                        })
+                        setContent({ ...content, [key]: e.target.value })
                       }
                       className="w-full bg-[#202632] border border-white/5 px-5 py-4 outline-none focus:border-[#c8a96a]"
                     />
@@ -167,17 +220,10 @@ function DerekManagement() {
 function AdminSubTop({ title, back }) {
   return (
     <header className="h-20 bg-[#202632] px-8 grid grid-cols-3 items-center">
-      <Link
-        to={back}
-        className="uppercase tracking-[0.2em] text-[11px] text-slate-400"
-      >
+      <Link to={back} className="uppercase tracking-[0.2em] text-[11px] text-slate-400">
         ← Back To Dashboard
       </Link>
-
-      <h1 className="uppercase tracking-[0.25em] font-black text-center">
-        {title}
-      </h1>
-
+      <h1 className="uppercase tracking-[0.25em] font-black text-center">{title}</h1>
       <div />
     </header>
   );

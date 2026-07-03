@@ -30,10 +30,9 @@ function AdminDash() {
         socialLinksResult,
         podcastsResult,
       ] = await Promise.all([
-        supabase
-          .from("contact_submissions")
-          .select("*")
-          .order("created_at", { ascending: false }),
+        supabase.from("contact_submissions").select("*").order("created_at", {
+          ascending: false,
+        }),
         supabase.from("blog_posts").select("*"),
         supabase.from("products").select("*"),
         supabase.from("timeline_events").select("*"),
@@ -57,7 +56,6 @@ function AdminDash() {
       setTestimonials(testimonialsResult.data || []);
       setSocialLinks(socialLinksResult.data || []);
       setPodcasts(podcastsResult.data || []);
-
       setLoading(false);
     };
 
@@ -71,42 +69,12 @@ function AdminDash() {
   const publishedPosts = blogPosts.filter((post) => post.published).length;
 
   const stats = [
-    {
-      icon: "▤",
-      label: "Blog Posts",
-      value: blogPosts.length,
-      subtext: `${publishedPosts} published`,
-    },
-    {
-      icon: "▣",
-      label: "Products",
-      value: products.length,
-      subtext: `${activeProducts} active`,
-    },
-    {
-      icon: "▧",
-      label: "Media Files",
-      value: mediaCount,
-      subtext: "Product images",
-    },
-    {
-      icon: "★",
-      label: "Featured Reviews",
-      value: featuredTestimonials,
-      subtext: "Homepage testimonials",
-    },
-    {
-      icon: "◉",
-      label: "Published Posts",
-      value: publishedPosts,
-      subtext: "Live articles",
-    },
-    {
-      icon: "◈",
-      label: "Timeline Events",
-      value: timelineEvents.length,
-      subtext: `${publishedTimelineEvents} published`,
-    },
+    { icon: "▤", label: "Blog Posts", value: blogPosts.length, subtext: `${publishedPosts} published` },
+    { icon: "▣", label: "Products", value: products.length, subtext: `${activeProducts} active` },
+    { icon: "▧", label: "Media Files", value: mediaCount, subtext: "Product images" },
+    { icon: "★", label: "Featured Reviews", value: featuredTestimonials, subtext: "Homepage testimonials" },
+    { icon: "◉", label: "Published Posts", value: publishedPosts, subtext: "Live articles" },
+    { icon: "◈", label: "Timeline Events", value: timelineEvents.length, subtext: `${publishedTimelineEvents} published` },
   ];
 
   if (loading) {
@@ -116,11 +84,9 @@ function AdminDash() {
           <p className="text-[#c8a96a] uppercase tracking-[0.3em] text-[10px]">
             Warrior Dad Stories
           </p>
-
           <h2 className="mt-4 text-3xl font-black uppercase">
             Loading Dashboard...
           </h2>
-
           <p className="mt-4 text-slate-500 italic font-serif">
             Pulling the latest content and analytics.
           </p>
@@ -191,7 +157,6 @@ function AdminDash() {
                 <h2 className="uppercase text-2xl font-black tracking-widest">
                   Recent Messages
                 </h2>
-
                 <p className="text-slate-600 uppercase tracking-[0.2em] text-[10px]">
                   {submissions.length} total
                 </p>
@@ -211,7 +176,6 @@ function AdminDash() {
                             <h3 className="uppercase font-black text-lg">
                               {item.name}
                             </h3>
-
                             <p className="text-[#c8a96a] text-sm mt-1">
                               {item.email}
                             </p>
@@ -267,7 +231,6 @@ function AdminDash() {
                           <h3 className="uppercase font-black text-lg">
                             {post.title}
                           </h3>
-
                           <p className="mt-2 text-slate-500 italic font-serif line-clamp-2">
                             {post.excerpt || "No excerpt yet."}
                           </p>
@@ -306,76 +269,87 @@ function AdminDash() {
             </aside>
           </div>
 
-     {/* HOME */}
-<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
-  Home
-</h2>
+          <h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+            Home
+          </h2>
 
-<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-  <AdminCard href="/admin/home-content" icon="🏠" title="Home Page" desc="Edit homepage content" meta="CMS" />
-  <AdminCard href="/admin/principles" icon="🧭" title="Four Life Principles" desc="Edit principles sitewide" meta="Global" />
-</div>
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <AdminCard href="/admin/home-content" icon="🏠" title="Home Page" desc="Edit homepage content" meta="CMS" />
+            <AdminCard href="/admin/principles" icon="🧭" title="Four Life Principles" desc="Edit principles sitewide" meta="Global" />
+                  <AdminCard
+  href="/admin/books"
+  icon="📚"
+  title="Homepage Featured Book"
+  desc="Edit the featured book section displayed on the homepage."
+  meta="Homepage CMS"
+/>
+          </div>
+       
 
-{/* ABOUT */}
-<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
-  About
-</h2>
+          <h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+            About
+          </h2>
 
-<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-  <AdminCard href="/admin/about" icon="👤" title="TJ Page" desc="Edit TJ content" meta="Content" />
-  <AdminCard href="/admin/timeline" icon="📅" title="TJ Timeline" desc="Manage TJ timeline" meta={`${timelineEvents.length} Events`} />
-  <AdminCard href="/admin/about-carousel" icon="👨‍👩‍👧‍👦" title="TJ Carousel" desc="Manage TJ photos" meta="CMS" />
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <AdminCard href="/admin/about" icon="👤" title="TJ Page" desc="Edit TJ content" meta="Content" />
+            <AdminCard href="/admin/timeline" icon="📅" title="TJ Timeline" desc="Manage TJ timeline" meta={`${timelineEvents.length} Events`} />
+            <AdminCard href="/admin/about-carousel" icon="👨‍👩‍👧‍👦" title="TJ Carousel" desc="Manage TJ photos" meta="CMS" />
+            <AdminCard href="/admin/derek" icon="👥" title="Derek Page" desc="Edit Derek content" meta="Content" />
+            <AdminCard href="/admin/derek-timeline" icon="📅" title="Derek Timeline" desc="Manage Derek timeline" meta="Timeline" />
+            <AdminCard href="/admin/derek-carousel" icon="🖼️" title="Derek Carousel" desc="Manage Derek photos" meta="CMS" />
+          </div>
 
-  <AdminCard href="/admin/derek" icon="👥" title="Derek Page" desc="Edit Derek content" meta="Content" />
-  <AdminCard href="/admin/derek-timeline" icon="📅" title="Derek Timeline" desc="Manage Derek timeline" meta="Timeline" />
-  <AdminCard href="/admin/derek-carousel" icon="🖼️" title="Derek Carousel" desc="Manage Derek photos" meta="CMS" />
-</div>
+          <h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+            Stories & Media
+          </h2>
 
-{/* STORIES & MEDIA */}
-<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
-  Stories & Media
-</h2>
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <AdminCard href="/admin/blog" icon="▤" title="Blog Posts" desc="Manage articles" meta={`${blogPosts.length} Posts`} />
+            <AdminCard href="/admin/podcasts" icon="🎙" title="Podcasts" desc="Manage podcast appearances" meta={`${podcasts.length} Episodes`} />
+     
+            <AdminCard href="/admin/bingo" icon="🎯" title="Warrior Dad Bingo" desc="Manage monthly cards" meta="Monthly" />
+          </div>
 
-<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-  <AdminCard href="/admin/blog" icon="▤" title="Blog Posts" desc="Manage articles" meta={`${blogPosts.length} Posts`} />
-  <AdminCard href="/admin/podcasts" icon="🎙" title="Podcasts" desc="Manage podcast appearances" meta={`${podcasts.length} Episodes`} />
-  <AdminCard href="/admin/books" icon="📚" title="Books" desc="Manage books" meta="Content" />
-  <AdminCard href="/admin/bingo" icon="🎯" title="Warrior Dad Bingo" desc="Manage monthly cards" meta="Monthly" />
-</div>
+          <h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+            The Forge
+          </h2>
 
-{/* THE FORGE */}
-<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
-  The Forge
-</h2>
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <AdminCard href="/admin/forge" icon="🔥" title="Forge Page" desc="Edit Forge messaging" meta="Content" />
+            <AdminCard href="/admin/forge-entries" icon="✍️" title="Forge Entries" desc="Manage poems and reflections" meta="CMS" />
+            <AdminCard href="/admin/reflections" icon="📸" title="Moments Carousel" desc="Manage smile moments" meta="CMS" />
+          </div>
 
-<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-  <AdminCard href="/admin/forge" icon="🔥" title="Forge Page" desc="Edit Forge messaging" meta="Content" />
-  <AdminCard href="/admin/forge-entries" icon="✍️" title="Forge Entries" desc="Manage poems and reflections" meta="CMS" />
-  <AdminCard href="/admin/reflections" icon="📸" title="Moments Carousel" desc="Manage smile moments" meta="CMS" />
-</div>
+          <h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+            Shop
+          </h2>
 
-{/* SHOP */}
-<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
-  Shop
-</h2>
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+           <AdminCard
+  href="/admin/shop-content"
+  icon="🛍️"
+  title="Shop Featured Book"
+  desc="Edit the featured book section displayed on the Shop page."
+  meta="Shop CMS"
+/>
 
-<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-  <AdminCard href="/admin/products" icon="🛒" title="Products" desc="Manage merchandise" meta={`${products.length} Items`} />
-</div>
+            <AdminCard
+              href="/admin/products"
+              icon="🛒"
+              title="Merchandise"
+              desc="Manage shirts, apparel, pricing, inventory, colors, and variants"
+              meta={`${products.length} Products`}
+            />
+          </div>
 
-{/* COMMUNITY */}
-<h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
-  Community
-</h2>
+          <h2 className="uppercase text-xl font-black tracking-widest mt-14 mb-6">
+            Community
+          </h2>
 
-<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-  <AdminCard href="/admin/testimonials" icon="💬" title="Testimonials" desc="Manage testimonials" meta={`${testimonials.length} Reviews`} />
-  <AdminCard href="/admin/book-journey" icon="📘" title="Book Journey" desc="Manage event photos" meta="CMS" />
- 
-</div>
-
-
-        
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <AdminCard href="/admin/testimonials" icon="💬" title="Testimonials" desc="Manage testimonials" meta={`${testimonials.length} Reviews`} />
+            <AdminCard href="/admin/book-journey" icon="📘" title="Book Journey" desc="Manage event photos" meta="CMS" />
+          </div>
 
           <h2 className="uppercase text-2xl font-black tracking-widest mt-14 mb-8">
             Marketing & Community
@@ -392,7 +366,21 @@ function AdminDash() {
 
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
             <AdminCard href="/admin/media" icon="🖼️" title="Media Library" desc="View and manage uploaded media" meta={`${mediaCount} Files`} />
-            <AdminCard href="/admin/settings" icon="⚙️" title="Site Settings" desc="Update footer, contact, and site-wide settings" meta="Global Settings" />
+           
+            <AdminCard
+  href="/admin/settings"
+  icon="🦶"
+  title="Footer & Site Settings"
+  desc="Edit footer text, contact emails, copyright, and site-wide settings"
+  meta="Footer CMS"
+/>
+<AdminCard
+  href="/admin/footer-badges"
+  icon="🏅"
+  title="Footer Badges"
+  desc="Manage footer badges, memberships, certifications, and logos."
+  meta="Footer"
+/>
           </div>
         </section>
       </div>
@@ -405,7 +393,6 @@ function StatCard({ icon, label, value, subtext }) {
     <div className="bg-[#202632] rounded-xl p-7 border border-white/5 hover:border-[#c8a96a]/50 transition">
       <div className="flex items-center justify-between">
         <p className="text-[#c8a96a] text-3xl">{icon}</p>
-
         <span className="text-[10px] uppercase tracking-[0.2em] text-slate-600">
           Live
         </span>
@@ -432,7 +419,6 @@ function AdminCard({ href, icon, title, desc, meta }) {
     >
       <div className="flex items-center justify-between">
         <p className="text-[#c8a96a] text-4xl">{icon}</p>
-
         <span className="text-slate-600 group-hover:text-[#c8a96a] transition">
           →
         </span>
@@ -457,7 +443,6 @@ function MiniPanel({ title, children }) {
       <h3 className="uppercase tracking-[0.25em] text-[11px] text-[#c8a96a] mb-6">
         {title}
       </h3>
-
       <div className="space-y-4">{children}</div>
     </div>
   );
@@ -490,13 +475,11 @@ function AdminTop({ title, handleLogout }) {
         <div className="h-10 w-10 rounded-full bg-[#c8a96a] flex items-center justify-center font-black text-black">
           TJ
         </div>
-
         <h1 className="uppercase tracking-[0.25em] font-black">{title}</h1>
       </div>
 
       <div className="flex gap-8 uppercase tracking-[0.2em] text-[11px] text-slate-400">
         <Link to="/">◉ View Site</Link>
-
         <button onClick={handleLogout} className="uppercase tracking-[0.2em]">
           ↳ Logout
         </button>

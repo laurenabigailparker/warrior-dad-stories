@@ -52,6 +52,8 @@ import DerekManagement from "./pages/admin/DerekManagement";
 import DerekTimelineManagement from "./pages/admin/DerekTimelineManagement";
 import DerekCarouselManagement from "./pages/admin/DerekCarouselManagement";
 import PrinciplesManagement from "./pages/admin/PrinciplesManagement";
+import ShopContentManagement from "./pages/admin/ShopContentManagement";
+import FooterBadgesManagement from "./pages/admin/FooterBadgesManagement";
 
 function App() {
   return (
@@ -169,6 +171,10 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/admin/shop-content"
+  element={<ShopContentManagement />}
+/>
         <Route
           path="/admin/books/new"
           element={
@@ -352,6 +358,8 @@ function App() {
     </ProtectedRoute>
   }
 />
+
+<Route path="/admin/footer-badges" element={<FooterBadgesManagement />} />
 
 <Route
   path="/admin/book-journey"

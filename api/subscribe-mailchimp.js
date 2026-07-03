@@ -1,7 +1,5 @@
-
-
-
 import crypto from "crypto";
+
 const MAILCHIMP_SERVER = "us8";
 const MAILCHIMP_AUDIENCE_ID = "2fb024ada1";
 
@@ -11,15 +9,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { email } = req.body;
+    const { firstName, lastName, email } = req.body;
 
     if (!email) {
       return res.status(400).json({ error: "Email is required" });
     }
 
+    const cleanEmail = email.toLowerCase().trim();
+
     const subscriberHash = crypto
       .createHash("md5")
-      .update(email.toLowerCase())
+      .update(cleanEmail)
       .digest("hex");
 
     const response = await fetch(
@@ -31,9 +31,13 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email_address: email,
+          email_address: cleanEmail,
           status_if_new: "subscribed",
           status: "subscribed",
+          merge_fields: {
+            FNAME: firstName || "",
+            LNAME: lastName || "",
+          },
         }),
       }
     );

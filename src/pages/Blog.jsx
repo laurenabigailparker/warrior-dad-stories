@@ -8,7 +8,9 @@ import GuidingPrinciples from "../components/GuidingPrinciples";
 function Blog() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [posts, setPosts] = useState([]);
-  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+const [lastName, setLastName] = useState("");
+const [email, setEmail] = useState("");
 const [message, setMessage] = useState("");
 const [featuredPodcasts, setFeaturedPodcasts] = useState([]);
 const [featuredBingo, setFeaturedBingo] = useState(null);
@@ -109,9 +111,13 @@ const handleNewsletterSubmit = async (e) => {
 
   const cleanEmail = email.trim().toLowerCase();
 
-  const { error } = await supabase
-    .from("newsletter_subscribers")
-    .insert([{ email: cleanEmail }]);
+  const { error } = await supabase.from("newsletter_subscribers").insert([
+    {
+      first_name: firstName.trim(),
+      last_name: lastName.trim(),
+      email: cleanEmail,
+    },
+  ]);
 
   if (error) {
     console.error(error);
@@ -125,12 +131,18 @@ const handleNewsletterSubmit = async (e) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: cleanEmail }),
+      body: JSON.stringify({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: cleanEmail,
+      }),
     });
   } catch (error) {
     console.error("Mailchimp sync failed:", error);
   }
 
+  setFirstName("");
+  setLastName("");
   setEmail("");
   setMessage("Thank you for joining the mission.");
 };
@@ -468,14 +480,32 @@ const handleNewsletterSubmit = async (e) => {
 
         <form
   onSubmit={handleNewsletterSubmit}
-  className="mt-10 flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto"
+  className="mt-10 grid md:grid-cols-[1fr_1fr_1.4fr_auto] gap-4 justify-center max-w-5xl mx-auto"
 >
   <input
+    type="text"
+    placeholder="First Name"
+    value={firstName}
+    onChange={(e) => setFirstName(e.target.value)}
+    className="bg-[#151922] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
+    required
+  />
+
+  <input
+    type="text"
+    placeholder="Last Name"
+    value={lastName}
+    onChange={(e) => setLastName(e.target.value)}
+    className="bg-[#151922] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
+    required
+  />
+
+  <input
     type="email"
-    placeholder="your@email.com"
+    placeholder="Email Address"
     value={email}
     onChange={(e) => setEmail(e.target.value)}
-    className="flex-1 bg-[#151922] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
+    className="bg-[#151922] border border-white/10 px-6 py-5 text-white outline-none focus:border-[#c8a96a]"
     required
   />
 
