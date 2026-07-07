@@ -93,6 +93,45 @@ function HomeContentManagement() {
     );
   };
 
+const isImageField = (item) =>
+  item.field === "image" ||
+  item.field === "poster" ||
+  item.field.endsWith("_image") ||
+  item.field.endsWith("_poster");
+
+const handleImageUpload = async (item, file) => {
+  if (!file) return;
+
+  
+  const safeName = `${Date.now()}-${file.name
+    .replace(/\s+/g, "-")
+    .toLowerCase()}`;
+
+  const filePath = `site-content/${item.section}/${safeName}`;
+
+  const { error } = await supabase.storage
+    .from("product-images")
+    .upload(filePath, file, {
+      cacheControl: "3600",
+      upsert: true,
+      contentType: file.type,
+    });
+
+  if (error) {
+    console.error(error);
+    setMessage(`Image upload failed: ${error.message}`);
+    return;
+  }
+
+  const { data } = supabase.storage
+    .from("product-images")
+    .getPublicUrl(filePath);
+
+  handleChange(item.id, data.publicUrl);
+  setMessage("Image uploaded. Click Save to publish it.");
+};
+
+
   const handleSave = async (item) => {
     const { error } = await supabase
       .from("site_content")
@@ -154,11 +193,45 @@ function HomeContentManagement() {
                     {item.section} / {item.field}
                   </p>
 
-                  <textarea
-                    value={item.value || ""}
-                    onChange={(e) => handleChange(item.id, e.target.value)}
-                    className="mt-4 w-full min-h-[120px] bg-[#11141b] border border-white/10 rounded-lg p-4 text-white outline-none focus:border-[#c8a96a]"
-                  />
+                {isImageField(item) ? (
+  <>
+    <textarea
+      value={item.value || ""}
+      onChange={(e) => handleChange(item.id, e.target.value)}
+      className="mt-4 w-full min-h-[90px] bg-[#11141b] border border-white/10 rounded-lg p-4 text-white outline-none focus:border-[#c8a96a]"
+    />
+
+    <label className="mt-4 flex h-32 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-white/10 bg-[#11141b] hover:border-[#c8a96a] transition">
+      <span className="text-[#c8a96a] uppercase tracking-[0.2em] text-[11px] font-bold">
+        Upload Image
+      </span>
+      <span className="mt-2 text-slate-500 italic font-serif text-sm">
+        Choose file
+      </span>
+
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => handleImageUpload(item, e.target.files?.[0])}
+        className="hidden"
+      />
+    </label>
+
+    {item.value && (
+      <img
+        src={item.value}
+        alt="Preview"
+        className="mt-4 h-48 w-full object-cover rounded-lg border border-white/10"
+      />
+    )}
+  </>
+) : (
+  <textarea
+    value={item.value || ""}
+    onChange={(e) => handleChange(item.id, e.target.value)}
+    className="mt-4 w-full min-h-[120px] bg-[#11141b] border border-white/10 rounded-lg p-4 text-white outline-none focus:border-[#c8a96a]"
+  />
+)}
 
                   <button
                     onClick={() => handleSave(item)}
