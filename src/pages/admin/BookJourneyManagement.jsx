@@ -9,6 +9,7 @@ function BookJourneyManagement() {
       addTitle="Add Book Journey Image"
       saveLabel="Save Book Journey Image"
       back="/admin/dashboard"
+      page="book-journey"
     />
   );
 }

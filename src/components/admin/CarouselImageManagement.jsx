@@ -37,11 +37,11 @@ const loadImages = async () => {
     .eq("page", page)
     .order("display_order", { ascending: true });
 
-  if (error) {
-    console.error(error);
-    showMessage("error", "Failed to load images.");
-    return;
-  }
+ if (error) {
+  console.error("UPLOAD ERROR:", error);
+  showMessage("error", error.message);
+  return;
+}
 
   setImages(data || []);
 };
